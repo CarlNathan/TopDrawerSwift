@@ -1,0 +1,687 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */; };
+		EDAC5D811C7B83A900C0C306 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */; };
+		EDAC5D831C7B83A900C0C306 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D821C7B83A900C0C306 /* Assets.xcassets */; };
+		EDAC5D861C7B83A900C0C306 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D841C7B83A900C0C306 /* LaunchScreen.storyboard */; };
+		EDAC5D911C7B83AA00C0C306 /* TopDrawerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5D901C7B83AA00C0C306 /* TopDrawerTests.swift */; };
+		EDAC5D9C1C7B83AA00C0C306 /* TopDrawerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5D9B1C7B83AA00C0C306 /* TopDrawerUITests.swift */; };
+		EDAC5DAB1C7B96B200C0C306 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDAC5DAA1C7B96B200C0C306 /* CloudKit.framework */; };
+		EDAC5DAD1C7BAAC600C0C306 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DAC1C7BAAC600C0C306 /* Page.swift */; };
+		EDAC5DAF1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DAE1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift */; };
+		EDAC5DB11C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DB01C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift */; };
+		EDAC5DB91C7BC7CC00C0C306 /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DB81C7BC7CC00C0C306 /* ActionViewController.swift */; };
+		EDAC5DBC1C7BC7CC00C0C306 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5DBA1C7BC7CC00C0C306 /* MainInterface.storyboard */; };
+		EDAC5DC01C7BC7CC00C0C306 /* TopDrawerActionExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EDAC5DC71C7BDC3900C0C306 /* getURLinfo.js in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5DC61C7BDC3900C0C306 /* getURLinfo.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EDAC5D8D1C7B83AA00C0C306 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDAC5D701C7B83A900C0C306 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDAC5D771C7B83A900C0C306;
+			remoteInfo = TopDrawer;
+		};
+		EDAC5D981C7B83AA00C0C306 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDAC5D701C7B83A900C0C306 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDAC5D771C7B83A900C0C306;
+			remoteInfo = TopDrawer;
+		};
+		EDAC5DBE1C7BC7CC00C0C306 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDAC5D701C7B83A900C0C306 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDAC5DB51C7BC7CC00C0C306;
+			remoteInfo = TopDrawerActionExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EDAC5DC41C7BC7CC00C0C306 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EDAC5DC01C7BC7CC00C0C306 /* TopDrawerActionExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EDAC5D781C7B83A900C0C306 /* TopDrawer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopDrawer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EDAC5D801C7B83A900C0C306 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EDAC5D821C7B83A900C0C306 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EDAC5D851C7B83A900C0C306 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EDAC5D871C7B83A900C0C306 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDAC5D8C1C7B83AA00C0C306 /* TopDrawerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TopDrawerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDAC5D901C7B83AA00C0C306 /* TopDrawerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDrawerTests.swift; sourceTree = "<group>"; };
+		EDAC5D921C7B83AA00C0C306 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDAC5D971C7B83AA00C0C306 /* TopDrawerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TopDrawerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDAC5D9B1C7B83AA00C0C306 /* TopDrawerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDrawerUITests.swift; sourceTree = "<group>"; };
+		EDAC5D9D1C7B83AA00C0C306 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDAC5DA91C7B96A900C0C306 /* TopDrawer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TopDrawer.entitlements; sourceTree = "<group>"; };
+		EDAC5DAA1C7B96B200C0C306 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		EDAC5DAC1C7BAAC600C0C306 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		EDAC5DAE1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedPagesCollectionViewController.swift; sourceTree = "<group>"; };
+		EDAC5DB01C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedPageCollectionViewCell.swift; sourceTree = "<group>"; };
+		EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TopDrawerActionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDAC5DB81C7BC7CC00C0C306 /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
+		EDAC5DBB1C7BC7CC00C0C306 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		EDAC5DBD1C7BC7CC00C0C306 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDAC5DC51C7BC86600C0C306 /* TopDrawerActionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TopDrawerActionExtension.entitlements; sourceTree = "<group>"; };
+		EDAC5DC61C7BDC3900C0C306 /* getURLinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = getURLinfo.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EDAC5D751C7B83A900C0C306 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDAC5DAB1C7B96B200C0C306 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5D891C7B83AA00C0C306 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5D941C7B83AA00C0C306 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5DB31C7BC7CC00C0C306 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EDAC5D6F1C7B83A900C0C306 = {
+			isa = PBXGroup;
+			children = (
+				EDAC5DAA1C7B96B200C0C306 /* CloudKit.framework */,
+				EDAC5D7A1C7B83A900C0C306 /* TopDrawer */,
+				EDAC5D8F1C7B83AA00C0C306 /* TopDrawerTests */,
+				EDAC5D9A1C7B83AA00C0C306 /* TopDrawerUITests */,
+				EDAC5DB71C7BC7CC00C0C306 /* TopDrawerActionExtension */,
+				EDAC5D791C7B83A900C0C306 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EDAC5D791C7B83A900C0C306 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5D781C7B83A900C0C306 /* TopDrawer.app */,
+				EDAC5D8C1C7B83AA00C0C306 /* TopDrawerTests.xctest */,
+				EDAC5D971C7B83AA00C0C306 /* TopDrawerUITests.xctest */,
+				EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EDAC5D7A1C7B83A900C0C306 /* TopDrawer */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5DA91C7B96A900C0C306 /* TopDrawer.entitlements */,
+				EDAC5DAC1C7BAAC600C0C306 /* Page.swift */,
+				EDAC5DB01C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift */,
+				EDAC5DAE1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift */,
+				EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */,
+				EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */,
+				EDAC5D821C7B83A900C0C306 /* Assets.xcassets */,
+				EDAC5D841C7B83A900C0C306 /* LaunchScreen.storyboard */,
+				EDAC5D871C7B83A900C0C306 /* Info.plist */,
+			);
+			path = TopDrawer;
+			sourceTree = "<group>";
+		};
+		EDAC5D8F1C7B83AA00C0C306 /* TopDrawerTests */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5D901C7B83AA00C0C306 /* TopDrawerTests.swift */,
+				EDAC5D921C7B83AA00C0C306 /* Info.plist */,
+			);
+			path = TopDrawerTests;
+			sourceTree = "<group>";
+		};
+		EDAC5D9A1C7B83AA00C0C306 /* TopDrawerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5D9B1C7B83AA00C0C306 /* TopDrawerUITests.swift */,
+				EDAC5D9D1C7B83AA00C0C306 /* Info.plist */,
+			);
+			path = TopDrawerUITests;
+			sourceTree = "<group>";
+		};
+		EDAC5DB71C7BC7CC00C0C306 /* TopDrawerActionExtension */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5DC51C7BC86600C0C306 /* TopDrawerActionExtension.entitlements */,
+				EDAC5DB81C7BC7CC00C0C306 /* ActionViewController.swift */,
+				EDAC5DC61C7BDC3900C0C306 /* getURLinfo.js */,
+				EDAC5DBA1C7BC7CC00C0C306 /* MainInterface.storyboard */,
+				EDAC5DBD1C7BC7CC00C0C306 /* Info.plist */,
+			);
+			path = TopDrawerActionExtension;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EDAC5D771C7B83A900C0C306 /* TopDrawer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDAC5DA01C7B83AA00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawer" */;
+			buildPhases = (
+				EDAC5D741C7B83A900C0C306 /* Sources */,
+				EDAC5D751C7B83A900C0C306 /* Frameworks */,
+				EDAC5D761C7B83A900C0C306 /* Resources */,
+				EDAC5DC41C7BC7CC00C0C306 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EDAC5DBF1C7BC7CC00C0C306 /* PBXTargetDependency */,
+			);
+			name = TopDrawer;
+			productName = TopDrawer;
+			productReference = EDAC5D781C7B83A900C0C306 /* TopDrawer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EDAC5D8B1C7B83AA00C0C306 /* TopDrawerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDAC5DA31C7B83AA00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawerTests" */;
+			buildPhases = (
+				EDAC5D881C7B83AA00C0C306 /* Sources */,
+				EDAC5D891C7B83AA00C0C306 /* Frameworks */,
+				EDAC5D8A1C7B83AA00C0C306 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EDAC5D8E1C7B83AA00C0C306 /* PBXTargetDependency */,
+			);
+			name = TopDrawerTests;
+			productName = TopDrawerTests;
+			productReference = EDAC5D8C1C7B83AA00C0C306 /* TopDrawerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EDAC5D961C7B83AA00C0C306 /* TopDrawerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDAC5DA61C7B83AA00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawerUITests" */;
+			buildPhases = (
+				EDAC5D931C7B83AA00C0C306 /* Sources */,
+				EDAC5D941C7B83AA00C0C306 /* Frameworks */,
+				EDAC5D951C7B83AA00C0C306 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EDAC5D991C7B83AA00C0C306 /* PBXTargetDependency */,
+			);
+			name = TopDrawerUITests;
+			productName = TopDrawerUITests;
+			productReference = EDAC5D971C7B83AA00C0C306 /* TopDrawerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		EDAC5DB51C7BC7CC00C0C306 /* TopDrawerActionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDAC5DC11C7BC7CC00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawerActionExtension" */;
+			buildPhases = (
+				EDAC5DB21C7BC7CC00C0C306 /* Sources */,
+				EDAC5DB31C7BC7CC00C0C306 /* Frameworks */,
+				EDAC5DB41C7BC7CC00C0C306 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TopDrawerActionExtension;
+			productName = TopDrawerActionExtension;
+			productReference = EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EDAC5D701C7B83A900C0C306 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Carl Udren";
+				TargetAttributes = {
+					EDAC5D771C7B83A900C0C306 = {
+						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 95ZRVL9PPJ;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
+					};
+					EDAC5D8B1C7B83AA00C0C306 = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = EDAC5D771C7B83A900C0C306;
+					};
+					EDAC5D961C7B83AA00C0C306 = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = EDAC5D771C7B83A900C0C306;
+					};
+					EDAC5DB51C7BC7CC00C0C306 = {
+						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 95ZRVL9PPJ;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = EDAC5D731C7B83A900C0C306 /* Build configuration list for PBXProject "TopDrawer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EDAC5D6F1C7B83A900C0C306;
+			productRefGroup = EDAC5D791C7B83A900C0C306 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EDAC5D771C7B83A900C0C306 /* TopDrawer */,
+				EDAC5D8B1C7B83AA00C0C306 /* TopDrawerTests */,
+				EDAC5D961C7B83AA00C0C306 /* TopDrawerUITests */,
+				EDAC5DB51C7BC7CC00C0C306 /* TopDrawerActionExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EDAC5D761C7B83A900C0C306 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDAC5D861C7B83A900C0C306 /* LaunchScreen.storyboard in Resources */,
+				EDAC5D831C7B83A900C0C306 /* Assets.xcassets in Resources */,
+				EDAC5D811C7B83A900C0C306 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5D8A1C7B83AA00C0C306 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5D951C7B83AA00C0C306 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5DB41C7BC7CC00C0C306 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDAC5DBC1C7BC7CC00C0C306 /* MainInterface.storyboard in Resources */,
+				EDAC5DC71C7BDC3900C0C306 /* getURLinfo.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EDAC5D741C7B83A900C0C306 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDAC5DAF1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift in Sources */,
+				EDAC5DB11C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift in Sources */,
+				EDAC5DAD1C7BAAC600C0C306 /* Page.swift in Sources */,
+				EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5D881C7B83AA00C0C306 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDAC5D911C7B83AA00C0C306 /* TopDrawerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5D931C7B83AA00C0C306 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDAC5D9C1C7B83AA00C0C306 /* TopDrawerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDAC5DB21C7BC7CC00C0C306 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDAC5DB91C7BC7CC00C0C306 /* ActionViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EDAC5D8E1C7B83AA00C0C306 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDAC5D771C7B83A900C0C306 /* TopDrawer */;
+			targetProxy = EDAC5D8D1C7B83AA00C0C306 /* PBXContainerItemProxy */;
+		};
+		EDAC5D991C7B83AA00C0C306 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDAC5D771C7B83A900C0C306 /* TopDrawer */;
+			targetProxy = EDAC5D981C7B83AA00C0C306 /* PBXContainerItemProxy */;
+		};
+		EDAC5DBF1C7BC7CC00C0C306 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDAC5DB51C7BC7CC00C0C306 /* TopDrawerActionExtension */;
+			targetProxy = EDAC5DBE1C7BC7CC00C0C306 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDAC5D801C7B83A900C0C306 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EDAC5D841C7B83A900C0C306 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDAC5D851C7B83A900C0C306 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		EDAC5DBA1C7BC7CC00C0C306 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDAC5DBB1C7BC7CC00C0C306 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EDAC5D9E1C7B83AA00C0C306 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EDAC5D9F1C7B83AA00C0C306 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EDAC5DA11C7B83AA00C0C306 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TopDrawer/TopDrawer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = TopDrawer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		EDAC5DA21C7B83AA00C0C306 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TopDrawer/TopDrawer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = TopDrawer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		EDAC5DA41C7B83AA00C0C306 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TopDrawerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TopDrawer.app/TopDrawer";
+			};
+			name = Debug;
+		};
+		EDAC5DA51C7B83AA00C0C306 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TopDrawerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TopDrawer.app/TopDrawer";
+			};
+			name = Release;
+		};
+		EDAC5DA71C7B83AA00C0C306 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = TopDrawerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = TopDrawer;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		EDAC5DA81C7B83AA00C0C306 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = TopDrawerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = TopDrawer;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+		EDAC5DC21C7BC7CC00C0C306 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TopDrawerActionExtension/TopDrawerActionExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = TopDrawerActionExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.TopDrawerActionExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		EDAC5DC31C7BC7CC00C0C306 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TopDrawerActionExtension/TopDrawerActionExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = TopDrawerActionExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.TopDrawerActionExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EDAC5D731C7B83A900C0C306 /* Build configuration list for PBXProject "TopDrawer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDAC5D9E1C7B83AA00C0C306 /* Debug */,
+				EDAC5D9F1C7B83AA00C0C306 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EDAC5DA01C7B83AA00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDAC5DA11C7B83AA00C0C306 /* Debug */,
+				EDAC5DA21C7B83AA00C0C306 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EDAC5DA31C7B83AA00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDAC5DA41C7B83AA00C0C306 /* Debug */,
+				EDAC5DA51C7B83AA00C0C306 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EDAC5DA61C7B83AA00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDAC5DA71C7B83AA00C0C306 /* Debug */,
+				EDAC5DA81C7B83AA00C0C306 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EDAC5DC11C7BC7CC00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawerActionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDAC5DC21C7BC7CC00C0C306 /* Debug */,
+				EDAC5DC31C7BC7CC00C0C306 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EDAC5D701C7B83A900C0C306 /* Project object */;
+}
