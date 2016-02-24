@@ -17,11 +17,6 @@ class FriendsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         getPermissions()
         
     }
@@ -44,7 +39,10 @@ class FriendsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("FriendCell", forIndexPath: indexPath)
 
         // Configure the cell...
+        let name = "\()"
         cell.textLabel!.text = friends[indexPath.row].displayContact?.givenName
+        cell.detailTextLabel!.text = friends[indexPath.row].displayContact?.familyName
+        
 
         return cell
     }
@@ -96,7 +94,6 @@ class FriendsTableViewController: UITableViewController {
 
     func getPermissions() {
         CKContainer.defaultContainer().requestApplicationPermission(CKApplicationPermissions.UserDiscoverability, completionHandler: { applicationPermissionStatus, error in
-                print(applicationPermissionStatus)
             if applicationPermissionStatus == CKApplicationPermissionStatus.Granted {
                 self.findUsers()
             }
@@ -114,7 +111,9 @@ class FriendsTableViewController: UITableViewController {
             for user in userInfo! {
                 self.friends.append(user)
             }
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+            })
         }
-        self.tableView.reloadData()
     }
 }
