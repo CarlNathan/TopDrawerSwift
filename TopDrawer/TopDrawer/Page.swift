@@ -11,16 +11,16 @@ import CloudKit
 import UIKit
 
 class Page {
-    let name: String!
-    let description: String!
+    let name: String?
+    let description: String?
     let URLString: String?
     let topic: [String]?
-    let date: NSDate!
+    let date: NSDate?
     let image: UIImage?
     
     
     
-    init(name: String, description: String, URLString: String, image: UIImage, date: NSDate) {
+    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?) {
         self.name = name
         self.description = description
         self.URLString = URLString
@@ -34,10 +34,15 @@ class Page {
         
     }
     
+}
+
+
+extension Page {
+    
     func saveToCloudKit() {
         
-        let pageID = CKRecordID(recordName: self.name)
-        let pageRecord = CKRecord(recordType: "Meal", recordID: pageID)
+        let pageID = CKRecordID(recordName: self.name!)
+        let pageRecord = CKRecord(recordType: "Page", recordID: pageID)
         
         pageRecord["description"] = self.description
         pageRecord["date"] = self.date

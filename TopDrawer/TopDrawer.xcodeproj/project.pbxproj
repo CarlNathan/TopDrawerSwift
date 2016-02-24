@@ -21,6 +21,13 @@
 		EDAC5DBC1C7BC7CC00C0C306 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5DBA1C7BC7CC00C0C306 /* MainInterface.storyboard */; };
 		EDAC5DC01C7BC7CC00C0C306 /* TopDrawerActionExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EDAC5DC71C7BDC3900C0C306 /* getURLinfo.js in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5DC61C7BDC3900C0C306 /* getURLinfo.js */; };
+		EDAC5DC81C7CC56700C0C306 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDAC5DAA1C7B96B200C0C306 /* CloudKit.framework */; };
+		EDAC5DCA1C7CDC5D00C0C306 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DC91C7CDC5D00C0C306 /* DetailViewController.swift */; };
+		EDAC5DCC1C7CF2AC00C0C306 /* TopicsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DCB1C7CF2AC00C0C306 /* TopicsCollectionViewController.swift */; };
+		EDAC5DCE1C7CF3E100C0C306 /* TopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DCD1C7CF3E100C0C306 /* TopicCollectionViewCell.swift */; };
+		EDAC5DD01C7D0A7200C0C306 /* TopicSavedPagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DCF1C7D0A7200C0C306 /* TopicSavedPagesCollectionViewController.swift */; };
+		EDAC5DD41C7D1F3500C0C306 /* TopicSavedPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DD31C7D1F3500C0C306 /* TopicSavedPageCollectionViewCell.swift */; };
+		EDAC5DDA1C7D32A300C0C306 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5DD91C7D32A300C0C306 /* FriendsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +92,12 @@
 		EDAC5DBD1C7BC7CC00C0C306 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EDAC5DC51C7BC86600C0C306 /* TopDrawerActionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TopDrawerActionExtension.entitlements; sourceTree = "<group>"; };
 		EDAC5DC61C7BDC3900C0C306 /* getURLinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = getURLinfo.js; sourceTree = "<group>"; };
+		EDAC5DC91C7CDC5D00C0C306 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		EDAC5DCB1C7CF2AC00C0C306 /* TopicsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicsCollectionViewController.swift; sourceTree = "<group>"; };
+		EDAC5DCD1C7CF3E100C0C306 /* TopicCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicCollectionViewCell.swift; sourceTree = "<group>"; };
+		EDAC5DCF1C7D0A7200C0C306 /* TopicSavedPagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicSavedPagesCollectionViewController.swift; sourceTree = "<group>"; };
+		EDAC5DD31C7D1F3500C0C306 /* TopicSavedPageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicSavedPageCollectionViewCell.swift; sourceTree = "<group>"; };
+		EDAC5DD91C7D32A300C0C306 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDAC5DC81C7CC56700C0C306 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,12 +161,14 @@
 			isa = PBXGroup;
 			children = (
 				EDAC5DA91C7B96A900C0C306 /* TopDrawer.entitlements */,
-				EDAC5DAC1C7BAAC600C0C306 /* Page.swift */,
-				EDAC5DB01C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift */,
-				EDAC5DAE1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift */,
 				EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */,
-				EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */,
+				EDAC5DD81C7D2C9E00C0C306 /* DataModel */,
+				EDAC5DD71C7D2C8E00C0C306 /* Detail View Controller */,
+				EDAC5DD51C7D2C3C00C0C306 /* Saved Pages Tree */,
+				EDAC5DD61C7D2C5800C0C306 /* Topic Tree */,
+				EDAC5DD91C7D32A300C0C306 /* FriendsTableViewController.swift */,
 				EDAC5D821C7B83A900C0C306 /* Assets.xcassets */,
+				EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */,
 				EDAC5D841C7B83A900C0C306 /* LaunchScreen.storyboard */,
 				EDAC5D871C7B83A900C0C306 /* Info.plist */,
 			);
@@ -187,6 +203,42 @@
 				EDAC5DBD1C7BC7CC00C0C306 /* Info.plist */,
 			);
 			path = TopDrawerActionExtension;
+			sourceTree = "<group>";
+		};
+		EDAC5DD51C7D2C3C00C0C306 /* Saved Pages Tree */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5DB01C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift */,
+				EDAC5DAE1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift */,
+			);
+			name = "Saved Pages Tree";
+			sourceTree = "<group>";
+		};
+		EDAC5DD61C7D2C5800C0C306 /* Topic Tree */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5DCD1C7CF3E100C0C306 /* TopicCollectionViewCell.swift */,
+				EDAC5DCB1C7CF2AC00C0C306 /* TopicsCollectionViewController.swift */,
+				EDAC5DD31C7D1F3500C0C306 /* TopicSavedPageCollectionViewCell.swift */,
+				EDAC5DCF1C7D0A7200C0C306 /* TopicSavedPagesCollectionViewController.swift */,
+			);
+			name = "Topic Tree";
+			sourceTree = "<group>";
+		};
+		EDAC5DD71C7D2C8E00C0C306 /* Detail View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5DC91C7CDC5D00C0C306 /* DetailViewController.swift */,
+			);
+			name = "Detail View Controller";
+			sourceTree = "<group>";
+		};
+		EDAC5DD81C7D2C9E00C0C306 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5DAC1C7BAAC600C0C306 /* Page.swift */,
+			);
+			name = DataModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,6 +353,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -367,8 +422,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDAC5DCC1C7CF2AC00C0C306 /* TopicsCollectionViewController.swift in Sources */,
+				EDAC5DCE1C7CF3E100C0C306 /* TopicCollectionViewCell.swift in Sources */,
+				EDAC5DCA1C7CDC5D00C0C306 /* DetailViewController.swift in Sources */,
+				EDAC5DD41C7D1F3500C0C306 /* TopicSavedPageCollectionViewCell.swift in Sources */,
+				EDAC5DDA1C7D32A300C0C306 /* FriendsTableViewController.swift in Sources */,
 				EDAC5DAF1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift in Sources */,
 				EDAC5DB11C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift in Sources */,
+				EDAC5DD01C7D0A7200C0C306 /* TopicSavedPagesCollectionViewController.swift in Sources */,
 				EDAC5DAD1C7BAAC600C0C306 /* Page.swift in Sources */,
 				EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */,
 			);

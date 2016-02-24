@@ -9,7 +9,7 @@
 import UIKit
 import CloudKit
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "SavedPagesCell"
 
 class SavedPagesCollectionViewController: UICollectionViewController {
 
@@ -20,10 +20,8 @@ class SavedPagesCollectionViewController: UICollectionViewController {
 
         downloadSavedPages()
         
-        // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
         // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,15 +29,18 @@ class SavedPagesCollectionViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+      override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "ShowDetail" {
+            let senderID = sender as! SavedPageCollectionViewCell
+            let detailView = segue.destinationViewController as!DetailViewContoller
+            detailView.URLString = senderID.page.URLString
+        }
+        
     }
-    */
 
     // MARK: UICollectionViewDataSource
 
@@ -48,11 +49,13 @@ class SavedPagesCollectionViewController: UICollectionViewController {
         return pages.count
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> SavedPageCollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)as! SavedPageCollectionViewCell
     
         // Configure the cell
-    
+            cell.page = pages[indexPath.row]
+            cell.nameLabel.text = cell.page.URLString
+        
         return cell
     }
 
@@ -91,7 +94,7 @@ class SavedPagesCollectionViewController: UICollectionViewController {
     
     func downloadSavedPages () {
             
-            let privateDB = CKContainer.defaultContainer().privateCloudDatabase
+            let privateDB = CKContainer.defaultContainer().publicCloudDatabase
             let predicate = NSPredicate(value: true)
             let querry = CKQuery(recordType: "Page", predicate: predicate)
             privateDB.performQuery(querry, inZoneWithID: nil) { (Pages, error) -> Void in
@@ -101,14 +104,14 @@ class SavedPagesCollectionViewController: UICollectionViewController {
                 }
                 for page in Pages! {
                     
-                    let imageAsset = page["image"] as! CKAsset
-                    let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
+//                    let imageAsset = page["image"] as! CKAsset
+//                    let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
                     
-                    let name = page["name"] as! String
-                    let description = page["description"] as! String
-                    let date = page["date"] as! NSDate
-                    let URLString = page["URLString"] as! String
-                    let newPage = Page(name: name, description: description, URLString: URLString, image: image!, date:  date)
+                    let name = page["name"] as? String ?? nil
+                    let description = page["description"] as? String ?? nil
+                    let date = page["date"] as? NSDate ?? nil
+                    let URLString = page["URLString"] as? String ?? nil
+                    let newPage = Page(name: name, description: description, URLString: URLString, image: nil, date:  date)
                     self.pages.append(newPage)
                     
                 }
