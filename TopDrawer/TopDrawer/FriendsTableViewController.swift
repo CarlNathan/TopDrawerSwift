@@ -8,9 +8,12 @@
 
 import UIKit
 import CloudKit
+import Contacts
 
 class FriendsTableViewController: UITableViewController {
 
+    var friends = [CKDiscoveredUserInfo]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,7 +22,7 @@ class FriendsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        findUsers()
+        getPermissions()
         
     }
 
@@ -33,14 +36,15 @@ class FriendsTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return friends.count
     }
 
    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("FriendCell", forIndexPath: indexPath)
 
         // Configure the cell...
+        cell.textLabel!.text = friends[indexPath.row].displayContact?.givenName
 
         return cell
     }
@@ -93,12 +97,24 @@ class FriendsTableViewController: UITableViewController {
     func getPermissions() {
         CKContainer.defaultContainer().requestApplicationPermission(CKApplicationPermissions.UserDiscoverability, completionHandler: { applicationPermissionStatus, error in
                 print(applicationPermissionStatus)
-            if CKApplicationPermissionStatus == .Granted {
-                
+            if applicationPermissionStatus == CKApplicationPermissionStatus.Granted {
+                self.findUsers()
             }
         })
 
     }
     
-    func findUsers()
+    func findUsers() {
+        let container = CKContainer.defaultContainer()
+        container.discoverAllContactUserInfosWithCompletionHandler { (userInfo, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+            for user in userInfo! {
+                self.friends.append(user)
+            }
+        }
+        self.tableView.reloadData()
+    }
 }
