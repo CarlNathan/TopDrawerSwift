@@ -13,6 +13,7 @@ class SavedPageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     var page: Page!
     
-        
-
+        //Mark: - actionSheet
+    
+    
 }

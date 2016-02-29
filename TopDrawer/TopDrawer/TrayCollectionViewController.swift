@@ -1,28 +1,33 @@
 //
-//  TopicsCollectionViewController.swift
+//  TrayCollectionViewController.swift
 //  TopDrawer
 //
-//  Created by Carl Udren on 2/23/16.
+//  Created by Carl Udren on 2/25/16.
 //  Copyright © 2016 Carl Udren. All rights reserved.
 //
 
 import UIKit
-import CloudKit
 
-private let reuseIdentifier = "TopicCell"
+private let reuseIdentifier = "sharedPage"
 
-class TopicsCollectionViewController: UICollectionViewController {
+class TrayCollectionViewController: UICollectionViewController {
     
-    var topics = [Topic]()
-    
+    var topic: Topic?
+    var pages = [Page]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tabBar = self.tabBarController as! TopicTabBarController
+        self.topic = tabBar.topic
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
+        // Register cell classes
         // Do any additional setup after loading the view.
-        getTopics()
+        
+        getPages()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,34 +35,32 @@ class TopicsCollectionViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    
+    /*
     // MARK: - Navigation
 
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        if segue.identifier == "ShowTopic" {
-            let senderID = sender as! TopicCollectionViewCell
-            let topicPageView = segue.destinationViewController as!TopicSavedPagesCollectionViewController
-            topicPageView.topic = senderID.topic
-        } else if segue.identifier == "newTopic" {
-            // perform new topic task
-        }
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
     }
+    */
 
     // MARK: UICollectionViewDataSource
 
+    
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return topics.count
+        return self.pages.count
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> TopicCollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! TopicCollectionViewCell
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> SharedPageCollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! SharedPageCollectionViewCell
     
         // Configure the cell
-        cell.topic = topics[indexPath.row]
-        cell.topicLabel.text = cell.topic!.name
+        
+        cell.nameLabel.text = self.pages[indexPath.row].URLString
+    
         return cell
     }
 
@@ -91,17 +94,15 @@ class TopicsCollectionViewController: UICollectionViewController {
     
     }
     */
-
-    func getTopics () {
-        
-        InboxManager.sharedInstance.getTopics {(topics) -> Void in
-            self.topics = topics!
+    
+    func getPages () {
+        InboxManager.sharedInstance.getPublicTopicPages(self.topic!) { (pages) -> Void in
+            self.pages = pages!
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.collectionView!.reloadData()
-                
+                self.collectionView?.reloadData()
             })
+            
         }
     }
-    
-        
+
 }

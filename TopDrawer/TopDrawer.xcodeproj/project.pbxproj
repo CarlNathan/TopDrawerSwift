@@ -8,6 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		9C5E79F91B505887123C88F3 /* Pods_TopDrawer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7CB34F0BF65C798C980B92D /* Pods_TopDrawer.framework */; };
+		ED2B08151C7F48E30007949E /* SharedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08141C7F48E30007949E /* SharedTableViewController.swift */; };
+		ED2B08181C7F49780007949E /* MessageContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08171C7F49780007949E /* MessageContainerViewController.swift */; };
+		ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08191C7F49D10007949E /* TrayCollectionViewController.swift */; };
+		ED2B081C1C7F614C0007949E /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B081B1C7F614C0007949E /* MessageViewController.swift */; };
+		ED2B081E1C7F93A60007949E /* InboxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B081D1C7F93A60007949E /* InboxManager.swift */; };
+		ED2B08221C7FB0BC0007949E /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08211C7FB0BC0007949E /* Topic.swift */; };
+		ED2B08241C80998B0007949E /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08231C80998B0007949E /* Friend.swift */; };
+		ED2B08271C80B7C40007949E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08261C80B7C40007949E /* Message.swift */; };
+		ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */; };
+		ED5EBEB01C823F56009951BB /* TopicTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */; };
+		ED5EBEB21C82B0B6009951BB /* SharedPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */; };
+		ED5EBEB41C83E420009951BB /* AssignTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEB31C83E420009951BB /* AssignTopicViewController.swift */; };
+		ED5EBEB81C84A0B3009951BB /* NewTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEB71C84A0B3009951BB /* NewTopicViewController.swift */; };
 		EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */; };
 		EDAC5D811C7B83A900C0C306 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */; };
 		EDAC5D831C7B83A900C0C306 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D821C7B83A900C0C306 /* Assets.xcassets */; };
@@ -72,6 +85,19 @@
 /* Begin PBXFileReference section */
 		406B90A0928C8301F9FB8F65 /* Pods-TopDrawer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopDrawer.release.xcconfig"; path = "Pods/Target Support Files/Pods-TopDrawer/Pods-TopDrawer.release.xcconfig"; sourceTree = "<group>"; };
 		66A753FD5ADB8738A512837E /* Pods-TopDrawer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopDrawer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TopDrawer/Pods-TopDrawer.debug.xcconfig"; sourceTree = "<group>"; };
+		ED2B08141C7F48E30007949E /* SharedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTableViewController.swift; sourceTree = "<group>"; };
+		ED2B08171C7F49780007949E /* MessageContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageContainerViewController.swift; sourceTree = "<group>"; };
+		ED2B08191C7F49D10007949E /* TrayCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrayCollectionViewController.swift; sourceTree = "<group>"; };
+		ED2B081B1C7F614C0007949E /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		ED2B081D1C7F93A60007949E /* InboxManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxManager.swift; sourceTree = "<group>"; };
+		ED2B08211C7FB0BC0007949E /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
+		ED2B08231C80998B0007949E /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		ED2B08261C80B7C40007949E /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTopicTableViewCell.swift; sourceTree = "<group>"; };
+		ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicTabBarController.swift; sourceTree = "<group>"; };
+		ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedPageCollectionViewCell.swift; sourceTree = "<group>"; };
+		ED5EBEB31C83E420009951BB /* AssignTopicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignTopicViewController.swift; sourceTree = "<group>"; };
+		ED5EBEB71C84A0B3009951BB /* NewTopicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicViewController.swift; sourceTree = "<group>"; };
 		EDAC5D781C7B83A900C0C306 /* TopDrawer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopDrawer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDAC5D801C7B83A900C0C306 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -156,6 +182,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		ED2B08131C7F48890007949E /* FriendsTree */ = {
+			isa = PBXGroup;
+			children = (
+				EDAC5DD91C7D32A300C0C306 /* FriendsTableViewController.swift */,
+			);
+			name = FriendsTree;
+			sourceTree = "<group>";
+		};
+		ED2B08161C7F48F40007949E /* Shared Topics Tree */ = {
+			isa = PBXGroup;
+			children = (
+				ED2B08141C7F48E30007949E /* SharedTableViewController.swift */,
+				ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */,
+				ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */,
+				ED2B08171C7F49780007949E /* MessageContainerViewController.swift */,
+				ED2B081B1C7F614C0007949E /* MessageViewController.swift */,
+				ED2B08191C7F49D10007949E /* TrayCollectionViewController.swift */,
+				ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */,
+			);
+			name = "Shared Topics Tree";
+			sourceTree = "<group>";
+		};
 		EDAC5D6F1C7B83A900C0C306 = {
 			isa = PBXGroup;
 			children = (
@@ -190,7 +238,8 @@
 				EDAC5DD71C7D2C8E00C0C306 /* Detail View Controller */,
 				EDAC5DD51C7D2C3C00C0C306 /* Saved Pages Tree */,
 				EDAC5DD61C7D2C5800C0C306 /* Topic Tree */,
-				EDAC5DD91C7D32A300C0C306 /* FriendsTableViewController.swift */,
+				ED2B08161C7F48F40007949E /* Shared Topics Tree */,
+				ED2B08131C7F48890007949E /* FriendsTree */,
 				EDAC5D821C7B83A900C0C306 /* Assets.xcassets */,
 				EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */,
 				EDAC5D841C7B83A900C0C306 /* LaunchScreen.storyboard */,
@@ -253,6 +302,8 @@
 			isa = PBXGroup;
 			children = (
 				EDAC5DC91C7CDC5D00C0C306 /* DetailViewController.swift */,
+				ED5EBEB71C84A0B3009951BB /* NewTopicViewController.swift */,
+				ED5EBEB31C83E420009951BB /* AssignTopicViewController.swift */,
 			);
 			name = "Detail View Controller";
 			sourceTree = "<group>";
@@ -261,6 +312,10 @@
 			isa = PBXGroup;
 			children = (
 				EDAC5DAC1C7BAAC600C0C306 /* Page.swift */,
+				ED2B08211C7FB0BC0007949E /* Topic.swift */,
+				ED2B08261C80B7C40007949E /* Message.swift */,
+				ED2B08231C80998B0007949E /* Friend.swift */,
+				ED2B081D1C7F93A60007949E /* InboxManager.swift */,
 			);
 			name = DataModel;
 			sourceTree = "<group>";
@@ -499,14 +554,27 @@
 			files = (
 				EDAC5DCC1C7CF2AC00C0C306 /* TopicsCollectionViewController.swift in Sources */,
 				EDAC5DCE1C7CF3E100C0C306 /* TopicCollectionViewCell.swift in Sources */,
+				ED2B08181C7F49780007949E /* MessageContainerViewController.swift in Sources */,
 				EDAC5DCA1C7CDC5D00C0C306 /* DetailViewController.swift in Sources */,
+				ED5EBEB81C84A0B3009951BB /* NewTopicViewController.swift in Sources */,
+				ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */,
 				EDAC5DD41C7D1F3500C0C306 /* TopicSavedPageCollectionViewCell.swift in Sources */,
+				ED2B08221C7FB0BC0007949E /* Topic.swift in Sources */,
+				ED5EBEB21C82B0B6009951BB /* SharedPageCollectionViewCell.swift in Sources */,
 				EDAC5DDA1C7D32A300C0C306 /* FriendsTableViewController.swift in Sources */,
+				ED2B08271C80B7C40007949E /* Message.swift in Sources */,
+				ED2B081C1C7F614C0007949E /* MessageViewController.swift in Sources */,
 				EDAC5DAF1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift in Sources */,
 				EDAC5DB11C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift in Sources */,
 				EDAC5DD01C7D0A7200C0C306 /* TopicSavedPagesCollectionViewController.swift in Sources */,
+				ED5EBEB01C823F56009951BB /* TopicTabBarController.swift in Sources */,
 				EDAC5DAD1C7BAAC600C0C306 /* Page.swift in Sources */,
 				EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */,
+				ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */,
+				ED2B08241C80998B0007949E /* Friend.swift in Sources */,
+				ED5EBEB41C83E420009951BB /* AssignTopicViewController.swift in Sources */,
+				ED2B081E1C7F93A60007949E /* InboxManager.swift in Sources */,
+				ED2B08151C7F48E30007949E /* SharedTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

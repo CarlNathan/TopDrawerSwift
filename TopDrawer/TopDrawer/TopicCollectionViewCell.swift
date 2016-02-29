@@ -11,7 +11,7 @@ import UIKit
 class TopicCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var topicLabel: UILabel!
-    var topic: String?
+    var topic: Topic?
     
     
 }

@@ -17,16 +17,18 @@ class Page {
     let topic: [String]?
     let date: NSDate?
     let image: UIImage?
+    let pageID: CKRecordID
     
     
     
-    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?) {
+    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: CKRecordID) {
         self.name = name
         self.description = description
         self.URLString = URLString
         self.image = image
         self.date = date
         self.topic = ["Saved"]
+        self.pageID = recordID
         
     }
     

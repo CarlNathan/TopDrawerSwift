@@ -8,17 +8,20 @@
 
 import UIKit
 import CloudKit
+import WebKit
 
 private let reuseIdentifier = "SavedPagesCell"
 
-class SavedPagesCollectionViewController: UICollectionViewController {
+class SavedPagesCollectionViewController: UICollectionViewController, UIGestureRecognizerDelegate, UIActionSheetDelegate {
 
     var pages = [Page]()
+    var senderPage: Page?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         downloadSavedPages()
+        setupLongPressRecognizer()
         
         // Do any additional setup after loading the view.
         
@@ -39,7 +42,16 @@ class SavedPagesCollectionViewController: UICollectionViewController {
             let detailView = segue.destinationViewController as!DetailViewContoller
             detailView.URLString = senderID.page.URLString
         }
-        
+        if segue.identifier == "privateTopic" {
+            let detailView = segue.destinationViewController as! AssignTopicViewController
+            detailView.page = self.senderPage
+            detailView.isShared = false
+        }
+        if segue.identifier == "sharedTopic" {
+            let detailView = segue.destinationViewController as! AssignTopicViewController
+            detailView.page = self.senderPage
+            detailView.isShared = true
+        }
     }
 
     // MARK: UICollectionViewDataSource
@@ -61,66 +73,55 @@ class SavedPagesCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDelegate
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
-    
-    }
-    */
-    
-        //MARK: Helper
+            //MARK: Helper
     
     func downloadSavedPages () {
             
-            let privateDB = CKContainer.defaultContainer().publicCloudDatabase
-            let predicate = NSPredicate(value: true)
-            let querry = CKQuery(recordType: "Page", predicate: predicate)
-            privateDB.performQuery(querry, inZoneWithID: nil) { (Pages, error) -> Void in
-                if let e = error {
-                    print("failed to load: \(e.localizedDescription)")
-                    return
-                }
-                for page in Pages! {
-                    
-//                    let imageAsset = page["image"] as! CKAsset
-//                    let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
-                    
-                    let name = page["name"] as? String ?? nil
-                    let description = page["description"] as? String ?? nil
-                    let date = page["date"] as? NSDate ?? nil
-                    let URLString = page["URLString"] as? String ?? nil
-                    let newPage = Page(name: name, description: description, URLString: URLString, image: nil, date:  date)
-                    self.pages.append(newPage)
-                    
-                }
+            InboxManager.sharedInstance.getPersonalPages { (pages) -> Void in
+                self.pages = pages!
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.collectionView!.reloadData()
-                    
-                })
+                    self.collectionView!.reloadData()})
+        }
+    }
+    
+        //Mark: - Gesture Actions
+    func setupLongPressRecognizer () {
+        let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        longPress.delegate = self
+        longPress.delaysTouchesBegan = true
+        self.collectionView?.addGestureRecognizer(longPress)
+    }
+    
+    func handleLongPress (sender: UIGestureRecognizer) {
+        let p = sender.locationInView(self.collectionView)
+        if let path = self.collectionView?.indexPathForItemAtPoint(p) {
+            //assign the cell properties to action
+            self.senderPage = self.pages [path.row]
+            let alertController = UIAlertController(title: nil, message: "Where would you like to send this page?", preferredStyle: .ActionSheet)
+        
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+                // ... canceled do nothing
+            }
+            alertController.addAction(cancelAction)
+        
+            let privateOption = UIAlertAction(title: "Private Topic", style: .Default) { (action) in
+                // ... inbox manager add reference to saved page
+                self.performSegueWithIdentifier("privateTopic", sender: self)
+                // reload data
+            }
+            alertController.addAction(privateOption)
+        
+            let sharedOption = UIAlertAction(title: "Shared Topic", style: .Default) { (action) in
+                // ... inbox manager add reference to saved page
+                self.performSegueWithIdentifier("sharedTopic", sender: self)
+                // reaload data
+            }
+            alertController.addAction(sharedOption)
+        
+            self.presentViewController(alertController, animated: true) {
+                // completion handler
             }
         }
-
     }
+}
 

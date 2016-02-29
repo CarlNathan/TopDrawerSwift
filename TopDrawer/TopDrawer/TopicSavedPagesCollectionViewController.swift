@@ -14,7 +14,7 @@ private let reuseIdentifier = "TopicSavedCell"
 class TopicSavedPagesCollectionViewController: UICollectionViewController {
 
     var pages = [Page]()
-    var topic: String?
+    var topic: Topic?
     var topicId: CKRecordID?
     
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Do any additional setup after loading the view.
-        downloadTopicId()
+        getPages()
     }
 
     override func didReceiveMemoryWarning() {
@@ -94,54 +94,15 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController {
     }
     */
     
-    func downloadTopicId () {
-        
-        let privateDB = CKContainer.defaultContainer().publicCloudDatabase
-        let predicate = NSPredicate(format: "%K = %@", "name", self.topic!)
-        let querry = CKQuery(recordType: "Topic", predicate: predicate)
-        privateDB.performQuery(querry, inZoneWithID: nil) { (topics, error) -> Void in
-            if let e = error {
-                print("failed to load: \(e.localizedDescription)")
-                return
-            }
-            for topic in topics! {
-                
-                let ID = topic.recordID
-                self.topicId = ID
-                
-            }
-            self.downloadSavedPages()
-        }
-    }
-
-    func downloadSavedPages () {
-        
-        let privateDB = CKContainer.defaultContainer().publicCloudDatabase
-        let predicate = NSPredicate(format: "%K CONTAINS %@", "topic", self.topicId!)
-        
-        let querry = CKQuery(recordType: "Page", predicate: predicate)
-        privateDB.performQuery(querry, inZoneWithID: nil) { (pages, error) -> Void in
-            if let e = error {
-                print("failed to load: \(e.localizedDescription)")
-                return
-            }
-            for page in pages! {
-                
-                //                    let imageAsset = page["image"] as! CKAsset
-                //                    let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
-                
-                let name = page["name"] as? String ?? nil
-                let description = page["description"] as? String ?? nil
-                let date = page["date"] as? NSDate ?? nil
-                let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: nil, date:  date)
-                self.pages.append(newPage)
-                
-            }
+    
+    func getPages () {
+        InboxManager.sharedInstance.getPagesForTopic(self.topic!) { (pages) -> Void in
+            self.pages = pages!
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.collectionView!.reloadData()
                 
             })
+
         }
     }
 

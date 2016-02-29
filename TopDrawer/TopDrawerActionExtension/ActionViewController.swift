@@ -60,9 +60,9 @@ class ActionViewController: UIViewController {
         
         let privateDB = CKContainer.init(identifier: "iCloud.Carl-Udren.TopDrawer").publicCloudDatabase
         
-        let pageID = CKRecordID(recordName: self.nameTextField.text!)
-        let pageRecord = CKRecord(recordType: "Page", recordID: pageID)
+        let pageRecord = CKRecord(recordType: "Page")
         
+        pageRecord["name"] = self.nameTextField.text!
         pageRecord["description"] = self.description
         pageRecord["date"] = NSDate()
         pageRecord["URLString"] = URLString

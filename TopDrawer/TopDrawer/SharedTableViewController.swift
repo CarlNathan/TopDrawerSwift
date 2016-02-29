@@ -1,24 +1,30 @@
 //
-//  FriendsTableViewController.swift
+//  SharedTableViewController.swift
 //  TopDrawer
 //
-//  Created by Carl Udren on 2/23/16.
+//  Created by Carl Udren on 2/25/16.
 //  Copyright © 2016 Carl Udren. All rights reserved.
 //
 
 import UIKit
 import CloudKit
-import Contacts
 
-class FriendsTableViewController: UITableViewController {
+class SharedTableViewController: UITableViewController {
 
-    var friends = [Friend]()
+    var sharedTopics = [Topic]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getFriends()
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+        //sharedTopics = InboxManager.sharedInstance.checkMessages()
+        
+        getTopics()
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,21 +37,20 @@ class FriendsTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return friends.count
+        return sharedTopics.count
     }
 
-   
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("FriendCell", forIndexPath: indexPath)
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> SharedTopicTableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! SharedTopicTableViewCell
 
         // Configure the cell...
-        let name = self.friends[indexPath.row].firstName! + " " + self.friends[indexPath.row].familyName!
-        cell.textLabel!.text = name
-        cell.detailTextLabel!.text = "Some other details"
-        
+        cell.topic = self.sharedTopics[indexPath.row]
+        cell.textLabel!.text = sharedTopics[indexPath.row].name
+        cell.detailTextLabel!.text = sharedTopics[indexPath.row].users![0].familyName
 
         return cell
     }
+
 
     /*
     // Override to support conditional editing of the table view.
@@ -82,20 +87,27 @@ class FriendsTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "showMessages" {
+            let senderID = sender as! SharedTopicTableViewCell
+            let topicPageView = segue.destinationViewController as!MessageContainerViewController
+            topicPageView.topic = senderID.topic
+        } else if segue.identifier == "newTopic" {
+    // perform new topic task
+        }
     }
-    */
 
-    
-    func getFriends () {
-        self.friends = Array(InboxManager.sharedInstance.friends.values)
-        self.tableView.reloadData()
+
+    func getTopics () {
+        InboxManager.sharedInstance.getPublicTopics { (topics) -> Void in
+            self.sharedTopics = topics!
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+            })
+        }
     }
-    
 }
