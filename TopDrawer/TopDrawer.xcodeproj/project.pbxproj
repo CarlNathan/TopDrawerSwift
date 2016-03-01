@@ -471,6 +471,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
@@ -489,6 +492,9 @@
 						DevelopmentTeam = 95ZRVL9PPJ;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 							com.apple.iCloud = {
@@ -965,6 +971,7 @@
 				ED5EBECA1C84ED52009951BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EDAC5D731C7B83A900C0C306 /* Build configuration list for PBXProject "TopDrawer" */ = {
 			isa = XCConfigurationList;

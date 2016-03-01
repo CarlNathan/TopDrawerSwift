@@ -25,11 +25,18 @@ class SharedTableViewController: UITableViewController {
         //sharedTopics = InboxManager.sharedInstance.checkMessages()
         
         getTopics()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTopic:", name: "NewPublicTopic", object: nil)
+
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func newTopic(sender: NSNotification) {
+        self.sharedTopics.append(sender.userInfo!["topic"]as!Topic)
+        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source

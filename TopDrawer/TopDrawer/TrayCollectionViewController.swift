@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import CloudKit
 
 private let reuseIdentifier = "sharedPage"
 
@@ -29,11 +30,23 @@ class TrayCollectionViewController: UICollectionViewController, SFSafariViewCont
         // Do any additional setup after loading the view.
         
         getPages()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newPage:", name: "PageAddedToPublicTopic", object: nil)
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func newPage(sender:NSNotification) {
+        let topics = sender.userInfo!["topics"]as![CKReference]
+        for aTopic in topics {
+            if aTopic.recordID == self.topic?.recordID {
+                self.pages.append(sender.userInfo!["page"]as! Page)
+                self.collectionView?.reloadData()
+            }
+        }
     }
 
     /*

@@ -60,9 +60,10 @@ extension InboxManager {
             var newPages = [Page]()
             for page in Pages! {
                 
-                let imageAsset = page["image"] as! CKAsset
-                let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
-                
+                var image = UIImage()
+                if let imageAsset = page["image"] as? CKAsset ?? nil {
+                    image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
+                }
                 let name = page["name"] as? String ?? nil
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
@@ -155,10 +156,12 @@ extension InboxManager {
             }
             var newPages = [Page]()
             for page in pages! {
-    
-                let imageAsset = page["image"] as! CKAsset
-                let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
-    
+
+                
+                var image = UIImage()
+                if let imageAsset = page["image"] as? CKAsset ?? nil {
+                    image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
+                }
                 let name = page["name"] as? String ?? nil
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
@@ -256,23 +259,20 @@ extension InboxManager {
                 print("failed to load: \(e.localizedDescription)")
             }
             
-            if let e = error {
-                print("failed to load: \(e.localizedDescription)")
-                return
-            }
+            
             var newPages = [Page]()
             for page in pages! {
                 
-                let imageAsset = page["image"] as! CKAsset
-                let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
-                
+                var image = UIImage()
+                if let imageAsset = page["image"] as? CKAsset ?? nil {
+                    image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
+                }
                 let name = page["name"] as? String ?? nil
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
                 let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
                 newPages.append(newPage)
-                
             }
             completionHandler(newPages)
         }
@@ -329,6 +329,17 @@ extension InboxManager {
                     print("failed to load: \(e.localizedDescription)")
                     return
                 }
+                var image = UIImage()
+                if let imageAsset = record!["image"] as? CKAsset ?? nil {
+                    image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
+                }
+                let name = record!["name"] as? String ?? nil
+                let description = record!["description"] as? String ?? nil
+                let date = record!["date"] as? NSDate ?? nil
+                let URLString = record!["URLString"] as? String ?? nil
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: record!.recordID)
+                NSNotificationCenter.defaultCenter().postNotificationName("PageAddedToPublicTopic", object: self, userInfo: ["topics":topics , "page":newPage])
+                
             })
         }
     }
@@ -358,6 +369,10 @@ extension InboxManager {
                 print("failed to load: \(e.localizedDescription)")
                 return
             }
+            let name = record!["name"] as? String ?? nil
+            let recordID = record!.recordID
+            let newTopic = Topic(name: name!, users: [Friend](), recordID: recordID)
+            NSNotificationCenter.defaultCenter().postNotificationName("NewTopic", object: self, userInfo: ["topic": newTopic])
         }
     }
     
@@ -379,6 +394,18 @@ extension InboxManager {
                 return
             }
             self.createSubscriptions(record!)
+            let name = record!["name"] as! String
+            let users = record!["users"] as! [CKReference]
+            var userNames = [Friend]()
+            for user in users {
+                if let newUser = self.friends[user.recordID.recordName]
+                {
+                    userNames.append(newUser)
+                }
+                
+            }
+            let newTopic = Topic(name: name, users: userNames, recordID: record!.recordID)
+            NSNotificationCenter.defaultCenter().postNotificationName("NewPublicTopic", object: self, userInfo: ["topic": newTopic])
         }
     }
 }
@@ -387,10 +414,9 @@ extension InboxManager {
     
     func createSubscriptions (record: CKRecord) {
         
-        //let messagePredicate = NSPredicate(format: "%K CONTAINS %@" , "topic", record.recordID)
-        //let pagePredicate = NSPredicate(format: "%K CONTAINS %@", "topic", record.recordID)
-        let messagePredicate = NSPredicate(value: true)
-        let pagePredicate = NSPredicate(value: true)
+        let messagePredicate = NSPredicate(format: "%K CONTAINS %@" , "topic", record.recordID)
+        let pagePredicate = NSPredicate(format: "%K CONTAINS %@", "topic", record.recordID)
+        
 
         let messageSubscription = CKSubscription(recordType: "Message", predicate: messagePredicate, options: [CKSubscriptionOptions.FiresOnRecordCreation])
         let pageSubscription = CKSubscription(recordType: "Page", predicate: pagePredicate, options: [CKSubscriptionOptions.FiresOnRecordCreation])
@@ -426,8 +452,7 @@ extension InboxManager {
     }
     
     func createRemoteTopicSubscription() {
-        //let predicate = NSPredicate(format: "%K CONTAINS %@" , "users", CKReference(recordID: self.currentUserID, action: .None))
-        let predicate = NSPredicate(value: true)
+        let predicate = NSPredicate(format: "%K CONTAINS %@" , "users", CKReference(recordID: self.currentUserID, action: .None))
         let subscription = CKSubscription(recordType: "PublicTopic", predicate: predicate, options: CKSubscriptionOptions.FiresOnRecordCreation)
         
         let notificationInfo = CKNotificationInfo()

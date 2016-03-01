@@ -26,6 +26,11 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         // Do any additional setup after loading the view.
         
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        downloadSavedPages()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

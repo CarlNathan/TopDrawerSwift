@@ -46,7 +46,7 @@ class ActionViewController: UIViewController {
                                 let request = NSURLRequest(URL: URL!)
                                 let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
                                     if let e = error {
-                                        print("Error Saving Page: \(e.localizedDescription)")
+                                        print("Error Saving Image: \(e.localizedDescription)")
                                         return
                                     }
                                     let image = UIImage(data: data!)
@@ -82,11 +82,11 @@ class ActionViewController: UIViewController {
         pageRecord["description"] = self.descriptionTextView.text
         pageRecord["date"] = NSDate()
         pageRecord["URLString"] = URLString
-        
-        if let data = UIImagePNGRepresentation(self.imageView.image!) {
+        if let image = self.imageView.image {
+            let data = UIImagePNGRepresentation(image)
             let directory = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
             let path = directory.path! + "/\(self.nameTextField.text).png"
-            data.writeToFile(path, atomically: false)
+            data!.writeToFile(path, atomically: false)
             pageRecord["image"] = CKAsset(fileURL: NSURL(fileURLWithPath: path))
         }
         
