@@ -35,29 +35,30 @@ class ActionViewController: UIViewController {
                     itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil, completionHandler: { (result: NSSecureCoding?, error: NSError!) -> Void in
                         if let resultDict = result as? NSDictionary {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["title"] as? String
+                                self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["title"] as! String
 //                                self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["host"] as! String
                                 self.descriptionTextView.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["description"] as! String
-                            self.imageString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["image"] as! String
+                            self.imageString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["image"] as? String
                                 self.URLString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["url"] as! String
                                 
                                 let session = NSURLSession.sharedSession()
-                                let URL = NSURL(string: self.imageString)
-                                let request = NSURLRequest(URL: URL!)
-                                let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
-                                    if let e = error {
+                                if let string = self.imageString {
+                                    let URL = NSURL(string: string)
+                                    let request = NSURLRequest(URL: URL!)
+                                    let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+                                        if let e = error {
                                         print("Error Saving Image: \(e.localizedDescription)")
                                         return
-                                    }
-                                    let image = UIImage(data: data!)
-                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                        self.imageView.image = image
+                                        }
+                                        let image = UIImage(data: data!)
+                                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                            self.imageView.image = image
 
-                                    })
+                                        })
+                                    }
+                                    task.resume()
+                                
                                 }
-                                task.resume()
-                                
-                                
                             })
                         }
                     })
