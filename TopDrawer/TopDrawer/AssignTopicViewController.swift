@@ -85,10 +85,16 @@ class AssignTopicViewController: UIViewController, UITableViewDelegate, UITableV
             cell?.accessoryType = .Checkmark
         }
     }
+    @IBAction func cancelWasPressed(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     @IBAction func saveTopics(sender: AnyObject) {
-        
-        InboxManager.sharedInstance.savePageToTopics(self.page!, topics: selectedTopics)
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        if isShared! {
+            InboxManager.sharedInstance.savePageToPublicTopics(self.page!, topics: selectedTopics)
+        } else {
+            InboxManager.sharedInstance.savePageToTopics(self.page!, topics: selectedTopics)
+        }
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 

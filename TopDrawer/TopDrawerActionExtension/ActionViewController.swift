@@ -16,6 +16,7 @@ class ActionViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
     var URLString: String!
+    var imageString: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +38,24 @@ class ActionViewController: UIViewController {
                                 self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["title"] as? String
 //                                self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["host"] as! String
                                 self.descriptionTextView.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["description"] as! String
-//                            self.articleImage = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["image"] as! String
+                            self.imageString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["image"] as! String
                                 self.URLString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["url"] as! String
+                                
+                                let session = NSURLSession.sharedSession()
+                                let URL = NSURL(string: self.imageString)
+                                let request = NSURLRequest(URL: URL!)
+                                let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+                                    if let e = error {
+                                        print("Error Saving Page: \(e.localizedDescription)")
+                                        return
+                                    }
+                                    let image = UIImage(data: data!)
+                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                        self.imageView.image = image
+
+                                    })
+                                }
+                                task.resume()
                                 
                                 
                             })
@@ -47,7 +64,6 @@ class ActionViewController: UIViewController {
                 }
             }
         }
-        
     }
     
 
@@ -58,14 +74,21 @@ class ActionViewController: UIViewController {
 
     @IBAction func save(sender: AnyObject) {
         
-        let privateDB = CKContainer.init(identifier: "iCloud.Carl-Udren.TopDrawer").publicCloudDatabase
+        let privateDB = CKContainer.init(identifier: "iCloud.Carl-Udren.TopDrawer").privateCloudDatabase
         
         let pageRecord = CKRecord(recordType: "Page")
         
         pageRecord["name"] = self.nameTextField.text!
-        pageRecord["description"] = self.description
+        pageRecord["description"] = self.descriptionTextView.text
         pageRecord["date"] = NSDate()
         pageRecord["URLString"] = URLString
+        
+        if let data = UIImagePNGRepresentation(self.imageView.image!) {
+            let directory = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+            let path = directory.path! + "/\(self.nameTextField.text).png"
+            data.writeToFile(path, atomically: false)
+            pageRecord["image"] = CKAsset(fileURL: NSURL(fileURLWithPath: path))
+        }
         
         
         //let data = UIImagePNGRepresentation(self.image!)
@@ -94,5 +117,6 @@ class ActionViewController: UIViewController {
         // This template doesn't do anything, so we just echo the passed in items.
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
     }
+    
 
 }

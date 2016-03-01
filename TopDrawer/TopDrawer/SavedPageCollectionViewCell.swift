@@ -12,6 +12,8 @@ class SavedPageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     var page: Page!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
         //Mark: - actionSheet
     

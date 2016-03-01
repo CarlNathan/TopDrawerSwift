@@ -8,11 +8,11 @@
 
 import UIKit
 import CloudKit
-import WebKit
+import SafariServices
 
 private let reuseIdentifier = "SavedPagesCell"
 
-class SavedPagesCollectionViewController: UICollectionViewController, UIGestureRecognizerDelegate, UIActionSheetDelegate {
+class SavedPagesCollectionViewController: UICollectionViewController, UIGestureRecognizerDelegate, UIActionSheetDelegate, SFSafariViewControllerDelegate {
 
     var pages = [Page]()
     var senderPage: Page?
@@ -66,12 +66,23 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     
         // Configure the cell
             cell.page = pages[indexPath.row]
-            cell.nameLabel.text = cell.page.URLString
+            cell.nameLabel.text = cell.page.name
+            cell.descriptionLabel.text = cell.page.description
+            cell.imageView.image = cell.page.image
+        
         
         return cell
     }
 
     // MARK: UICollectionViewDelegate
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let URLString = pages[indexPath.row].URLString
+        let sfc = SFSafariViewController(URL: NSURL(string: URLString!)!)
+        sfc.delegate = self
+        presentViewController(sfc, animated: true, completion: nil)
+    }
+
 
             //MARK: Helper
     

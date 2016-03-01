@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         InboxManager.sharedInstance.initFriends()
         InboxManager.sharedInstance.getCurrentUserID()
+        
+        // Register for push notifications
+        let notificationSettings = UIUserNotificationSettings.init(forTypes: UIUserNotificationType.Alert, categories: nil)
+        application.registerUserNotificationSettings(notificationSettings)
+        application.registerForRemoteNotifications()
         
         return true
     }
@@ -43,7 +49,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        if let pushInfo = userInfo as? [String: NSObject] {
+            let notification = CKNotification(fromRemoteNotificationDictionary: pushInfo)
+            
+            let ac = UIAlertController(title: "You got a notification!", message: notification.alertBody, preferredStyle: .Alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            
+            if let nc = (window?.rootViewController)! as UIViewController? {
+                nc.presentViewController(ac, animated: true, completion: nil)
+                
+            }
+        }
+        
+    }
 
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        if let pushInfo = userInfo as? [String: NSObject] {
+            let notification = CKNotification(fromRemoteNotificationDictionary: pushInfo)
+            
+            let ac = UIAlertController(title: "You got a notification!", message: notification.alertBody, preferredStyle: .Alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            
+                        if let nc = (window?.rootViewController)! as UIViewController? {
+                            nc.presentViewController(ac, animated: true, completion: nil)
+                           
+                        }
+        }
+
+    }
 
 }
 

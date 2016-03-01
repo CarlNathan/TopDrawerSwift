@@ -9,6 +9,7 @@
 import Foundation
 import CloudKit
 import TopDrawerActionExtension
+import UIKit
 
 class InboxManager {
     
@@ -20,6 +21,7 @@ class InboxManager {
         let container = CKContainer.defaultContainer()
         container.fetchUserRecordIDWithCompletionHandler { (userID, error) -> Void in
             self.currentUserID = userID!
+            self.createRemoteTopicSubscription()
         }
     }
     
@@ -47,7 +49,7 @@ class InboxManager {
 extension InboxManager {
     
     func getPersonalPages(completionHandler: ([Page]?) -> Void){
-        let privateDB = CKContainer.defaultContainer().publicCloudDatabase
+        let privateDB = CKContainer.defaultContainer().privateCloudDatabase
         let predicate = NSPredicate(value: true)
         let querry = CKQuery(recordType: "Page", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (Pages, error) -> Void in
@@ -58,14 +60,14 @@ extension InboxManager {
             var newPages = [Page]()
             for page in Pages! {
                 
-                //                    let imageAsset = page["image"] as! CKAsset
-                //                    let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
+                let imageAsset = page["image"] as! CKAsset
+                let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
                 
                 let name = page["name"] as? String ?? nil
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: nil, date:  date, recordID: page.recordID)
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
                 newPages.append(newPage)
                 
             }
@@ -74,7 +76,7 @@ extension InboxManager {
 
     }
     func checkURL (url: String, completionHandler: () -> Void) {
-        let privateDB = CKContainer.defaultContainer().publicCloudDatabase
+        let privateDB = CKContainer.defaultContainer().privateCloudDatabase
         let predicate = NSPredicate(format: "%K = %@", "URLString", url)
         let querry = CKQuery(recordType: "Page", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (pages, error) -> Void in
@@ -112,7 +114,7 @@ extension InboxManager {
 extension InboxManager {
     
     func getTopics(completionHandler: ([Topic]?) -> Void) {
-        let privateDB = CKContainer.defaultContainer().publicCloudDatabase
+        let privateDB = CKContainer.defaultContainer().privateCloudDatabase
         let predicate = NSPredicate(value: true)
         let querry = CKQuery(recordType: "Topic", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (Topics, error) -> Void in
@@ -142,7 +144,7 @@ extension InboxManager {
     
     func getSavedPagesForPrivateTopic (topic: CKRecordID, completionHandler: ([Page]?) -> Void) {
     
-        let privateDB = CKContainer.defaultContainer().publicCloudDatabase
+        let privateDB = CKContainer.defaultContainer().privateCloudDatabase
         let predicate = NSPredicate(format: "%K CONTAINS %@", "topic", topic)
     
         let querry = CKQuery(recordType: "Page", predicate: predicate)
@@ -154,14 +156,14 @@ extension InboxManager {
             var newPages = [Page]()
             for page in pages! {
     
-    //                    let imageAsset = page["image"] as! CKAsset
-    //                    let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
+                let imageAsset = page["image"] as! CKAsset
+                let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
     
                 let name = page["name"] as? String ?? nil
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: nil, date:  date, recordID: page.recordID)
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
                 newPages.append(newPage)
     
             }
@@ -171,7 +173,7 @@ extension InboxManager {
     
     func getTopicID (topic:Topic, completionHandler: (CKRecordID?) -> Void) {
         
-        let privateDB = CKContainer.defaultContainer().publicCloudDatabase
+        let privateDB = CKContainer.defaultContainer().privateCloudDatabase
         let predicate = NSPredicate(format: "%K = %@", "name", topic.name!)
         let querry = CKQuery(recordType: "Topic", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (topics, error) -> Void in
@@ -261,14 +263,14 @@ extension InboxManager {
             var newPages = [Page]()
             for page in pages! {
                 
-                //                    let imageAsset = page["image"] as! CKAsset
-                //                    let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
+                let imageAsset = page["image"] as! CKAsset
+                let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
                 
                 let name = page["name"] as? String ?? nil
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: nil, date:  date, recordID: page.recordID)
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
                 newPages.append(newPage)
                 
             }
@@ -278,7 +280,7 @@ extension InboxManager {
         }
     
     func savePageToTopics (page: Page, topics: [CKRecordID]) {
-        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        let publicDB = CKContainer.defaultContainer().privateCloudDatabase
         var ref = [CKReference]()
         for record in topics {
             let reference = CKReference(recordID: record, action: .None)
@@ -290,7 +292,9 @@ extension InboxManager {
                 print("failed to load: \(e.localizedDescription)")
                 return
             }
-            page?.setValue(ref, forKey: "topics")
+            let oldReferences = page!["topic"] as! [CKReference]
+            let newReferences = oldReferences + ref
+            page?.setValue(newReferences, forKey: "topic")
             publicDB.saveRecord(page!, completionHandler: { (record, error) -> Void in
                 if let e = error {
                     print("failed to load: \(e.localizedDescription)")
@@ -300,6 +304,35 @@ extension InboxManager {
         }
     }
     
+    func savePageToPublicTopics (page: Page, topics: [CKRecordID]) {
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        var ref = [CKReference]()
+        for record in topics {
+            let reference = CKReference(recordID: record, action: .None)
+            ref.append(reference)
+            
+        }
+        publicDB.fetchRecordWithID(page.pageID) { (page, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+            var newReferences = [CKReference]()
+            if let oldReferences = page!["topic"] as? [CKReference] {
+                newReferences = oldReferences + ref
+            } else {
+                newReferences = ref
+            }
+            page?.setValue(newReferences, forKey: "topic")
+            publicDB.saveRecord(page!, completionHandler: { (record, error) -> Void in
+                if let e = error {
+                    print("failed to load: \(e.localizedDescription)")
+                    return
+                }
+            })
+        }
+    }
+
     func saveMessage(message: Message) {
         let messageRecord = CKRecord(recordType: "Message")
         
@@ -319,7 +352,7 @@ extension InboxManager {
     func createNewTopic (name: String) {
         let newTopic = CKRecord(recordType: "Topic")
         newTopic["name"] = name
-        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        let publicDB = CKContainer.defaultContainer().privateCloudDatabase
         publicDB.saveRecord(newTopic) { (record, error) -> Void in
             if let e = error {
                 print("failed to load: \(e.localizedDescription)")
@@ -345,7 +378,73 @@ extension InboxManager {
                 print("failed to load: \(e.localizedDescription)")
                 return
             }
+            self.createSubscriptions(record!)
         }
+    }
+}
+
+extension InboxManager {
+    
+    func createSubscriptions (record: CKRecord) {
+        
+        //let messagePredicate = NSPredicate(format: "%K CONTAINS %@" , "topic", record.recordID)
+        //let pagePredicate = NSPredicate(format: "%K CONTAINS %@", "topic", record.recordID)
+        let messagePredicate = NSPredicate(value: true)
+        let pagePredicate = NSPredicate(value: true)
+
+        let messageSubscription = CKSubscription(recordType: "Message", predicate: messagePredicate, options: [CKSubscriptionOptions.FiresOnRecordCreation])
+        let pageSubscription = CKSubscription(recordType: "Page", predicate: pagePredicate, options: [CKSubscriptionOptions.FiresOnRecordCreation])
+
+        let messageNotificationInfo = CKNotificationInfo()
+        messageNotificationInfo.shouldBadge = true
+        messageNotificationInfo.shouldSendContentAvailable = true
+        messageNotificationInfo.alertBody = "YouGotAnAltert"
+        
+        let pageNotificationInfo = CKNotificationInfo()
+        pageNotificationInfo.shouldBadge = true
+        pageNotificationInfo.shouldSendContentAvailable = true
+        pageNotificationInfo.alertBody = "YouGotAnAltert"
+        
+        messageSubscription.notificationInfo = messageNotificationInfo
+        pageSubscription.notificationInfo = pageNotificationInfo
+        
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.saveSubscription(messageSubscription) { (messagesubscription, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+        }
+        
+        publicDB.saveSubscription(pageSubscription) { (pagesubscription, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+        }
+        
+    }
+    
+    func createRemoteTopicSubscription() {
+        //let predicate = NSPredicate(format: "%K CONTAINS %@" , "users", CKReference(recordID: self.currentUserID, action: .None))
+        let predicate = NSPredicate(value: true)
+        let subscription = CKSubscription(recordType: "PublicTopic", predicate: predicate, options: CKSubscriptionOptions.FiresOnRecordCreation)
+        
+        let notificationInfo = CKNotificationInfo()
+        notificationInfo.shouldBadge = true
+        notificationInfo.shouldSendContentAvailable = true
+        notificationInfo.alertBody = "YouGotAnAltert"
+        subscription.notificationInfo = notificationInfo
+        
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.saveSubscription(subscription) { (subscription, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+        }
+
+
     }
 }
 
