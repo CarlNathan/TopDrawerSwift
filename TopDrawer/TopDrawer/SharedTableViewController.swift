@@ -36,7 +36,9 @@ class SharedTableViewController: UITableViewController {
     
     func newTopic(sender: NSNotification) {
         self.sharedTopics.append(sender.userInfo!["topic"]as!Topic)
-        self.tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.tableView.reloadData()
+        })
     }
 
     // MARK: - Table view data source
@@ -53,7 +55,11 @@ class SharedTableViewController: UITableViewController {
         // Configure the cell...
         cell.topic = self.sharedTopics[indexPath.row]
         cell.textLabel!.text = sharedTopics[indexPath.row].name
-        cell.detailTextLabel!.text = sharedTopics[indexPath.row].users![0].familyName
+        var usersString = ""
+        for user in cell.topic.users! {
+            usersString += user.firstName! + " " + user.familyName! + "   "
+        }
+        cell.detailTextLabel!.text = usersString
 
         return cell
     }

@@ -103,12 +103,6 @@ class ActionViewController: UIViewController {
                 print("Error Saving Page: \(e.localizedDescription)")
                 return
             }
-//            do{
-//                try NSFileManager.defaultManager().removeItemAtPath(path)
-//            } catch _ {
-//                //handle error
-//            }
-            
         }
         
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)

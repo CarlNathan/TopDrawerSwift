@@ -40,11 +40,13 @@ class TrayCollectionViewController: UICollectionViewController, SFSafariViewCont
     }
     
     func newPage(sender:NSNotification) {
-        let topics = sender.userInfo!["topics"]as![CKReference]
+        let topics = sender.userInfo!["topics"]as![CKRecordID]
         for aTopic in topics {
-            if aTopic.recordID == self.topic?.recordID {
+            if aTopic == self.topic?.recordID {
                 self.pages.append(sender.userInfo!["page"]as! Page)
-                self.collectionView?.reloadData()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.collectionView?.reloadData()
+                })
             }
         }
     }
@@ -72,8 +74,10 @@ class TrayCollectionViewController: UICollectionViewController, SFSafariViewCont
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! SharedPageCollectionViewCell
     
         // Configure the cell
-        
-        cell.nameLabel.text = self.pages[indexPath.row].URLString
+        let page = self.pages[indexPath.row]
+        cell.nameLabel.text = page.name
+        cell.descriptionLabel.text = page.description
+        cell.imageView.image = page.image
     
         return cell
     }

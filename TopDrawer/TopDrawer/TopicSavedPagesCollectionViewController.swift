@@ -65,7 +65,9 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSaf
     
         // Configure the cell
         cell.page = pages[indexPath.row]
-        cell.nameLabel.text = cell.page.URLString
+        cell.nameLabel.text = cell.page.name
+        cell.imageView.image = cell.page.image
+        cell.descriptionLabel.text = cell.page.description
         return cell
     }
 

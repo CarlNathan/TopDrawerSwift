@@ -41,8 +41,7 @@ class FriendsTableViewController: UITableViewController {
         // Configure the cell...
         let name = self.friends[indexPath.row].firstName! + " " + self.friends[indexPath.row].familyName!
         cell.textLabel!.text = name
-        cell.detailTextLabel!.text = "Some other details"
-        
+        cell.detailTextLabel!.text = "Hi!  I'm using TopDrawer!"
 
         return cell
     }

@@ -10,6 +10,8 @@ import UIKit
 
 class TopicSavedPageCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     var page: Page!
     

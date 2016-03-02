@@ -48,6 +48,19 @@ class InboxManager {
 
 extension InboxManager {
     
+    func pageFromCKRecord (page:CKRecord)->Page {
+        var image = UIImage()
+        if let imageAsset = page["image"] as? CKAsset ?? nil {
+            image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
+        }
+        let name = page["name"] as? String ?? nil
+        let description = page["description"] as? String ?? nil
+        let date = page["date"] as? NSDate ?? nil
+        let URLString = page["URLString"] as? String ?? nil
+        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+        return newPage
+    }
+    
     func getPersonalPages(completionHandler: ([Page]?) -> Void){
         let privateDB = CKContainer.defaultContainer().privateCloudDatabase
         let predicate = NSPredicate(value: true)
@@ -292,7 +305,7 @@ extension InboxManager {
                 print("failed to load: \(e.localizedDescription)")
                 return
             }
-            let oldReferences = page!["topic"] as! [CKReference]
+            let oldReferences = page!["topic"] as? [CKReference] ?? [CKReference]()
             let newReferences = oldReferences + ref
             page?.setValue(newReferences, forKey: "topic")
             publicDB.saveRecord(page!, completionHandler: { (record, error) -> Void in
@@ -305,43 +318,35 @@ extension InboxManager {
     }
     
     func savePageToPublicTopics (page: Page, topics: [CKRecordID]) {
-        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
-        var ref = [CKReference]()
-        for record in topics {
-            let reference = CKReference(recordID: record, action: .None)
-            ref.append(reference)
-            
+        
+        let pageRecord = CKRecord(recordType: "Page")
+        
+        pageRecord["name"] = page.name
+        pageRecord["description"] = page.description
+        pageRecord["date"] = NSDate()
+        pageRecord["URLString"] = page.URLString
+        var references = [CKReference]()
+        for topic in topics {
+            references.append(CKReference(recordID: topic, action: .None))
         }
-        publicDB.fetchRecordWithID(page.pageID) { (page, error) -> Void in
+        pageRecord["topic"] = references
+        if let image = page.image {
+            let data = UIImagePNGRepresentation(image)
+            let directory = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+            let path = directory.path! + "/\(page.name).png"
+            data!.writeToFile(path, atomically: false)
+            pageRecord["image"] = CKAsset(fileURL: NSURL(fileURLWithPath: path))
+        }
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.saveRecord(pageRecord) { (record, error) -> Void in
             if let e = error {
                 print("failed to load: \(e.localizedDescription)")
                 return
-            }
-            var newReferences = [CKReference]()
-            if let oldReferences = page!["topic"] as? [CKReference] {
-                newReferences = oldReferences + ref
-            } else {
-                newReferences = ref
-            }
-            page?.setValue(newReferences, forKey: "topic")
-            publicDB.saveRecord(page!, completionHandler: { (record, error) -> Void in
-                if let e = error {
-                    print("failed to load: \(e.localizedDescription)")
-                    return
                 }
-                var image = UIImage()
-                if let imageAsset = record!["image"] as? CKAsset ?? nil {
-                    image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
-                }
-                let name = record!["name"] as? String ?? nil
-                let description = record!["description"] as? String ?? nil
-                let date = record!["date"] as? NSDate ?? nil
-                let URLString = record!["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: record!.recordID)
-                NSNotificationCenter.defaultCenter().postNotificationName("PageAddedToPublicTopic", object: self, userInfo: ["topics":topics , "page":newPage])
-                
-            })
+            NSNotificationCenter.defaultCenter().postNotificationName("PageAddedToPublicTopic", object: self, userInfo: ["topics":topics , "page":page])
         }
+        
+
     }
 
     func saveMessage(message: Message) {

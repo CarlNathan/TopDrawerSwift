@@ -23,6 +23,8 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         downloadSavedPages()
         setupLongPressRecognizer()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newPage:", name: "SavedNewPersonalPage", object: nil)
+        
         // Do any additional setup after loading the view.
         
     }
@@ -31,12 +33,20 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         super.viewWillAppear(animated)
         downloadSavedPages()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-
+    
+    func newPage(sender:NSNotification) {
+        let record = sender.userInfo!["page"] as! CKRecord
+        let page = InboxManager.sharedInstance.pageFromCKRecord(record)
+        pages.append(page)
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.collectionView?.reloadData()
+        })
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -78,6 +88,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         
         return cell
     }
+    
 
     // MARK: UICollectionViewDelegate
     
@@ -87,7 +98,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         sfc.delegate = self
         presentViewController(sfc, animated: true, completion: nil)
     }
-
+    
 
             //MARK: Helper
     

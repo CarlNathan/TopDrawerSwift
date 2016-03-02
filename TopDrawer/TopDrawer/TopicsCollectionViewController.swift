@@ -29,7 +29,9 @@ class TopicsCollectionViewController: UICollectionViewController {
     
     func newTopic(sender:NSNotification) {
         self.topics.append(sender.userInfo!["topic"]as! Topic)
-        self.collectionView?.reloadData()
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.collectionView?.reloadData()
+        })
         
     }
 
