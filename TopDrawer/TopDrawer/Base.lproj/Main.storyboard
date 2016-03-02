@@ -578,14 +578,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Du6-oq-ZKq">
-                                <rect key="frame" x="30" y="72" width="540" height="29"/>
+                                <rect key="frame" x="30" y="72" width="540" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="1MZ-yb-JLy"/>
+                                </constraints>
                                 <segments>
                                     <segment title="Messages"/>
                                     <segment title="Drawer"/>
                                 </segments>
                             </segmentedControl>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LOM-FU-Jl5">
-                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LOM-FU-Jl5">
+                                <rect key="frame" x="0.0" y="107" width="600" height="444"/>
                                 <connections>
                                     <segue destination="MJ7-QL-5A9" kind="embed" identifier="contain" id="caH-ro-fxD"/>
                                 </connections>
@@ -595,7 +598,7 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="LOM-FU-Jl5" secondAttribute="trailing" id="5PF-7X-ou0"/>
                             <constraint firstItem="EA4-DC-v23" firstAttribute="top" secondItem="LOM-FU-Jl5" secondAttribute="bottom" id="7MO-dh-xhe"/>
-                            <constraint firstItem="LOM-FU-Jl5" firstAttribute="top" secondItem="Du6-oq-ZKq" secondAttribute="bottom" constant="8" id="Stp-SI-W9A"/>
+                            <constraint firstItem="LOM-FU-Jl5" firstAttribute="top" secondItem="Du6-oq-ZKq" secondAttribute="bottom" constant="10" id="Stp-SI-W9A"/>
                             <constraint firstItem="LOM-FU-Jl5" firstAttribute="leading" secondItem="Boj-Ng-WNl" secondAttribute="leading" id="Yw0-Oh-jtu"/>
                             <constraint firstItem="Du6-oq-ZKq" firstAttribute="top" secondItem="Ymz-2u-1Z5" secondAttribute="bottom" constant="8" id="Yxg-hY-tRP"/>
                             <constraint firstItem="LOM-FU-Jl5" firstAttribute="leading" secondItem="Boj-Ng-WNl" secondAttribute="leadingMargin" id="bH6-vG-wXB"/>
@@ -610,6 +613,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="v3V-av-5il"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="containerView" destination="LOM-FU-Jl5" id="JXD-2K-Yry"/>
                         <outlet property="segmentedControl" destination="Du6-oq-ZKq" id="2bg-av-RTp"/>
@@ -628,7 +634,7 @@
                         <viewControllerLayoutGuide type="bottom" id="KlZ-MM-lXz"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="aDT-ON-IsV">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="443"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="444"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -643,7 +649,7 @@
             <objects>
                 <collectionViewController id="ZtC-fD-Nlq" customClass="TrayCollectionViewController" customModule="TopDrawer" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="M2O-eU-ULe">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="443"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="444"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="10" id="Nor-M6-9JP">
@@ -854,7 +860,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tmM-W7-rMp"/>
+        <segue reference="bae-QQ-VqR"/>
         <segue reference="x8w-ah-yRW"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -478,4 +478,62 @@ extension InboxManager {
     }
 }
 
+extension InboxManager {
+    func saveTopicMarker (page: Page, topic: Topic) {
+        let record = CKRecord(recordType: "TopicMarker")
+        record["date"] = NSDate()
+        record["page"] = CKReference(recordID: page.pageID, action: .None)
+        record["topic"] = CKReference(recordID: topic.recordID!, action: .None)
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.saveRecord(record) { (record, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+        }
+    }
+    
+    func getTopicMarkers (topic: Topic, completionHandler: ([TopicMarker]?) -> Void) {
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        let predicate = NSPredicate(format: "%K = %@", "topic", CKReference(recordID: topic.recordID!, action: .None))
+        let querry = CKQuery(recordType: "TopicMarker", predicate: predicate)
+        publicDB.performQuery(querry, inZoneWithID: nil) { (topicMarkers, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+            var newTopicMarkers = [TopicMarker]()
+            for marker in topicMarkers! {
+                let date = marker["date"] as! NSDate
+                let topic = marker["topic"] as! CKReference
+                let page = marker["page"] as! CKReference
+                let newMarker = TopicMarker(page: page.recordID, date: date, topic: topic.recordID)
+                newTopicMarkers.append(newMarker)
+            }
+            completionHandler(newTopicMarkers)
+        }
+    }
+    
+    func getPageForID (pageID: CKRecordID, completionHandler: (Page?) -> Void) {
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.fetchRecordWithID(pageID) { (record, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+            let name = record!["name"]as! String
+            let description = record!["description"]as? String ?? ""
+            let url = record!["URLString"]as! String
+            var image = UIImage()
+            if let imageAsset = record!["image"] as? CKAsset ?? nil {
+                image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
+            }
+            let page = Page(name: name, description: description, URLString: url, image: image, date: record?.creationDate, recordID: (record?.recordID)!)
+            completionHandler(page)
+        }
+    }
+
+}
+
+
 

@@ -10,11 +10,20 @@ import UIKit
 import JSQMessagesViewController
 
 
-class MessageViewController: JSQMessagesViewController {
+class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDelegate {
 
     var topic: Topic?
     var messages = [Message]()
-    var jsqMessages = [JSQMessage]()
+    var jsqMessages = [JSQMessage]() {
+        didSet{
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.collectionView?.reloadData()
+            self.initLastPath ()
+            }
+        }
+    }
+    var lastPath: Int!
+    
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.lightGrayColor())
     
@@ -28,6 +37,7 @@ class MessageViewController: JSQMessagesViewController {
 
         // Do any additional setup after loading the view.
         getMessages()
+        self.scrollToBottomAnimated(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,9 +49,6 @@ class MessageViewController: JSQMessagesViewController {
         InboxManager.sharedInstance.getMessages(self.topic!) { (messages) -> Void in
             self.messages = messages!
             self.jsqMessagesFromMessages()
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.collectionView?.reloadData()
-            })
         }
     }
     
@@ -56,6 +63,9 @@ class MessageViewController: JSQMessagesViewController {
             newMessages.append(newMessage)
             
         }
+        newMessages.sortInPlace({ (a, b) -> Bool in
+            a.date!.compare(b.date!) == NSComparisonResult.OrderedAscending
+        })
         self.jsqMessages = newMessages
     }
 
@@ -101,9 +111,73 @@ extension MessageViewController {
         //warning: save new messageobject
         let cloudMessage = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: text, topic: (self.topic?.recordID)!, date: date)
         InboxManager.sharedInstance.saveMessage(cloudMessage)
+        self.scrollToBottomAnimated(true)
     }
     
     override func didPressAccessoryButton(sender: UIButton!) {
-        
+        let selectionView = TopicMarkerSelectionTableViewController()
+        selectionView.delegate = self
+        selectionView.topic = self.topic
+        self.presentViewController(selectionView, animated: true, completion: nil)
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        //self.toolbarItems
+    }
+    
+    func initLastPath () {
+        let point = CGPointMake(self.view.center.x, self.view.center.y + self.collectionView!.contentOffset.y)
+        if let path = self.collectionView!.indexPathForItemAtPoint(point) {
+            self.lastPath = path.row
+        }else {
+            self.lastPath = 0
+        }
+
+    }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        let point = CGPointMake(self.view.center.x, self.view.center.y + self.collectionView!.contentOffset.y)
+        if let path = self.collectionView!.indexPathForItemAtPoint(point) {
+            switch path.row - lastPath {
+            case 1:
+                //scroll down
+                let message = self.jsqMessages[path.row]
+                self.lastPath = path.row
+                NSNotificationCenter.defaultCenter().postNotificationName("ScrollDown", object: self, userInfo: ["date" : message.date])
+                break
+            case -1:
+                //scroll up
+                let message = self.jsqMessages[path.row]
+                self.lastPath = path.row
+                NSNotificationCenter.defaultCenter().postNotificationName("ScrollUp", object: self, userInfo: ["date" : message.date])
+                break
+            default:
+                //same cell
+                return
+            }
+        }
+    }
+    
+    //Mark: - TopicMarkerDelegate
+    
+    func didSelectPageForMarker(page: Page) {
+        
+        //save marker
+        //send notificaiton
+        InboxManager.sharedInstance.saveTopicMarker(page, topic: self.topic!)
+        let marker = TopicMarker(page: page.pageID, date: NSDate(), topic: self.topic!.recordID!)
+        NSNotificationCenter.defaultCenter().postNotificationName("NewTopicMarker", object: self, userInfo:["marker":marker])
+        //insert marker message
+        let message = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: NSDate(), text: "#topic#" + page.name!)
+        self.jsqMessages += [message]
+        self.finishSendingMessage()
+        
+        //warning: save new messageobject
+        let cloudMessage = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: "#topic#" + page.name!, topic: (self.topic?.recordID)!, date: NSDate())
+        InboxManager.sharedInstance.saveMessage(cloudMessage)
+        self.scrollToBottomAnimated(true)
+    }
+
 }
+
+
