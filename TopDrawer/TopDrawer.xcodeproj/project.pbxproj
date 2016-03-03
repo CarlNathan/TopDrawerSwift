@@ -16,6 +16,7 @@
 		ED2B08221C7FB0BC0007949E /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08211C7FB0BC0007949E /* Topic.swift */; };
 		ED2B08241C80998B0007949E /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08231C80998B0007949E /* Friend.swift */; };
 		ED2B08271C80B7C40007949E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08261C80B7C40007949E /* Message.swift */; };
+		ED49DC1C1C8881E0003BB009 /* App downloads (2).png in Resources */ = {isa = PBXBuildFile; fileRef = ED49DC1B1C8881E0003BB009 /* App downloads (2).png */; };
 		ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */; };
 		ED5EBEB01C823F56009951BB /* TopicTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */; };
 		ED5EBEB21C82B0B6009951BB /* SharedPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */; };
@@ -107,6 +108,7 @@
 		ED2B08211C7FB0BC0007949E /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		ED2B08231C80998B0007949E /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		ED2B08261C80B7C40007949E /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		ED49DC1B1C8881E0003BB009 /* App downloads (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App downloads (2).png"; sourceTree = "<group>"; };
 		ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTopicTableViewCell.swift; sourceTree = "<group>"; };
 		ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicTabBarController.swift; sourceTree = "<group>"; };
 		ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedPageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				ED2B08161C7F48F40007949E /* Shared Topics Tree */,
 				ED2B08131C7F48890007949E /* FriendsTree */,
 				EDAC5D821C7B83A900C0C306 /* Assets.xcassets */,
+				ED49DC1B1C8881E0003BB009 /* App downloads (2).png */,
 				EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */,
 				EDAC5D841C7B83A900C0C306 /* LaunchScreen.storyboard */,
 				EDAC5D871C7B83A900C0C306 /* Info.plist */,
@@ -551,6 +554,7 @@
 				EDAC5D861C7B83A900C0C306 /* LaunchScreen.storyboard in Resources */,
 				EDAC5D831C7B83A900C0C306 /* Assets.xcassets in Resources */,
 				EDAC5D811C7B83A900C0C306 /* Main.storyboard in Resources */,
+				ED49DC1C1C8881E0003BB009 /* App downloads (2).png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

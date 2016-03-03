@@ -24,7 +24,6 @@ class TopicMarkerSelectionTableViewController: UIViewController, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
 
         self.tableView?.userInteractionEnabled = false
         getPages()
@@ -42,15 +41,15 @@ class TopicMarkerSelectionTableViewController: UIViewController, UITableViewData
 
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("selectionId", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("selectionId", forIndexPath: indexPath) as! TopicMarkerSelectionTableViewCell
 
         // Configure the cell...
         let page = pages[indexPath.row]
-        cell.textLabel!.text = page.name
-        cell.imageView!.image = page.image
-        cell.imageView!.contentMode = .ScaleAspectFit
-        cell.imageView!.clipsToBounds = true
-        cell.imageView!.layer.cornerRadius = 10
+        cell.titleLabel!.text = page.name
+        cell.topicImageView!.image = page.image
+        cell.topicImageView!.contentMode = .ScaleAspectFit
+        cell.topicImageView!.clipsToBounds = true
+        cell.topicImageView!.layer.cornerRadius = 10
 
         return cell
     }
