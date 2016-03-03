@@ -17,11 +17,15 @@ class AssignTopicViewController: UIViewController, UITableViewDelegate, UITableV
     var isShared: Bool?
     var page: Page?
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.titleLabel.text = self.page?.name
+        self.imageView.image = self.page!.image
         if self.isShared! {
             InboxManager.sharedInstance.getPublicTopics({ (topics) -> Void in
                 self.topics = topics!

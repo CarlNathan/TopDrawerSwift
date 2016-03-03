@@ -13,7 +13,8 @@ protocol TopicMarkerSelectionDelegate {
 }
 
 
-class TopicMarkerSelectionTableViewController: UITableViewController {
+class TopicMarkerSelectionTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var tableView: UITableView!
 
     var delegate: TopicMarkerSelectionDelegate?
     var topic: Topic?
@@ -27,6 +28,7 @@ class TopicMarkerSelectionTableViewController: UITableViewController {
 
         self.tableView?.userInteractionEnabled = false
         getPages()
+        setupTableFrame()
         
     }
     
@@ -34,26 +36,26 @@ class TopicMarkerSelectionTableViewController: UITableViewController {
     // MARK: - Table view data source
 
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pages.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("selectionId", forIndexPath: indexPath)
 
         // Configure the cell...
         let page = pages[indexPath.row]
         cell.textLabel!.text = page.name
         cell.imageView!.image = page.image
-        cell.imageView!.contentMode = .ScaleAspectFill
+        cell.imageView!.contentMode = .ScaleAspectFit
         cell.imageView!.clipsToBounds = true
         cell.imageView!.layer.cornerRadius = 10
 
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.delegate?.didSelectPageForMarker(pages[indexPath.row])
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -69,10 +71,16 @@ class TopicMarkerSelectionTableViewController: UITableViewController {
         }
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+     func scrollViewDidScroll(scrollView: UIScrollView) {
         if self.tableView.contentOffset.y < -100 {
             self.dismissViewControllerAnimated(true, completion: nil)
         }
+    }
+    
+    func setupTableFrame () {
+                self.automaticallyAdjustsScrollViewInsets = true
+        let currentInsets = self.tableView.contentInset
+        self.tableView.contentInset = UIEdgeInsets(top: self.topLayoutGuide.length,left: currentInsets.bottom,bottom: currentInsets.left, right: currentInsets.right)
     }
 
 }

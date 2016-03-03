@@ -8,6 +8,7 @@
 
 import UIKit
 import JSQMessagesViewController
+import CloudKit
 
 
 class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDelegate {
@@ -38,6 +39,24 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         // Do any additional setup after loading the view.
         getMessages()
         self.scrollToBottomAnimated(true)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newRemoteMessage:", name: "RemoteMessage", object: nil)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func newRemoteMessage(sender: NSNotification) {
+        let recordID = sender.userInfo!["topicID"] as! CKRecordID
+        InboxManager.sharedInstance.getMessageForID(recordID) { (message) -> Void in
+            if message?.topicRef == self.topic?.recordID {
+                self.messages.append(message!)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.collectionView?.reloadData()
+                })
+            }
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -115,10 +134,18 @@ extension MessageViewController {
     }
     
     override func didPressAccessoryButton(sender: UIButton!) {
-        let selectionView = TopicMarkerSelectionTableViewController()
-        selectionView.delegate = self
-        selectionView.topic = self.topic
-        self.presentViewController(selectionView, animated: true, completion: nil)
+        
+        self.performSegueWithIdentifier("showSelection", sender: self)
+        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showSelection" {
+            let selectionView = segue.destinationViewController as! TopicMarkerSelectionTableViewController
+            selectionView.delegate = self
+            selectionView.topic = self.topic
+
+        }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

@@ -14,7 +14,7 @@ class Page {
     let name: String?
     let description: String?
     let URLString: String?
-    let topic: [String]?
+    var topic: [CKReference]?
     let date: NSDate?
     let image: UIImage?
     let pageID: CKRecordID
@@ -27,7 +27,6 @@ class Page {
         self.URLString = URLString
         self.image = image
         self.date = date
-        self.topic = ["Saved"]
         self.pageID = recordID
         
     }

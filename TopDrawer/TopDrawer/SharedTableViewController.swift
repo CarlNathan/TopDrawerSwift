@@ -27,6 +27,7 @@ class SharedTableViewController: UITableViewController {
         getTopics()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTopic:", name: "NewPublicTopic", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newRemoteTopic:", name: "RemoteTopic", object: nil)
 
     }
 
@@ -39,6 +40,16 @@ class SharedTableViewController: UITableViewController {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.tableView.reloadData()
         })
+    }
+    
+    func newRemoteTopic(sender: NSNotification) {
+        let recordID = sender.userInfo!["topicID"] as! CKRecordID
+        InboxManager.sharedInstance.getPublicTopicWithID(recordID) { (topic) -> Void in
+            self.sharedTopics.append(topic!)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+            })
+        }
     }
 
     // MARK: - Table view data source

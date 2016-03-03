@@ -398,7 +398,7 @@ extension InboxManager {
                 print("failed to load: \(e.localizedDescription)")
                 return
             }
-            self.createSubscriptions(record!)
+            self.createSubscriptions((record?.recordID)!)
             let name = record!["name"] as! String
             let users = record!["users"] as! [CKReference]
             var userNames = [Friend]()
@@ -417,27 +417,39 @@ extension InboxManager {
 
 extension InboxManager {
     
-    func createSubscriptions (record: CKRecord) {
+    func createSubscriptions (recordID: CKRecordID) {
         
-        let messagePredicate = NSPredicate(format: "%K CONTAINS %@" , "topic", record.recordID)
-        let pagePredicate = NSPredicate(format: "%K CONTAINS %@", "topic", record.recordID)
+        let messageRef = CKReference(recordID: recordID, action: .None)
+        let messagePredicate = NSPredicate(format: "%K CONTAINS %@" , "topic", messageRef)
+        let pageRef = CKReference(recordID: recordID, action: .None)
+        let pagePredicate = NSPredicate(format: "%K CONTAINS %@", "topic", pageRef)
+        let markerRef = CKReference(recordID: recordID, action: .None)
+        let markerPredicate = NSPredicate(format: "%K = %@" , "topic", markerRef)
+
         
 
-        let messageSubscription = CKSubscription(recordType: "Message", predicate: messagePredicate, options: [CKSubscriptionOptions.FiresOnRecordCreation])
-        let pageSubscription = CKSubscription(recordType: "Page", predicate: pagePredicate, options: [CKSubscriptionOptions.FiresOnRecordCreation])
+        let messageSubscription = CKSubscription(recordType: "Message", predicate: messagePredicate, options: CKSubscriptionOptions.FiresOnRecordCreation)
+        let pageSubscription = CKSubscription(recordType: "Page", predicate: pagePredicate, options:[CKSubscriptionOptions.FiresOnRecordCreation, CKSubscriptionOptions.FiresOnRecordUpdate])
+        let markerSubscription = CKSubscription(recordType: "TopicMarker", predicate: markerPredicate, options: CKSubscriptionOptions.FiresOnRecordCreation)
 
         let messageNotificationInfo = CKNotificationInfo()
         messageNotificationInfo.shouldBadge = true
         messageNotificationInfo.shouldSendContentAvailable = true
-        messageNotificationInfo.alertBody = "YouGotAnAltert"
+        messageNotificationInfo.alertBody = "New Message"
         
         let pageNotificationInfo = CKNotificationInfo()
         pageNotificationInfo.shouldBadge = true
         pageNotificationInfo.shouldSendContentAvailable = true
-        pageNotificationInfo.alertBody = "YouGotAnAltert"
+        pageNotificationInfo.alertBody = "New Page"
+        
+        let markerNotificationInfo = CKNotificationInfo()
+        markerNotificationInfo.shouldBadge = true
+        markerNotificationInfo.shouldSendContentAvailable = true
+        markerNotificationInfo.alertBody = "New Marker"
         
         messageSubscription.notificationInfo = messageNotificationInfo
         pageSubscription.notificationInfo = pageNotificationInfo
+        markerSubscription.notificationInfo = markerNotificationInfo
         
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveSubscription(messageSubscription) { (messagesubscription, error) -> Void in
@@ -445,15 +457,19 @@ extension InboxManager {
                 print("failed to load: \(e.localizedDescription)")
                 return
             }
-        }
-        
-        publicDB.saveSubscription(pageSubscription) { (pagesubscription, error) -> Void in
-            if let e = error {
-                print("failed to load: \(e.localizedDescription)")
-                return
+            publicDB.saveSubscription(pageSubscription) { (pagesubscription, error) -> Void in
+                if let e = error {
+                    print("failed to load: \(e.localizedDescription)")
+                    return
+                }
+                publicDB.saveSubscription(markerSubscription) { (markersubscription, error) -> Void in
+                    if let e = error {
+                        print("failed to load: \(e.localizedDescription)")
+                        return
+                    }
+                }
             }
         }
-        
     }
     
     func createRemoteTopicSubscription() {
@@ -463,7 +479,7 @@ extension InboxManager {
         let notificationInfo = CKNotificationInfo()
         notificationInfo.shouldBadge = true
         notificationInfo.shouldSendContentAvailable = true
-        notificationInfo.alertBody = "YouGotAnAltert"
+        notificationInfo.alertBody = "New Topic"
         subscription.notificationInfo = notificationInfo
         
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
@@ -528,12 +544,74 @@ extension InboxManager {
             if let imageAsset = record!["image"] as? CKAsset ?? nil {
                 image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
             }
+            let topic = record!["topic"] as! [CKReference]
             let page = Page(name: name, description: description, URLString: url, image: image, date: record?.creationDate, recordID: (record?.recordID)!)
+            page.topic = topic
             completionHandler(page)
+        }
+    }
+    
+    func getPublicTopicWithID (topicID: CKRecordID, completionHandler: (Topic?) -> Void) {
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.fetchRecordWithID(topicID) { (record, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+            let name = record!["name"] as! String
+            let users = record!["users"] as! [CKReference]
+            var userNames = [Friend]()
+            for user in users {
+                if let newUser = self.friends[user.recordID.recordName]
+                {
+                    userNames.append(newUser)
+                }
+                
+            }
+            let topic = Topic(name: name, users: userNames, recordID: record!.recordID)
+            completionHandler(topic)
+        }
+    }
+    
+    func getMessageForID (messageID: CKRecordID, completionHandler: (Message?) -> Void) {
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.fetchRecordWithID(messageID) { (message, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+            let body = message!["body"] as! String
+            let senderID = message!["sender"] as! CKReference
+            var sender: Friend!
+            if senderID.recordID.recordName == self.currentUserID.recordName {
+                sender = Friend(firstName: "Me", familyName: "", recordIDString: self.currentUserID.recordName)
+            } else {
+                sender = self.friends[senderID.recordID.recordName]
+                
+            }
+            let date = message!.creationDate
+            let newMessage = Message(sender: sender!, body: body, topic: message!.recordID, date: date!)
+            completionHandler(newMessage)
+        }
+        
+    }
+    
+    func getTopicMarkerForID(recordID: CKRecordID, completionHandler: (TopicMarker?) -> Void) {
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.fetchRecordWithID(recordID) { (record, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+            let date = record!["date"] as! NSDate
+            let topic = record!["topic"] as! CKReference
+            let page = record!["page"] as! CKReference
+            let newMarker = TopicMarker(page: page.recordID, date: date, topic: topic.recordID)
+            completionHandler(newMarker)
+
         }
     }
 
 }
-
 
 

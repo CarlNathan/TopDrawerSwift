@@ -9,6 +9,7 @@
 import UIKit
 import JSQMessagesViewController
 import SafariServices
+import CloudKit
 
 
 class MessageContainerViewController: UIViewController, SFSafariViewControllerDelegate {
@@ -30,6 +31,7 @@ class MessageContainerViewController: UIViewController, SFSafariViewControllerDe
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTopicMarker:", name: "NewTopicMarker", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTopicMarkerDown:", name: "ScrollDown", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTopicMarkerUp:", name: "ScrollUp", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newRemoteTopicMarker:", name: "RemoteMarker", object: nil)
         getTopicMarkers()
     }
 
@@ -83,6 +85,23 @@ class MessageContainerViewController: UIViewController, SFSafariViewControllerDe
             })
         }
     }
+    
+    func newRemoteTopicMarker(sender:NSNotification) {
+        let recordID = sender.userInfo!["topicID"] as! CKRecordID
+        InboxManager.sharedInstance.getTopicMarkerForID(recordID) { (marker) -> Void in
+            
+            self.topicMarkers.append(marker!)
+            InboxManager.sharedInstance.getPageForID(marker!.page!) { (page) -> Void in
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.setTopicMarker(page!)
+                    
+                })
+
+            }
+        }
+    }
+    
     var buttonURL: String?
     func setTopicMarker (page:Page) {
         let image = page.image
