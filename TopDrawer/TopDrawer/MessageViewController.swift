@@ -40,6 +40,11 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         getMessages()
         self.scrollToBottomAnimated(true)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newRemoteMessage:", name: "RemoteMessage", object: nil)
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(Float(2.0) * Float(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+            self.getMessages()
+        }
+        
     }
     
     deinit {
@@ -51,9 +56,12 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         InboxManager.sharedInstance.getMessageForID(recordID) { (message) -> Void in
             if message?.topicRef == self.topic?.recordID {
                 self.messages.append(message!)
+                self.addJSQMessage(message!)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.collectionView?.reloadData()
                 })
+            } else {
+                print("Off topic")
             }
         }
 
@@ -88,6 +96,16 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         self.jsqMessages = newMessages
     }
 
+    func addJSQMessage(message: Message) {
+        let senderID = message.sender.recordID
+        let senderName = message.sender.firstName! + " " + message.sender.familyName!
+        let text = message.body
+        let date = message.date
+        let newMessage = JSQMessage(senderId: senderID, senderDisplayName: senderName, date: date, text: text)
+        jsqMessages.append(newMessage)
+
+    }
+    
 }
 
 extension MessageViewController {
@@ -195,12 +213,12 @@ extension MessageViewController {
         let marker = TopicMarker(page: page.pageID, date: NSDate(), topic: self.topic!.recordID!)
         NSNotificationCenter.defaultCenter().postNotificationName("NewTopicMarker", object: self, userInfo:["marker":marker])
         //insert marker message
-        let message = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: NSDate(), text: "#topic#" + page.name!)
+        let message = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: NSDate(), text: "#" + page.name!)
         self.jsqMessages += [message]
         self.finishSendingMessage()
         
         //warning: save new messageobject
-        let cloudMessage = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: "#topic#" + page.name!, topic: (self.topic?.recordID)!, date: NSDate())
+        let cloudMessage = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: "#" + page.name!, topic: (self.topic?.recordID)!, date: NSDate())
         InboxManager.sharedInstance.saveMessage(cloudMessage)
         self.scrollToBottomAnimated(true)
     }

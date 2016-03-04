@@ -74,6 +74,10 @@ class NewTopicViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func cancelWasPressed(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        nameTextField.resignFirstResponder()
+    }
 }
 
 class FriendTableViewCell: UITableViewCell {

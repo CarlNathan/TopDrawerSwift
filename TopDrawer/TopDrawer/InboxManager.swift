@@ -590,7 +590,9 @@ extension InboxManager {
                 
             }
             let date = message!.creationDate
-            let newMessage = Message(sender: sender!, body: body, topic: message!.recordID, date: date!)
+            let topic = message!["topic"] as! [CKReference]
+            var newMessage = Message(sender: sender!, body: body, topic: message!.recordID, date: date!)
+            newMessage.topicRef = topic[0].recordID
             completionHandler(newMessage)
         }
         
