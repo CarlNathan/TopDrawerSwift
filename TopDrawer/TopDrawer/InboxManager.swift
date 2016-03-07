@@ -420,16 +420,16 @@ extension InboxManager {
     func createSubscriptions (recordID: CKRecordID) {
         
         let messageRef = CKReference(recordID: recordID, action: .None)
-        let messagePredicate = NSPredicate(format: "%K CONTAINS %@" , "topic", messageRef)
+        let messagePredicate = NSPredicate(format: "%K CONTAINS %@" , "topic", [messageRef])
         let pageRef = CKReference(recordID: recordID, action: .None)
-        let pagePredicate = NSPredicate(format: "%K CONTAINS %@", "topic", pageRef)
+        let pagePredicate = NSPredicate(format: "%K CONTAINS %@", "topic", [pageRef])
         let markerRef = CKReference(recordID: recordID, action: .None)
         let markerPredicate = NSPredicate(format: "%K = %@" , "topic", markerRef)
 
         
 
         let messageSubscription = CKSubscription(recordType: "Message", predicate: messagePredicate, options: CKSubscriptionOptions.FiresOnRecordCreation)
-        let pageSubscription = CKSubscription(recordType: "Page", predicate: pagePredicate, options:[CKSubscriptionOptions.FiresOnRecordCreation, CKSubscriptionOptions.FiresOnRecordUpdate])
+        let pageSubscription = CKSubscription(recordType: "Page", predicate: pagePredicate, options:CKSubscriptionOptions.FiresOnRecordCreation)
         let markerSubscription = CKSubscription(recordType: "TopicMarker", predicate: markerPredicate, options: CKSubscriptionOptions.FiresOnRecordCreation)
 
         let messageNotificationInfo = CKNotificationInfo()
@@ -457,20 +457,22 @@ extension InboxManager {
                 print("failed to load: \(e.localizedDescription)")
                 return
             }
-            publicDB.saveSubscription(pageSubscription) { (pagesubscription, error) -> Void in
-                if let e = error {
-                    print("failed to load: \(e.localizedDescription)")
-                    return
-                }
-                publicDB.saveSubscription(markerSubscription) { (markersubscription, error) -> Void in
-                    if let e = error {
-                        print("failed to load: \(e.localizedDescription)")
-                        return
-                    }
-                }
+        }
+        publicDB.saveSubscription(pageSubscription) { (pagesubscription, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+        }
+        publicDB.saveSubscription(markerSubscription) { (markersubscription, error) -> Void in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
             }
         }
     }
+    
+
     
     func createRemoteTopicSubscription() {
         let predicate = NSPredicate(format: "%K CONTAINS %@" , "users", CKReference(recordID: self.currentUserID, action: .None))

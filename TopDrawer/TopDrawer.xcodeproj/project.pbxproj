@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9C5E79F91B505887123C88F3 /* Pods_TopDrawer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7CB34F0BF65C798C980B92D /* Pods_TopDrawer.framework */; };
+		ED01502B1C8B4BB100CF0978 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D821C7B83A900C0C306 /* Assets.xcassets */; };
 		ED2B08151C7F48E30007949E /* SharedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08141C7F48E30007949E /* SharedTableViewController.swift */; };
 		ED2B08181C7F49780007949E /* MessageContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08171C7F49780007949E /* MessageContainerViewController.swift */; };
 		ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08191C7F49D10007949E /* TrayCollectionViewController.swift */; };
@@ -577,6 +578,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDAC5DBC1C7BC7CC00C0C306 /* MainInterface.storyboard in Resources */,
+				ED01502B1C8B4BB100CF0978 /* Assets.xcassets in Resources */,
 				EDAC5DC71C7BDC3900C0C306 /* getURLinfo.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -950,6 +952,7 @@
 		EDAC5DC21C7BC7CC00C0C306 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				CODE_SIGN_ENTITLEMENTS = TopDrawerActionExtension/TopDrawerActionExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -965,6 +968,7 @@
 		EDAC5DC31C7BC7CC00C0C306 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				CODE_SIGN_ENTITLEMENTS = TopDrawerActionExtension/TopDrawerActionExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
