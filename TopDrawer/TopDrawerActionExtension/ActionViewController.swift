@@ -16,11 +16,15 @@ class ActionViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
+    let backgroundImageView = UIImageView()
+    var animator: UIDynamicAnimator!
     var URLString: String!
     var imageString: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupView()
     
         // Get the item[s] we're handling from the extension context.
         
@@ -54,6 +58,7 @@ class ActionViewController: UIViewController {
                                         let image = UIImage(data: data!)
                                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                             self.imageView.image = image
+                                            self.backgroundImageView.image = image
 
                                         })
                                     }
@@ -114,8 +119,26 @@ class ActionViewController: UIViewController {
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
     }
     
-
-    func doSomething() {
-        let button = TextField()
+    func setupView(){
+        let blur = UIBlurEffect(style: .Dark)
+        let blurEffectView = UIVisualEffectView(effect: blur)
+       
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        
+        view.addSubview(blurEffectView)
+        view.sendSubviewToBack(blurEffectView)
+        
+        backgroundImageView.frame = view.frame
+        view.addSubview(backgroundImageView)
+        view.sendSubviewToBack(backgroundImageView)
+        backgroundImageView.contentMode = .ScaleAspectFill
+        
+        animator = UIDynamicAnimator(referenceView: view)
+        let spring = UISnapBehavior(item: imageView, snapToPoint: CGPointMake(200, 200))
+        spring.damping = 0.5
+        imageView.userInteractionEnabled = true
+        animator.addBehavior(spring)
     }
+    
 }

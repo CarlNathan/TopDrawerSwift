@@ -7,3 +7,8 @@
 //
 
 import Foundation
+import Material
+
+class CustomTextField: TextField {
+    
+}
