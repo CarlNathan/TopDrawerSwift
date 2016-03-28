@@ -6,7 +6,7 @@
 target 'TopDrawer' do
 
 pod 'JSQMessagesViewController'
-
+pod 'Material'
 end
 
 target 'TopDrawerTests' do
