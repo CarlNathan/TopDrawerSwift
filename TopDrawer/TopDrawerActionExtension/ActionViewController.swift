@@ -12,15 +12,19 @@ import CloudKit
 import Material
 
 class ActionViewController: UIViewController {
+
     
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var descriptionTextView: UITextView!
-    let backgroundImageView = UIImageView()
-    var animator: UIDynamicAnimator!
     var URLString: String!
     var imageString: String!
-
+    let imageView = UIImageView()
+    let customTextField: CustomTextField = CustomTextField(frame: CGRectMake(0, 0, 0, 0), title: "Title")
+    let customTextView: CustomTextView = CustomTextView(frame: CGRectMake(0, 0, 0, 0), title: "Title")
+    
+    
+    @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var blurLayer: UIVisualEffectView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,9 +44,9 @@ class ActionViewController: UIViewController {
                     itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil, completionHandler: { (result: NSSecureCoding?, error: NSError!) -> Void in
                         if let resultDict = result as? NSDictionary {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["title"] as? String ?? ""
+                                self.customTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["title"] as? String ?? ""
 //                                self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["host"] as! String
-                                self.descriptionTextView.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["description"] as! String
+                                self.customTextView.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["description"] as! String
                             self.imageString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["image"] as? String
                                 self.URLString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["url"] as! String
                                 
@@ -58,7 +62,7 @@ class ActionViewController: UIViewController {
                                         let image = UIImage(data: data!)
                                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                             self.imageView.image = image
-                                            self.backgroundImageView.image = image
+                                            self.backgroundImage.image = image
 
                                         })
                                     }
@@ -85,14 +89,14 @@ class ActionViewController: UIViewController {
         
         let pageRecord = CKRecord(recordType: "Page")
         
-        pageRecord["name"] = self.nameTextField.text!
-        pageRecord["description"] = self.descriptionTextView.text
+        pageRecord["name"] = self.customTextField.text!
+        pageRecord["description"] = self.customTextView.text
         pageRecord["date"] = NSDate()
         pageRecord["URLString"] = URLString
         if let image = self.imageView.image {
             let data = UIImagePNGRepresentation(image)
             let directory = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-            let path = directory.path! + "/\(self.nameTextField.text).png"
+            let path = directory.path! + "/\(self.customTextField.text).png"
             data!.writeToFile(path, atomically: false)
             pageRecord["image"] = CKAsset(fileURL: NSURL(fileURLWithPath: path))
         }
@@ -120,25 +124,29 @@ class ActionViewController: UIViewController {
     }
     
     func setupView(){
-        let blur = UIBlurEffect(style: .Dark)
-        let blurEffectView = UIVisualEffectView(effect: blur)
-       
-        blurEffectView.frame = self.view.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         
-        view.addSubview(blurEffectView)
-        view.sendSubviewToBack(blurEffectView)
+        view.addSubview(customTextField)
+        view.addSubview(customTextView)
+        imageView.contentMode = .ScaleAspectFit
+        view.addSubview(imageView)
         
-        backgroundImageView.frame = view.frame
-        view.addSubview(backgroundImageView)
-        view.sendSubviewToBack(backgroundImageView)
-        backgroundImageView.contentMode = .ScaleAspectFill
+    }
+    
+    override func viewDidLayoutSubviews() {
+        let screenSize = view.bounds
+        let margin = screenSize.width/10
+        let imageHeight = screenSize.height/5
+        let imageWidth = screenSize.width
+        let textWidth = screenSize.width - 2*margin
+        let textFieldHeight = CGFloat(30.0)
+        let textViewHeight = screenSize.height/3
         
-        animator = UIDynamicAnimator(referenceView: view)
-        let spring = UISnapBehavior(item: imageView, snapToPoint: CGPointMake(200, 200))
-        spring.damping = 0.5
-        imageView.userInteractionEnabled = true
-        animator.addBehavior(spring)
+        imageView.frame = CGRectMake(0, margin, imageWidth, imageHeight)
+        customTextField.frame = CGRectMake(margin, 2*margin + imageHeight, textWidth, textFieldHeight)
+        customTextView.frame = CGRectMake(margin, 4*margin + imageHeight + textFieldHeight, textWidth, textViewHeight)
+        
+        
+
     }
     
 }

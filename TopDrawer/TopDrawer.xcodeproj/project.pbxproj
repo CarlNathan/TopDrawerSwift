@@ -27,6 +27,7 @@
 		ED5EBEC01C84ED52009951BB /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEBF1C84ED52009951BB /* ShareViewController.swift */; };
 		ED5EBEC31C84ED52009951BB /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED5EBEC11C84ED52009951BB /* MainInterface.storyboard */; };
 		ED5EBEC71C84ED52009951BB /* TestShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = ED5EBEBD1C84ED52009951BB /* TestShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		ED9144241CA9DB3500AC3122 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9144231CA9DB3500AC3122 /* CustomTextView.swift */; };
 		EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */; };
 		EDAC5D811C7B83A900C0C306 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */; };
 		EDAC5D831C7B83A900C0C306 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D821C7B83A900C0C306 /* Assets.xcassets */; };
@@ -122,6 +123,7 @@
 		ED5EBEC21C84ED52009951BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		ED5EBEC41C84ED52009951BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED73EF081CA9A46600331CC2 /* Material.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Material.framework; path = "Pods/../build/Release-iphoneos/Material.framework"; sourceTree = "<group>"; };
+		ED9144231CA9DB3500AC3122 /* CustomTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		EDAC5D781C7B83A900C0C306 /* TopDrawer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopDrawer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDAC5D801C7B83A900C0C306 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				EDAC5DC51C7BC86600C0C306 /* TopDrawerActionExtension.entitlements */,
 				EDAC5DB81C7BC7CC00C0C306 /* ActionViewController.swift */,
 				ED4AB5241CA9C62800A9171F /* CustomTextField.swift */,
+				ED9144231CA9DB3500AC3122 /* CustomTextView.swift */,
 				EDAC5DC61C7BDC3900C0C306 /* getURLinfo.js */,
 				EDAC5DBA1C7BC7CC00C0C306 /* MainInterface.storyboard */,
 				EDAC5DBD1C7BC7CC00C0C306 /* Info.plist */,
@@ -702,6 +705,7 @@
 			files = (
 				ED4AB5251CA9C62800A9171F /* CustomTextField.swift in Sources */,
 				EDAC5DB91C7BC7CC00C0C306 /* ActionViewController.swift in Sources */,
+				ED9144241CA9DB3500AC3122 /* CustomTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
