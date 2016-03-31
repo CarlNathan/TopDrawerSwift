@@ -20,14 +20,15 @@ class CustomTextView: TextView {
         backgroundColor = MaterialColor.clear
         placeholderLabel = UILabel()
         placeholderLabel?.text = title
-        placeholderLabel?.textColor = MaterialColor.blue.base
+        placeholderLabel?.textColor = MaterialColor.blue.accent1
+        placeholderLabel?.font = RobotoFont.regularWithSize(14)
         titleLabel = UILabel()
         titleLabel?.text = title
         titleLabel!.font = RobotoFont.mediumWithSize(12)
         titleLabel?.textColor = MaterialColor.blue.accent1
         titleLabelActiveColor = MaterialColor.blue.accent1
-        font = RobotoFont.regularWithSize(20)
-        textColor = MaterialColor.white
+        font = RobotoFont.regularWithSize(14)
+        textColor = MaterialColor.grey.darken2
         
     }
     

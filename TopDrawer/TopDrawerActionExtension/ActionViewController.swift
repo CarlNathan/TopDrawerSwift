@@ -17,9 +17,8 @@ class ActionViewController: UIViewController {
     var URLString: String!
     var imageString: String!
     let imageView = UIImageView()
-    let customTextField: CustomTextField = CustomTextField(frame: CGRectMake(0, 0, 0, 0), title: "Title")
-    let customTextView: CustomTextView = CustomTextView(frame: CGRectMake(0, 0, 0, 0), title: "Title")
-    
+    let imageCardView: ImageCardView = ImageCardView()
+    let detailView = DetailView(frame: CGRectMake(0,0,500,500))
     
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var blurLayer: UIVisualEffectView!
@@ -29,6 +28,8 @@ class ActionViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
+        setupKeyboardNotifications()
+        setupCardView()
     
         // Get the item[s] we're handling from the extension context.
         
@@ -44,9 +45,9 @@ class ActionViewController: UIViewController {
                     itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil, completionHandler: { (result: NSSecureCoding?, error: NSError!) -> Void in
                         if let resultDict = result as? NSDictionary {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                self.customTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["title"] as? String ?? ""
+                                self.detailView.titleField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["title"] as? String ?? ""
 //                                self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["host"] as! String
-                                self.customTextView.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["description"] as! String
+                                self.detailView.descriptionView.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["description"] as! String
                             self.imageString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["image"] as? String
                                 self.URLString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["url"] as! String
                                 
@@ -61,8 +62,8 @@ class ActionViewController: UIViewController {
                                         }
                                         let image = UIImage(data: data!)
                                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                            self.imageView.image = image
                                             self.backgroundImage.image = image
+                                            self.imageCardView.image = image
 
                                         })
                                     }
@@ -83,20 +84,20 @@ class ActionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func save(sender: AnyObject) {
+    func save() {
         
         let privateDB = CKContainer.init(identifier: "iCloud.Carl-Udren.TopDrawer").privateCloudDatabase
         
         let pageRecord = CKRecord(recordType: "Page")
         
-        pageRecord["name"] = self.customTextField.text!
-        pageRecord["description"] = self.customTextView.text
+        pageRecord["name"] = self.detailView.titleField.text!
+        pageRecord["description"] = self.detailView.descriptionView.text
         pageRecord["date"] = NSDate()
         pageRecord["URLString"] = URLString
         if let image = self.imageView.image {
             let data = UIImagePNGRepresentation(image)
             let directory = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-            let path = directory.path! + "/\(self.customTextField.text).png"
+            let path = directory.path! + "/\(self.detailView.titleField.text).png"
             data!.writeToFile(path, atomically: false)
             pageRecord["image"] = CKAsset(fileURL: NSURL(fileURLWithPath: path))
         }
@@ -117,7 +118,7 @@ class ActionViewController: UIViewController {
         
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
     }
-    @IBAction func cancel() {
+    func cancel() {
         // Return any edited content to the host app.
         // This template doesn't do anything, so we just echo the passed in items.
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
@@ -125,28 +126,95 @@ class ActionViewController: UIViewController {
     
     func setupView(){
         
-        view.addSubview(customTextField)
-        view.addSubview(customTextView)
-        imageView.contentMode = .ScaleAspectFit
-        view.addSubview(imageView)
+    }
+    
+    func setupCardView(){
+        // Image.
+        let size: CGSize = CGSizeMake(UIScreen.mainScreen().bounds.width - CGFloat(40), 80)
+        imageCardView.image = UIImage.imageWithColor(MaterialColor.deepOrange.darken1, size: size)
+        imageCardView.maxImageHeight = 100
+        
+        // Title label.
+        let titleLabel: UILabel = UILabel()
+        titleLabel.text = "TopDrawer.Save Page"
+        titleLabel.textColor = MaterialColor.white
+        titleLabel.font = RobotoFont.mediumWithSize(18)
+        imageCardView.titleLabel = titleLabel
+        imageCardView.titleLabelInset.top = 50
+        
+        // Detail label.
+        imageCardView.detailView = detailView
+        imageView.backgroundColor = UIColor.redColor()
+        imageCardView.detailViewInset.top = 30
+        
+        // Yes button.
+        let btn1 = RaisedButton()
+        btn1.backgroundColor = MaterialColor.blue.accent1
+        btn1.pulseColor = MaterialColor.white
+        btn1.pulseScale = false
+        btn1.setTitle("      SAVE      ", forState: .Normal)
+        btn1.setTitleColor(MaterialColor.white, forState: .Normal)
+        btn1.addTarget(self, action: #selector(save), forControlEvents: .TouchUpInside)
+        
+        // No button.
+        let btn2: FlatButton = FlatButton()
+        btn2.pulseColor = MaterialColor.blue.accent1
+        btn2.backgroundColor = MaterialColor.white
+        btn2.depth = .Depth1
+        btn2.pulseScale = false
+        btn2.setTitle("CANCEL", forState: .Normal)
+        btn2.setTitleColor(MaterialColor.blue.accent1, forState: .Normal)
+        btn2.addTarget(self, action: #selector(cancel), forControlEvents: .TouchUpInside)
+
+        
+        // Add buttons to left side.
+        imageCardView.leftButtons = [btn2]
+        imageCardView.rightButtons = [btn1]
+        
+        // To support orientation changes, use MaterialLayout.
+        view.addSubview(imageCardView)
         
     }
     
     override func viewDidLayoutSubviews() {
-        let screenSize = view.bounds
-        let margin = screenSize.width/10
-        let imageHeight = screenSize.height/5
-        let imageWidth = screenSize.width
-        let textWidth = screenSize.width - 2*margin
-        let textFieldHeight = CGFloat(30.0)
-        let textViewHeight = screenSize.height/3
         
-        imageView.frame = CGRectMake(0, margin, imageWidth, imageHeight)
-        customTextField.frame = CGRectMake(margin, 2*margin + imageHeight, textWidth, textFieldHeight)
-        customTextView.frame = CGRectMake(margin, 4*margin + imageHeight + textFieldHeight, textWidth, textViewHeight)
-        
+        imageCardView.translatesAutoresizingMaskIntoConstraints = false
+        MaterialLayout.alignToParentHorizontally(view, child: imageCardView, left: 20, right: 20)
+        MaterialLayout.alignFromTop(view, child: imageCardView, top: 70)
+        MaterialLayout.alignFromBottom(view, child: imageCardView, bottom: 100)
         
 
     }
     
+    func setupKeyboardNotifications(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidShow), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidHide), name: UIKeyboardDidHideNotification, object: nil)
+    }
+    
+    func keyboardDidShow(){
+        previousDetailFrame = self.detailView.frame
+        detailView.removeFromSuperview()
+        view.addSubview(detailView)
+        UIView.animateWithDuration(0.5) {
+            self.detailView.backgroundColor = MaterialColor.white
+            self.detailView.frame = self.imageCardView.frame
+        }
+    }
+    
+    var previousDetailFrame: CGRect?
+    
+    func keyboardDidHide(){
+        detailView.removeFromSuperview()
+        imageCardView.detailView = detailView
+        UIView.animateWithDuration(0.5) {
+            self.detailView.backgroundColor = MaterialColor.clear
+            self.detailView.frame = self.previousDetailFrame!
+            
+        }
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        detailView.titleField.resignFirstResponder()
+        detailView.descriptionView.resignFirstResponder()
+    }
 }

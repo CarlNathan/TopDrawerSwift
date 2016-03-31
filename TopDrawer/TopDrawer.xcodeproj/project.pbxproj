@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9C5E79F91B505887123C88F3 /* Pods_TopDrawer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7CB34F0BF65C798C980B92D /* Pods_TopDrawer.framework */; };
 		ED01502B1C8B4BB100CF0978 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D821C7B83A900C0C306 /* Assets.xcassets */; };
+		ED01CAE61CAA0FDA0086F669 /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED73EF081CA9A46600331CC2 /* Material.framework */; };
+		ED01CAEC1CAC590C0086F669 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED01CAEB1CAC590C0086F669 /* DetailView.swift */; };
 		ED2B08151C7F48E30007949E /* SharedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08141C7F48E30007949E /* SharedTableViewController.swift */; };
 		ED2B08181C7F49780007949E /* MessageContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08171C7F49780007949E /* MessageContainerViewController.swift */; };
 		ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08191C7F49D10007949E /* TrayCollectionViewController.swift */; };
@@ -103,6 +105,7 @@
 /* Begin PBXFileReference section */
 		406B90A0928C8301F9FB8F65 /* Pods-TopDrawer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopDrawer.release.xcconfig"; path = "Pods/Target Support Files/Pods-TopDrawer/Pods-TopDrawer.release.xcconfig"; sourceTree = "<group>"; };
 		66A753FD5ADB8738A512837E /* Pods-TopDrawer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopDrawer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TopDrawer/Pods-TopDrawer.debug.xcconfig"; sourceTree = "<group>"; };
+		ED01CAEB1CAC590C0086F669 /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		ED2B08141C7F48E30007949E /* SharedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTableViewController.swift; sourceTree = "<group>"; };
 		ED2B08171C7F49780007949E /* MessageContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageContainerViewController.swift; sourceTree = "<group>"; };
 		ED2B08191C7F49D10007949E /* TrayCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrayCollectionViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDAC5DC81C7CC56700C0C306 /* CloudKit.framework in Frameworks */,
+				ED01CAE61CAA0FDA0086F669 /* Material.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +329,7 @@
 				EDAC5DB81C7BC7CC00C0C306 /* ActionViewController.swift */,
 				ED4AB5241CA9C62800A9171F /* CustomTextField.swift */,
 				ED9144231CA9DB3500AC3122 /* CustomTextView.swift */,
+				ED01CAEB1CAC590C0086F669 /* DetailView.swift */,
 				EDAC5DC61C7BDC3900C0C306 /* getURLinfo.js */,
 				EDAC5DBA1C7BC7CC00C0C306 /* MainInterface.storyboard */,
 				EDAC5DBD1C7BC7CC00C0C306 /* Info.plist */,
@@ -400,12 +405,12 @@
 			buildConfigurationList = EDAC5DA01C7B83AA00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawer" */;
 			buildPhases = (
 				963F3B7EA9DAF6A0AC9C45E5 /* Check Pods Manifest.lock */,
-				EDAC5D741C7B83A900C0C306 /* Sources */,
 				EDAC5D751C7B83A900C0C306 /* Frameworks */,
 				EDAC5D761C7B83A900C0C306 /* Resources */,
-				EDAC5DC41C7BC7CC00C0C306 /* Embed App Extensions */,
 				522D27C5EF545C7049CE58E3 /* Embed Pods Frameworks */,
+				EDAC5DC41C7BC7CC00C0C306 /* Embed App Extensions */,
 				D239D47B456590DF6BA6FD37 /* Copy Pods Resources */,
+				EDAC5D741C7B83A900C0C306 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -704,6 +709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED4AB5251CA9C62800A9171F /* CustomTextField.swift in Sources */,
+				ED01CAEC1CAC590C0086F669 /* DetailView.swift in Sources */,
 				EDAC5DB91C7BC7CC00C0C306 /* ActionViewController.swift in Sources */,
 				ED9144241CA9DB3500AC3122 /* CustomTextView.swift in Sources */,
 			);
@@ -977,6 +983,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
+				);
 				INFOPLIST_FILE = TopDrawerActionExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.TopDrawerActionExtension";
@@ -994,6 +1004,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
+				);
 				INFOPLIST_FILE = TopDrawerActionExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.TopDrawerActionExtension";
