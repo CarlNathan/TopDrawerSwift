@@ -54,6 +54,7 @@
 		EDADFF211C8674AB0055867E /* TopicMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDADFF201C8674AB0055867E /* TopicMarker.swift */; };
 		EDADFF251C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDADFF241C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift */; };
 		EDADFF271C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDADFF261C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift */; };
+		EDED75C41CB32C350071A36F /* App downloads (2).png in Resources */ = {isa = PBXBuildFile; fileRef = EDED75C31CB32C350071A36F /* App downloads (2).png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +160,7 @@
 		EDADFF201C8674AB0055867E /* TopicMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarker.swift; sourceTree = "<group>"; };
 		EDADFF241C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarkerSelectionTableViewController.swift; sourceTree = "<group>"; };
 		EDADFF261C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarkerSelectionTableViewCell.swift; sourceTree = "<group>"; };
+		EDED75C31CB32C350071A36F /* App downloads (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App downloads (2).png"; sourceTree = "<group>"; };
 		F7CB34F0BF65C798C980B92D /* Pods_TopDrawer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopDrawer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -330,6 +332,7 @@
 				ED4AB5241CA9C62800A9171F /* CustomTextField.swift */,
 				ED9144231CA9DB3500AC3122 /* CustomTextView.swift */,
 				ED01CAEB1CAC590C0086F669 /* DetailView.swift */,
+				EDED75C31CB32C350071A36F /* App downloads (2).png */,
 				EDAC5DC61C7BDC3900C0C306 /* getURLinfo.js */,
 				EDAC5DBA1C7BC7CC00C0C306 /* MainInterface.storyboard */,
 				EDAC5DBD1C7BC7CC00C0C306 /* Info.plist */,
@@ -593,6 +596,7 @@
 				EDAC5DBC1C7BC7CC00C0C306 /* MainInterface.storyboard in Resources */,
 				ED01502B1C8B4BB100CF0978 /* Assets.xcassets in Resources */,
 				EDAC5DC71C7BDC3900C0C306 /* getURLinfo.js in Resources */,
+				EDED75C41CB32C350071A36F /* App downloads (2).png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

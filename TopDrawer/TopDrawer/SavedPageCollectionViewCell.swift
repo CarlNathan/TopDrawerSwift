@@ -7,15 +7,37 @@
 //
 
 import UIKit
+import Material
 
 class SavedPageCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var nameLabel: UILabel!
-    var page: Page!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    var cardView: CardView!
+    var imageView = MaterialPulseView()
+    var page: Page! {
+        didSet {
+            imageView.image = page.image
+            cardView.titleLabel!.text = page.name
+        }
+    }
     
-        //Mark: - actionSheet
     
+    override func init() {
+        self.frame = frame
+        setupCardView()
+    }
+    override func layoutSubviews() {
+        contentView.grid
+    }
     
+    override func prepareForReuse() {
+        self.imageView.image = nil
+    }
+    
+    func setupCardView() {
+        cardView = CardView(frame: <#T##CGRect#>)
+    }
+    
+    func setupImageView() {
+        contentView.addSubview(imageView)
+    }
 }

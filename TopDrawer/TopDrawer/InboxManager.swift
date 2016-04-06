@@ -20,7 +20,9 @@ class InboxManager {
     func getCurrentUserID () {
         let container = CKContainer.defaultContainer()
         container.fetchUserRecordIDWithCompletionHandler { (userID, error) -> Void in
-            self.currentUserID = userID!
+            if let user = userID {
+                self.currentUserID = user
+            }
             self.createRemoteTopicSubscription()
         }
     }

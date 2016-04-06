@@ -16,9 +16,12 @@ class ActionViewController: UIViewController {
     
     var URLString: String!
     var imageString: String!
-    let imageView = UIImageView()
     let imageCardView: ImageCardView = ImageCardView()
     let detailView = DetailView(frame: CGRectMake(0,0,500,500))
+    lazy var animator: UIDynamicAnimator = {
+        return UIDynamicAnimator(referenceView: self.view)
+    }()
+    var attachment: UIAttachmentBehavior!
     
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var blurLayer: UIVisualEffectView!
@@ -27,9 +30,9 @@ class ActionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupView()
         setupKeyboardNotifications()
         setupCardView()
+        setupCardViewSnapBehavior()
     
         // Get the item[s] we're handling from the extension context.
         
@@ -94,7 +97,7 @@ class ActionViewController: UIViewController {
         pageRecord["description"] = self.detailView.descriptionView.text
         pageRecord["date"] = NSDate()
         pageRecord["URLString"] = URLString
-        if let image = self.imageView.image {
+        if let image = self.backgroundImage.image {
             let data = UIImagePNGRepresentation(image)
             let directory = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
             let path = directory.path! + "/\(self.detailView.titleField.text).png"
@@ -122,17 +125,16 @@ class ActionViewController: UIViewController {
         // Return any edited content to the host app.
         // This template doesn't do anything, so we just echo the passed in items.
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
+    
     }
     
-    func setupView(){
-        
-    }
     
     func setupCardView(){
         // Image.
         let size: CGSize = CGSizeMake(UIScreen.mainScreen().bounds.width - CGFloat(40), 80)
         imageCardView.image = UIImage.imageWithColor(MaterialColor.deepOrange.darken1, size: size)
         imageCardView.maxImageHeight = 100
+        imageCardView.imageLayer!.contentsGravity = kCAGravityResizeAspectFill
         
         // Title label.
         let titleLabel: UILabel = UILabel()
@@ -144,26 +146,26 @@ class ActionViewController: UIViewController {
         
         // Detail label.
         imageCardView.detailView = detailView
-        imageView.backgroundColor = UIColor.redColor()
         imageCardView.detailViewInset.top = 30
         
         // Yes button.
-        let btn1 = RaisedButton()
-        btn1.backgroundColor = MaterialColor.blue.accent1
-        btn1.pulseColor = MaterialColor.white
+        let btn1 = FlatButton()
+        btn1.backgroundColor = MaterialColor.clear
+        btn1.pulseColor = MaterialColor.blue.accent1
         btn1.pulseScale = false
         btn1.setTitle("      SAVE      ", forState: .Normal)
-        btn1.setTitleColor(MaterialColor.white, forState: .Normal)
+        btn1.setTitleColor(MaterialColor.blue.accent1, forState: .Normal)
+        btn1.titleLabel!.font = RobotoFont.lightWithSize(16)
         btn1.addTarget(self, action: #selector(save), forControlEvents: .TouchUpInside)
         
         // No button.
         let btn2: FlatButton = FlatButton()
-        btn2.pulseColor = MaterialColor.blue.accent1
-        btn2.backgroundColor = MaterialColor.white
-        btn2.depth = .Depth1
+        btn2.pulseColor = MaterialColor.red.accent1
+        btn2.backgroundColor = MaterialColor.clear
         btn2.pulseScale = false
-        btn2.setTitle("CANCEL", forState: .Normal)
-        btn2.setTitleColor(MaterialColor.blue.accent1, forState: .Normal)
+        btn2.setTitle("  CANCEL  ", forState: .Normal)
+        btn2.titleLabel!.font = RobotoFont.lightWithSize(16)
+        btn2.setTitleColor(MaterialColor.red.accent1, forState: .Normal)
         btn2.addTarget(self, action: #selector(cancel), forControlEvents: .TouchUpInside)
 
         
@@ -172,8 +174,19 @@ class ActionViewController: UIViewController {
         imageCardView.rightButtons = [btn1]
         
         // To support orientation changes, use MaterialLayout.
+        imageCardView.frame = view.frame
         view.addSubview(imageCardView)
         
+    }
+    
+    func setupCardViewSnapBehavior(){
+        
+        let snap = UISnapBehavior(item: self.imageCardView, snapToPoint: view.center)
+        snap.damping = 0.5
+        animator.addBehavior(snap)
+        
+        let swipe = UIPanGestureRecognizer(target: self, action: #selector(didPan))
+        imageCardView.addGestureRecognizer(swipe)
     }
     
     override func viewDidLayoutSubviews() {
@@ -182,33 +195,56 @@ class ActionViewController: UIViewController {
         MaterialLayout.alignToParentHorizontally(view, child: imageCardView, left: 20, right: 20)
         MaterialLayout.alignFromTop(view, child: imageCardView, top: 70)
         MaterialLayout.alignFromBottom(view, child: imageCardView, bottom: 100)
-        
 
     }
     
-    func setupKeyboardNotifications(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidShow), name: UIKeyboardWillShowNotification, object: nil)
+    func didPan(gesture: UIPanGestureRecognizer) {
+        let detailLocation = gesture.locationInView(gesture.view!)
+        let location = gesture.locationInView(gesture.view!.superview)
+        switch gesture.state {
+        case .Began:
+            animator.removeAllBehaviors()
+            let offset = UIOffsetMake(detailLocation.x - CGRectGetMidX(detailView.bounds), detailLocation.y - CGRectGetMidY(detailView.bounds))
+            attachment = UIAttachmentBehavior(item: gesture.view!, offsetFromCenter: offset, attachedToAnchor: location)
+            attachment.length = 10
+            attachment.frictionTorque = 0.05
+            
+            animator.addBehavior(attachment)
+            if let cancel = imageCardView.leftButtons![0] as? FlatButton {
+                cancel.pulse()
+            }
+            if let save = self.imageCardView.rightButtons![0] as? FlatButton {
+                save.pulse()
+            }
+        case .Changed:
+             attachment.anchorPoint = location;
+        case .Ended:
+            animator.removeAllBehaviors()
+            let snap = UISnapBehavior(item: gesture.view!, snapToPoint: view.center)
+            animator.addBehavior(snap)
+        default:
+            return
+        }
+        
+    }
+    
+        func setupKeyboardNotifications(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidShow), name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidHide), name: UIKeyboardDidHideNotification, object: nil)
     }
     
     func keyboardDidShow(){
-        previousDetailFrame = self.detailView.frame
-        detailView.removeFromSuperview()
-        view.addSubview(detailView)
         UIView.animateWithDuration(0.5) {
             self.detailView.backgroundColor = MaterialColor.white
-            self.detailView.frame = self.imageCardView.frame
+            self.detailView.center.y -= 100
         }
     }
     
-    var previousDetailFrame: CGRect?
-    
     func keyboardDidHide(){
-        detailView.removeFromSuperview()
-        imageCardView.detailView = detailView
+        
         UIView.animateWithDuration(0.5) {
             self.detailView.backgroundColor = MaterialColor.clear
-            self.detailView.frame = self.previousDetailFrame!
+            self.detailView.center.y += 100
             
         }
     }

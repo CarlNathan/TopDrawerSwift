@@ -9,6 +9,7 @@
 import Foundation
 import Material
 
+
 class CustomTextField: TextField {
     
     override init(frame: CGRect) {
@@ -29,6 +30,7 @@ class CustomTextField: TextField {
         font = RobotoFont.regularWithSize(14)
         textColor = MaterialColor.grey.darken2
         bottomBorderColor = MaterialColor.blue.accent1
+        returnKeyType = .Done
         
         let image = UIImage(named: "App Downloads (2)")?.imageWithRenderingMode(.AlwaysTemplate)
         

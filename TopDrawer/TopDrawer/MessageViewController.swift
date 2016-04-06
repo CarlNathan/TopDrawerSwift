@@ -39,7 +39,7 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         // Do any additional setup after loading the view.
         getMessages()
         self.scrollToBottomAnimated(true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newRemoteMessage:", name: "RemoteMessage", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageViewController.newRemoteMessage(_:)), name: "RemoteMessage", object: nil)
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(Float(2.0) * Float(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
             self.getMessages()

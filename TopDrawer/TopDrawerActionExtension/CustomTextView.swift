@@ -9,6 +9,7 @@
 import Foundation
 import Material
 
+
 class CustomTextView: TextView {
     
     init(frame: CGRect){
@@ -29,11 +30,13 @@ class CustomTextView: TextView {
         titleLabelActiveColor = MaterialColor.blue.accent1
         font = RobotoFont.regularWithSize(14)
         textColor = MaterialColor.grey.darken2
+        returnKeyType = .Done
         
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 
 }

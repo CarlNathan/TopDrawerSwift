@@ -14,7 +14,13 @@ private let reuseIdentifier = "SavedPagesCell"
 
 class SavedPagesCollectionViewController: UICollectionViewController, UIGestureRecognizerDelegate, UIActionSheetDelegate, SFSafariViewControllerDelegate {
 
-    var pages = [Page]()
+    var pages = [Page]() {
+        didSet{
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.collectionView?.reloadData()
+            }
+        }
+    }
     var senderPage: Page?
     
     override func viewDidLoad() {
@@ -23,7 +29,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         downloadSavedPages()
         setupLongPressRecognizer()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newPage:", name: "SavedNewPersonalPage", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SavedPagesCollectionViewController.newPage(_:)), name: "SavedNewPersonalPage", object: nil)
         
         // Do any additional setup after loading the view.
         
@@ -105,15 +111,20 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     func downloadSavedPages () {
             
             InboxManager.sharedInstance.getPersonalPages { (pages) -> Void in
-                self.pages = pages!
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.collectionView!.reloadData()})
+                var newPages = pages!
+                
+                newPages.sortInPlace({ (a, b) -> Bool in
+                    a.date!.compare(b.date!) == NSComparisonResult.OrderedDescending
+                })
+                
+                self.pages = newPages
+                
         }
     }
     
         //Mark: - Gesture Actions
     func setupLongPressRecognizer () {
-        let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(SavedPagesCollectionViewController.handleLongPress(_:)))
         longPress.delegate = self
         longPress.delaysTouchesBegan = true
         self.collectionView?.addGestureRecognizer(longPress)
