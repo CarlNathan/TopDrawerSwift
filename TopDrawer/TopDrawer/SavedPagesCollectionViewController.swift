@@ -9,23 +9,27 @@
 import UIKit
 import CloudKit
 import SafariServices
+import Material
 
 private let reuseIdentifier = "SavedPagesCell"
 
-class SavedPagesCollectionViewController: UICollectionViewController, UIGestureRecognizerDelegate, UIActionSheetDelegate, SFSafariViewControllerDelegate {
+class SavedPagesCollectionViewController: UICollectionViewController, UIGestureRecognizerDelegate, UIActionSheetDelegate, SFSafariViewControllerDelegate, CellCardViewDelegate {
 
     var pages = [Page]() {
         didSet{
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.loadLayer.removeFromSuperlayer()
+                self.loadLayer.removeAllAnimations()
                 self.collectionView?.reloadData()
             }
         }
     }
     var senderPage: Page?
+    let loadLayer = MaterialLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupLoadingCircle()
         downloadSavedPages()
         setupLongPressRecognizer()
         
@@ -33,6 +37,20 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         
         // Do any additional setup after loading the view.
         
+    }
+    
+    func setupLoadingCircle() {
+        loadLayer.image = UIImage(named: "Loading Circle")
+        loadLayer.frame = CGRectMake(view.center.x - 50 , view.center.y - 50, 100, 100)
+        view.layer.addSublayer(loadLayer)
+        
+        let fullRotation = CABasicAnimation(keyPath: "transform.rotation")
+        fullRotation.fromValue = 0
+        fullRotation.toValue = -((360*M_PI)/180)
+        fullRotation.duration = 2
+        fullRotation.repeatCount = 1e100
+        
+        loadLayer.animate(fullRotation)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -86,15 +104,16 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)as! SavedPageCollectionViewCell
     
         // Configure the cell
+            cell.cardView.cardDelegate = self
             cell.page = pages[indexPath.row]
-            cell.nameLabel.text = cell.page.name
-            cell.descriptionLabel.text = cell.page.description
-            cell.imageView.image = cell.page.image
-        
-        
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let width = collectionView.bounds.width - 20
+        let height = CGFloat(300.0)
+        return CGSizeMake(width, height)
+    }
 
     // MARK: UICollectionViewDelegate
     
@@ -161,5 +180,83 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
             }
         }
     }
+    
+    //Cell Card View Delegate
+    
+    func handleCatagoryButton(page: Page) {
+        senderPage = page
+        let alertController = UIAlertController(title: nil, message: "Where would you like to send this page?", preferredStyle: .ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            // ... canceled do nothing
+        }
+        alertController.addAction(cancelAction)
+        
+        let privateOption = UIAlertAction(title: "Private Topic", style: .Default) { (action) in
+            // ... inbox manager add reference to saved page
+            self.performSegueWithIdentifier("privateTopic", sender: self)
+            // reload data
+        }
+        alertController.addAction(privateOption)
+        
+        let sharedOption = UIAlertAction(title: "Shared Topic", style: .Default) { (action) in
+            // ... inbox manager add reference to saved page
+            self.performSegueWithIdentifier("sharedTopic", sender: self)
+            // reaload data
+        }
+        alertController.addAction(sharedOption)
+        
+        self.presentViewController(alertController, animated: true) {
+            // completion handler
+        }
+    }
+    func handleDeleteButton(page: Page) {
+        //handleDelete
+        let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to delete this page? It will be removed from all of your topics.", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            // ... Canacel - do nothing
+        }
+        alertController.addAction(cancelAction)
+        let OKAction = UIAlertAction(title: "Delete", style: .Destructive) { (action) in
+            // ...Completely Delete Record
+            InboxManager.sharedInstance.deletePrivatePage(page)
+            if let pageIndex = self.pages.indexOf({$0.pageID == page.pageID}) {
+                self.collectionView?.performBatchUpdates({
+                    self.pages.removeAtIndex(pageIndex)
+                    self.collectionView?.deleteItemsAtIndexPaths([NSIndexPath(forItem: pageIndex, inSection: 0)])
+
+                    }, completion: { (success) in
+                        //
+                })
+            }
+        }
+        alertController.addAction(OKAction)
+        
+        self.presentViewController(alertController, animated: true) {
+            // completion
+        }
+    }
+    
+    func handleShareButton(page: Page) {
+        //handleShare
+        var sharingItems = [AnyObject]()
+        
+        if let url = page.URLString {
+            sharingItems.append(url)
+        }
+        
+        if let text = page.name {
+            sharingItems.append(text)
+        }
+        if let image = page.image {
+            sharingItems.append(image)
+        }
+
+        
+        let activityViewController = UIActivityViewController(activityItems: sharingItems, applicationActivities: nil)
+        self.presentViewController(activityViewController, animated: true, completion: nil)
+    }
+    
 }
+
 

@@ -620,4 +620,19 @@ extension InboxManager {
 
 }
 
+extension InboxManager {
+    //Deletion Section
+    
+    func deletePrivatePage(page: Page) {
+        let privateDB = CKContainer.defaultContainer().privateCloudDatabase
+        privateDB.deleteRecordWithID(page.pageID) { (recordID, error) in
+            if let e = error {
+                print("failed to load: \(e.localizedDescription)")
+                return
+            }
+            print("record deleted")
+        }
+    }
+}
+
 

@@ -55,6 +55,7 @@
 		EDADFF251C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDADFF241C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift */; };
 		EDADFF271C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDADFF261C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift */; };
 		EDED75C41CB32C350071A36F /* App downloads (2).png in Resources */ = {isa = PBXBuildFile; fileRef = EDED75C31CB32C350071A36F /* App downloads (2).png */; };
+		EDED75C61CB6C8F20071A36F /* CellCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75C51CB6C8F20071A36F /* CellCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,6 +162,7 @@
 		EDADFF241C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarkerSelectionTableViewController.swift; sourceTree = "<group>"; };
 		EDADFF261C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarkerSelectionTableViewCell.swift; sourceTree = "<group>"; };
 		EDED75C31CB32C350071A36F /* App downloads (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App downloads (2).png"; sourceTree = "<group>"; };
+		EDED75C51CB6C8F20071A36F /* CellCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellCardView.swift; sourceTree = "<group>"; };
 		F7CB34F0BF65C798C980B92D /* Pods_TopDrawer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopDrawer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -345,6 +347,7 @@
 			children = (
 				EDAC5DB01C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift */,
 				EDAC5DAE1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift */,
+				EDED75C51CB6C8F20071A36F /* CellCardView.swift */,
 			);
 			name = "Saved Pages Tree";
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				ED2B081C1C7F614C0007949E /* MessageViewController.swift in Sources */,
 				EDAC5DAF1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift in Sources */,
 				EDADFF251C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift in Sources */,
+				EDED75C61CB6C8F20071A36F /* CellCardView.swift in Sources */,
 				EDAC5DB11C7BB8F100C0C306 /* SavedPageCollectionViewCell.swift in Sources */,
 				EDAC5DD01C7D0A7200C0C306 /* TopicSavedPagesCollectionViewController.swift in Sources */,
 				EDADFF271C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift in Sources */,
