@@ -89,12 +89,14 @@ class TrayCollectionViewController: UICollectionViewController, SFSafariViewCont
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! SharedPageCollectionViewCell
     
         // Configure the cell
-        let page = self.pages[indexPath.row]
-        cell.nameLabel.text = page.name
-        cell.descriptionLabel.text = page.description
-        cell.imageView.image = page.image
-    
+        cell.page = self.pages[indexPath.row]
         return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let width = collectionView.bounds.width - 20
+        let height = CGFloat(150.0)
+        return CGSizeMake(width, height)
     }
 
     // MARK: UICollectionViewDelegate

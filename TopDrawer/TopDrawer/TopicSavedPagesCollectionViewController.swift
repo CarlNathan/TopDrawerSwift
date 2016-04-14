@@ -26,6 +26,7 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSaf
 
         // Do any additional setup after loading the view.
         getPages()
+        title = topic!.name
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -65,11 +66,15 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSaf
     
         // Configure the cell
         cell.page = pages[indexPath.row]
-        cell.nameLabel.text = cell.page.name
-        cell.imageView.image = cell.page.image
-        cell.descriptionLabel.text = cell.page.description
         return cell
     }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let width = collectionView.bounds.width - 20
+        let height = CGFloat(200.0)
+        return CGSizeMake(width, height)
+    }
+
 
     // MARK: UICollectionViewDelegate
 

@@ -20,6 +20,7 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.collectionView?.reloadData()
             self.initLastPath ()
+            self.scrollToBottomAnimated(true)
             }
         }
     }

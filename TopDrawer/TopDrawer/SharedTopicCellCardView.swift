@@ -1,20 +1,16 @@
 //
-//  CellCardView.swift
+//  SharedTopicCellCardView.swift
 //  TopDrawer
 //
-//  Created by Carl Udren on 4/7/16.
+//  Created by Carl Udren on 4/13/16.
 //  Copyright © 2016 Carl Udren. All rights reserved.
 //
 
 import Foundation
+import UIKit
 import Material
 
-protocol CellCardViewDelegate {
-    func handleCatagoryButton(page: Page)
-    func handleDeleteButton(page: Page)
-    func handleShareButton(page: Page)
-}
-class CellCardView: CardView {
+class SharedTopicCellCardView: CardView {
     
     let detailViewLabel = UILabel()
     var cardDelegate: CellCardViewDelegate?
@@ -33,14 +29,6 @@ class CellCardView: CardView {
         divider = false
         cornerRadius = 0
         
-        //deleteButton
-        let delete = FlatButton()
-        let deleteImage = UIImage(named: "ic_close_white")!.imageWithRenderingMode(.AlwaysTemplate)
-        delete.setImage(deleteImage, forState: .Normal)
-        delete.backgroundColor = MaterialColor.white
-        delete.pulseColor = MaterialColor.red.base
-        delete.tintColor = MaterialColor.red.base
-        delete.addTarget(self, action: #selector(handleDelete), forControlEvents: .TouchUpInside)
         //catagoryButton
         let catagorize = FlatButton()
         let catagorizeImage = UIImage(named: "cm_menu_white")!.imageWithRenderingMode(.AlwaysTemplate)
@@ -48,8 +36,7 @@ class CellCardView: CardView {
         catagorize.pulseColor = MaterialColor.black
         catagorize.tintColor = MaterialColor.black
         catagorize.addTarget(self, action: #selector(handleCatagory), forControlEvents: .TouchUpInside)
-        leftButtons = [delete]
-        rightButtons = [catagorize]
+        leftButtons = [catagorize]
         
         
         detailViewInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 20)
@@ -64,7 +51,7 @@ class CellCardView: CardView {
         share.pulseColor = MaterialColor.black
         share.tintColor = MaterialColor.black
         share.addTarget(self, action: #selector(handleShare), forControlEvents: .TouchUpInside)
-        self.addSubview(share)
+        rightButtons = [share]
         
         
         
@@ -86,5 +73,4 @@ class CellCardView: CardView {
     func handleCatagory () {
         cardDelegate?.handleCatagoryButton(page)
     }
-    
 }

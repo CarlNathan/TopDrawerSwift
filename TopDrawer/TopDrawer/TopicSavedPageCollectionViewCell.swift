@@ -7,12 +7,76 @@
 //
 
 import UIKit
+import Material
 
-class TopicSavedPageCollectionViewCell: UICollectionViewCell {
+class TopicSavedPageCollectionViewCell: MaterialCollectionViewCell {
     
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
-    var page: Page!
+    var cardView: TopicCellCardView!
+    var imageView = UIImageView()
+    let dateFormatter = NSDateFormatter()
+    var page: Page! {
+        didSet {
+            imageView.image = page.image
+            cardView.titleLabel!.text = dateFormatter.stringFromDate(page.date!)
+            cardView.detailViewLabel.text = page.name
+            cardView.page = page
+        }
+    }
+    
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupImageView()
+        setupCardView()
+        borderColor = MaterialColor.blue.base
+        backgroundColor = MaterialColor.white
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupCardView()
+        setupImageView()
+        backgroundColor = MaterialColor.white
+        depth = .Depth2
+        masksToBounds = false
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    override func layoutSubviews() {
+        self.contentView.frame = self.bounds;
+        imageView.grid.columns = 5
+        cardView.grid.columns = 7
+        contentView.grid.axis.direction = .Horizontal
+        contentView.grid.views = [imageView, cardView]
+        
+        MaterialLayout.alignToParentHorizontally(contentView, child: cardView, left: 20, right: 20)
+        MaterialLayout.alignFromBottom(contentView, child: cardView, bottom: 20)
+        cardView.share.frame = CGRectMake(cardView.frame.width - 70, 5, 60, 40)
+        
+    }
+    
+    override func prepareForReuse() {
+        self.imageView.image = nil
+    }
+    
+    func setupCardView() {
+        cardView = TopicCellCardView(frame: CGRectMake(10, 10, 10, 10))
+        cardView.page = page
+        contentView.addSubview(cardView)
+    }
+    
+    func setupImageView() {
+        imageView.contentMode = .ScaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.backgroundColor = MaterialColor.grey.lighten1
+        contentView.addSubview(imageView)
+    }
+
     
 }

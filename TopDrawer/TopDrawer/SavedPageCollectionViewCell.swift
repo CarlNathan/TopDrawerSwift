@@ -73,7 +73,7 @@ class SavedPageCollectionViewCell: MaterialCollectionViewCell {
     }
     
     func setupImageView() {
-        imageView.contentMode = .Center
+        imageView.contentMode = .ScaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.backgroundColor = MaterialColor.grey.lighten1
         contentView.addSubview(imageView)

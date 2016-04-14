@@ -163,7 +163,8 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         
             let privateOption = UIAlertAction(title: "Private Topic", style: .Default) { (action) in
                 // ... inbox manager add reference to saved page
-                self.performSegueWithIdentifier("privateTopic", sender: self)
+                //self.performSegueWithIdentifier("privateTopic", sender: self)
+                AssignTopicPopupVC.presentPopupCV(self, page: self.senderPage!, shared: false)
                 // reload data
             }
             alertController.addAction(privateOption)
