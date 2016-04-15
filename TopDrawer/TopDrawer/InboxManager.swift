@@ -22,8 +22,10 @@ class InboxManager {
         container.fetchUserRecordIDWithCompletionHandler { (userID, error) -> Void in
             if let user = userID {
                 self.currentUserID = user
+                self.createRemoteTopicSubscription()
             }
             self.createRemoteTopicSubscription()
+
         }
     }
     
@@ -31,7 +33,7 @@ class InboxManager {
         let container = CKContainer.defaultContainer()
         container.discoverAllContactUserInfosWithCompletionHandler { (userInfo, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("1: failed to load: \(e.localizedDescription)")
                 return
             }
             for user in userInfo! {
@@ -69,7 +71,7 @@ extension InboxManager {
         let querry = CKQuery(recordType: "Page", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (Pages, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("2: failed to load: \(e.localizedDescription)")
                 return
             }
             var newPages = [Page]()
@@ -97,7 +99,7 @@ extension InboxManager {
         let querry = CKQuery(recordType: "Page", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (pages, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("3: failed to load: \(e.localizedDescription)")
                 return
             }
             if pages!.count == 0 {
@@ -135,7 +137,7 @@ extension InboxManager {
         let querry = CKQuery(recordType: "Topic", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (Topics, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("4: failed to load: \(e.localizedDescription)")
                 return
             }
             var newTopics = [Topic]()
@@ -166,7 +168,7 @@ extension InboxManager {
         let querry = CKQuery(recordType: "Page", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (pages, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("5: failed to load: \(e.localizedDescription)")
                 return
             }
             var newPages = [Page]()
@@ -196,7 +198,7 @@ extension InboxManager {
         let querry = CKQuery(recordType: "Topic", predicate: predicate)
         privateDB.performQuery(querry, inZoneWithID: nil) { (topics, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("6: failed to load: \(e.localizedDescription)")
                 return
             }
             let ID = topics![0].recordID
@@ -214,7 +216,7 @@ extension InboxManager {
         let querry = CKQuery(recordType: "PublicTopic", predicate: predicate)
         publicDB.performQuery(querry, inZoneWithID: nil) { (publicTopics, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("7: failed to load: \(e.localizedDescription)")
                 return
             }
             var topics = [Topic]()
@@ -242,7 +244,7 @@ extension InboxManager {
         let query = CKQuery(recordType: "Message", predicate: predicate)
         publicDB.performQuery(query, inZoneWithID: nil) { (messages, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("8: failed to load: \(e.localizedDescription)")
                 return
             }
             var newMessages = [Message]()
@@ -271,7 +273,7 @@ extension InboxManager {
         let query = CKQuery(recordType: "Page", predicate: predicate)
         publicDB.performQuery(query, inZoneWithID: nil) { (pages, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("9: failed to load: \(e.localizedDescription)")
             }
             
             
@@ -304,7 +306,7 @@ extension InboxManager {
         }
         publicDB.fetchRecordWithID(page.pageID) { (page, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("10: failed to load: \(e.localizedDescription)")
                 return
             }
             let oldReferences = page!["topic"] as? [CKReference] ?? [CKReference]()
@@ -312,7 +314,7 @@ extension InboxManager {
             page?.setValue(newReferences, forKey: "topic")
             publicDB.saveRecord(page!, completionHandler: { (record, error) -> Void in
                 if let e = error {
-                    print("failed to load: \(e.localizedDescription)")
+                    print("11: failed to load: \(e.localizedDescription)")
                     return
                 }
             })
@@ -342,7 +344,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveRecord(pageRecord) { (record, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("12: failed to load: \(e.localizedDescription)")
                 return
                 }
             NSNotificationCenter.defaultCenter().postNotificationName("PageAddedToPublicTopic", object: self, userInfo: ["topics":topics , "page":page])
@@ -361,7 +363,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveRecord(messageRecord) { (record, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("13: failed to load: \(e.localizedDescription)")
                 return
             }
         }
@@ -373,7 +375,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().privateCloudDatabase
         publicDB.saveRecord(newTopic) { (record, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("14: failed to load: \(e.localizedDescription)")
                 return
             }
             let name = record!["name"] as? String ?? nil
@@ -397,7 +399,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveRecord(newTopic) { (record, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("15: failed to load: \(e.localizedDescription)")
                 return
             }
             self.createSubscriptions((record?.recordID)!)
@@ -456,19 +458,19 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveSubscription(messageSubscription) { (messagesubscription, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("16: failed to load: \(e.localizedDescription)")
                 return
             }
         }
         publicDB.saveSubscription(pageSubscription) { (pagesubscription, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("17: failed to load: \(e.localizedDescription)")
                 return
             }
         }
         publicDB.saveSubscription(markerSubscription) { (markersubscription, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("18: failed to load: \(e.localizedDescription)")
                 return
             }
         }
@@ -489,7 +491,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveSubscription(subscription) { (subscription, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("19: failed to load: \(e.localizedDescription)")
                 return
             }
         }
@@ -507,7 +509,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveRecord(record) { (record, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("20: failed to load: \(e.localizedDescription)")
                 return
             }
         }
@@ -519,7 +521,7 @@ extension InboxManager {
         let querry = CKQuery(recordType: "TopicMarker", predicate: predicate)
         publicDB.performQuery(querry, inZoneWithID: nil) { (topicMarkers, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("21: failed to load: \(e.localizedDescription)")
                 return
             }
             var newTopicMarkers = [TopicMarker]()
@@ -538,7 +540,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.fetchRecordWithID(pageID) { (record, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("22: failed to load: \(e.localizedDescription)")
                 return
             }
             let name = record!["name"]as! String
@@ -559,7 +561,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.fetchRecordWithID(topicID) { (record, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("23: failed to load: \(e.localizedDescription)")
                 return
             }
             let name = record!["name"] as! String
@@ -581,7 +583,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.fetchRecordWithID(messageID) { (message, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("24:failed to load: \(e.localizedDescription)")
                 return
             }
             let body = message!["body"] as! String
@@ -606,7 +608,7 @@ extension InboxManager {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.fetchRecordWithID(recordID) { (record, error) -> Void in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("25: failed to load: \(e.localizedDescription)")
                 return
             }
             let date = record!["date"] as! NSDate
@@ -627,7 +629,7 @@ extension InboxManager {
         let privateDB = CKContainer.defaultContainer().privateCloudDatabase
         privateDB.deleteRecordWithID(page.pageID) { (recordID, error) in
             if let e = error {
-                print("failed to load: \(e.localizedDescription)")
+                print("26: failed to load: \(e.localizedDescription)")
                 return
             }
             print("record deleted")

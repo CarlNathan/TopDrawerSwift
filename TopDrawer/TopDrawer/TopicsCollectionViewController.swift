@@ -82,5 +82,9 @@ class TopicsCollectionViewController: UICollectionViewController {
         }
     }
     
+    @IBAction func newButtonWasPressed(sender: AnyObject) {
+        NewTopicPopupVC.presentPopupCV(self)
+        
+    }
         
 }

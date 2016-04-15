@@ -39,6 +39,10 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         
     }
     
+    override func viewDidAppear(animated: Bool) {
+        //
+    }
+    
     func setupLoadingCircle() {
         loadLayer.image = UIImage(named: "Loading Circle")
         loadLayer.frame = CGRectMake(view.center.x - 50 , view.center.y - 50, 100, 100)

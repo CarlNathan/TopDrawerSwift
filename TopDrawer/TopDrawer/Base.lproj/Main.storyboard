@@ -239,7 +239,7 @@
                     <navigationItem key="navigationItem" title="My Topics" id="9Jy-cB-Ma5">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kyM-zc-khk">
                             <connections>
-                                <segue destination="bgx-PT-dA3" kind="presentation" id="tmM-W7-rMp"/>
+                                <action selector="newButtonWasPressed:" destination="zHa-SR-8If" id="TpN-IT-cME"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -843,6 +843,5 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="x8w-ah-yRW"/>
-        <segue reference="bae-QQ-VqR"/>
     </inferredMetricsTieBreakers>
 </document>

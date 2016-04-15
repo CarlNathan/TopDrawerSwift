@@ -80,9 +80,3 @@ class NewTopicViewController: UIViewController, UITableViewDelegate, UITableView
     }
 }
 
-class FriendTableViewCell: UITableViewCell {
-    var friend: Friend!
-    override func prepareForReuse() {
-        self.accessoryType = .None
-    }
-}

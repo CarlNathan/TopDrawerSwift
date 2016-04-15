@@ -18,28 +18,32 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
     var isShared: Bool?
     var page: Page?
     let tableView = UITableView()
+    var cardView: CardView!
+    lazy var animator: UIDynamicAnimator = {
+        return UIDynamicAnimator(referenceView: self.view)
+    }()
+    var attachment: UIAttachmentBehavior!
     
     init() {
         super.init(nibName:nil, bundle:nil)
-        modalTransitionStyle = .CoverVertical
+        modalTransitionStyle = .CrossDissolve
         modalPresentationStyle = .OverCurrentContext
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        modalTransitionStyle = .CoverVertical
-        modalPresentationStyle = .Popover
+        modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .OverCurrentContext
         
     }
-    
     
     class func presentPopupCV(sender: UIViewController, page: Page, shared: Bool) {
         sender.navigationController?.definesPresentationContext = true
         let popup = AssignTopicPopupVC()
         popup.page = page
         popup.isShared = shared
-        popup.view.backgroundColor = UIColor.clearColor()
-        sender.presentViewController(popup, animated: true) {
+        popup.view.backgroundColor = MaterialColor.clear
+        sender.navigationController?.tabBarController!.presentViewController(popup, animated: true) {
             //completion
         }
     }
@@ -63,19 +67,28 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
             })
             
         }
-
+        setupCardViewSnapBehavior()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIView.animateWithDuration(0.5, animations: {
+            self.view.backgroundColor = MaterialColor.black.colorWithAlphaComponent(0.5)
+            
+        })
     }
     
     func prepareTableView() {
         tableView.registerClass(TopicTableViewCell.self, forCellReuseIdentifier: "topicCell")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = MaterialColor.grey.lighten5
     }
     
     func prepareCardView() {
-        let cardView: CardView = CardView()
+        cardView = CardView()
         cardView.pulseColor = nil
-        cardView.backgroundColor = MaterialColor.grey.lighten5
+        cardView.backgroundColor = MaterialColor.grey.lighten4
         cardView.cornerRadiusPreset = .Radius1
         cardView.divider = false
         cardView.contentInsetPreset = .None
@@ -84,22 +97,19 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
         cardView.detailViewInsetPreset = .None
         
         let titleLabel: UILabel = UILabel()
-        titleLabel.font = RobotoFont.mediumWithSize(20)
-        titleLabel.text = "Messages"
+        titleLabel.font = RobotoFont.lightWithSize(20)
+        titleLabel.text = "Topics"
         titleLabel.textAlignment = .Center
         titleLabel.textColor = MaterialColor.blueGrey.darken4
         
-        let v: UIView = UIView()
-        v.backgroundColor = MaterialColor.blue.accent1
-        
         let closeButton: FlatButton = FlatButton()
         closeButton.setTitle("Close", forState: .Normal)
+        closeButton.addTarget(self, action: #selector(cancelWasPressed), forControlEvents: .TouchUpInside)
         
-        let image: UIImage? = UIImage(named: "ic_settings")?.imageWithRenderingMode(.AlwaysTemplate)
         let settingButton: FlatButton = FlatButton()
+        settingButton.setTitle("Assign", forState: .Normal)
         settingButton.tintColor = MaterialColor.blue.accent3
-        settingButton.setImage(image, forState: .Normal)
-        settingButton.setImage(image, forState: .Highlighted)
+        settingButton.addTarget(self, action: #selector(saveTopics), forControlEvents: .TouchUpInside)
         
         // Use MaterialLayout to easily align the tableView.
         cardView.titleLabel = titleLabel
@@ -109,7 +119,7 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
         
         cardView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(cardView)
-        MaterialLayout.alignToParent(view, child: cardView, left: 10, right: 10, top: 100, bottom: 100)
+        MaterialLayout.alignToParent(view, child: cardView, left: 15, right: 15, top: 100, bottom: 100)
     }
     
     //TableView
@@ -120,8 +130,10 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("topicCell", forIndexPath: indexPath) as! TopicTableViewCell
+        cell.backgroundColor = MaterialColor.grey.lighten5
         cell.topic = self.topics[indexPath.row]
         cell.textLabel!.text = topics[indexPath.row].name
+        cell.textLabel!.font = RobotoFont.lightWithSize(14)
         if selectedTopics.contains(cell.topic.recordID!){
             cell.accessoryType = .Checkmark
         }
@@ -134,6 +146,7 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
         if let index = selectedTopics.indexOf(topic.recordID!){
             selectedTopics.removeAtIndex(index)
             let cell = self.tableView.cellForRowAtIndexPath(indexPath)
+            
             cell?.accessoryType = .None
         } else {
             selectedTopics.append(topics[indexPath.row].recordID!)
@@ -141,10 +154,11 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
             cell?.accessoryType = .Checkmark
         }
     }
-    @IBAction func cancelWasPressed(sender: AnyObject) {
+    
+    func cancelWasPressed(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    @IBAction func saveTopics(sender: AnyObject) {
+    func saveTopics(sender: AnyObject) {
         if isShared! {
             InboxManager.sharedInstance.savePageToPublicTopics(self.page!, topics: selectedTopics)
         } else {
@@ -152,6 +166,42 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+}
+
+extension AssignTopicPopupVC {
+    
+    func setupCardViewSnapBehavior(){
+        let swipe = UIPanGestureRecognizer(target: self, action: #selector(didPan))
+        cardView.addGestureRecognizer(swipe)
+    }
+    
+    
+    func didPan(gesture: UIPanGestureRecognizer) {
+        let detailLocation = gesture.locationInView(gesture.view!)
+        let location = gesture.locationInView(gesture.view!.superview)
+        switch gesture.state {
+        case .Began:
+            animator.removeAllBehaviors()
+            let offset = UIOffsetMake(detailLocation.x - CGRectGetMidX(cardView.bounds), detailLocation.y - CGRectGetMidY(cardView.bounds))
+            attachment = UIAttachmentBehavior(item: gesture.view!, offsetFromCenter: offset, attachedToAnchor: location)
+            attachment.length = 10
+            attachment.frictionTorque = 0.05
+            animator.addBehavior(attachment)
+            
+        case .Changed:
+            attachment.anchorPoint = location;
+            
+        case .Ended:
+            animator.removeAllBehaviors()
+            let snap = UISnapBehavior(item: gesture.view!, snapToPoint: view.center)
+            animator.addBehavior(snap)
+        default:
+            return
+        }
+        
+    }
+
 }
 
 class TopicTableViewCell: UITableViewCell {
