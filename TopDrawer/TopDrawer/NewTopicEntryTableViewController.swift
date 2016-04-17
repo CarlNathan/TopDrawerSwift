@@ -21,7 +21,32 @@ class NewTopicEntryTableViewController: UITableViewController {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.dataSource = self
         tableView.delegate = self
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateName), name: "NameWasSet", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateMessage), name: "MessageWasSet", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateSelectedFriends), name: "UpadatedSelectedFriends", object: nil)
 
+    }
+    
+    func updateName(sender: NSNotification) {
+        let dictionary = sender.userInfo as! [String: String]
+        name = dictionary["text"]!
+        tableView.reloadData()
+    }
+    func updateMessage(sender: NSNotification) {
+        let dictionary = sender.userInfo as! [String: String]
+        message = dictionary["text"]!
+        tableView.reloadData()
+    }
+    
+    func updateSelectedFriends(sender: NSNotification){
+        let dictionary = sender.userInfo as! [NSString: [String]]
+        selectedFriends = dictionary["friends"]!
+        tableView.reloadData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.hidden = true
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -51,7 +76,7 @@ class NewTopicEntryTableViewController: UITableViewController {
                 var text: String = ""
                 for CKID in selectedFriends {
                     let person = InboxManager.sharedInstance.friends[CKID]!as Friend
-                    let name = person.firstName! + " " + person.familyName! + ","
+                    let name = person.firstName! + " " + person.familyName! + "   "
                     text += name
                 }
                 cell.textLabel!.text = text
@@ -72,10 +97,12 @@ class NewTopicEntryTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //tableView.deselectRowAtIndexPath(indexPath, animated: true)
         switch entryParameters[indexPath.section] {
         case "Name":
             let text = TextEntryViewController(placeholder: entryParameters[indexPath.section])
+            if name != "" {
+                text.content = name
+            }
             navigationController?.pushViewController(text, animated: true)
             break
         case "Recipients":
@@ -85,6 +112,9 @@ class NewTopicEntryTableViewController: UITableViewController {
             break
         case "Message":
             let text = TextEntryViewController(placeholder: entryParameters[indexPath.section])
+            if name != "" {
+                text.content = message
+            }
             navigationController?.pushViewController(text, animated: true)
             break
         default:

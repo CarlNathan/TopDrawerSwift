@@ -14,6 +14,14 @@ class TextEntryViewController: UIViewController, UITextViewDelegate {
     let textView = TextView()
     let backButton = FlatButton()
     var placeholder: String!
+    var content: String? {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.textView.text = self.content
+                self.backButton.enabled = true
+            }
+        }
+    }
     
     init(placeholder: String) {
         super.init(nibName: nil, bundle: nil)
@@ -45,18 +53,18 @@ class TextEntryViewController: UIViewController, UITextViewDelegate {
         textView.placeholderLabel = UILabel()
         textView.placeholderLabel?.text = placeholder
         textView.placeholderLabel?.textColor = MaterialColor.blue.accent1
-        textView.placeholderLabel?.font = RobotoFont.regularWithSize(14)
+        textView.placeholderLabel?.font = RobotoFont.regularWithSize(18)
         textView.titleLabel = UILabel()
         textView.titleLabel?.text = placeholder
-        textView.titleLabel!.font = RobotoFont.mediumWithSize(12)
+        textView.titleLabel!.font = RobotoFont.mediumWithSize(16)
         textView.titleLabel?.textColor = MaterialColor.blue.accent1
         textView.titleLabelActiveColor = MaterialColor.blue.accent1
-        textView.font = RobotoFont.regularWithSize(14)
+        textView.font = RobotoFont.regularWithSize(18)
         textView.textColor = MaterialColor.grey.darken2
         textView.returnKeyType = .Done
         textView.userInteractionEnabled = true
         view.userInteractionEnabled = true
-        textView.textContainerInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        //textView.textContainerInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         textView.delegate = self
         textView.inputAccessoryView = backButton
         view.addSubview(textView)
@@ -79,11 +87,14 @@ class TextEntryViewController: UIViewController, UITextViewDelegate {
     }
     
     override func viewDidLayoutSubviews() {
-        textView.frame = view.frame
-        //backButton.frame = CGRectMake(0,100,100,100)
+        let viewSize = view.frame.size
+        textView.frame = CGRectMake(20,40,viewSize.width - 20, viewSize.height - 40)
+        
     }
 
     func backButtonPressed(){
+        let notificationName = placeholder+"WasSet"
+        NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: nil, userInfo: ["text":textView.text])
         navigationController?.popViewControllerAnimated(true)
     }
     

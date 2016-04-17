@@ -87,11 +87,11 @@ class NewTopicPopupVC: UIViewController {
         titleLabel.textColor = MaterialColor.blueGrey.darken4
         
         let closeButton: FlatButton = FlatButton()
-        closeButton.setTitle("Close", forState: .Normal)
+        closeButton.setTitle("Cancel", forState: .Normal)
         closeButton.addTarget(self, action: #selector(cancelWasPressed), forControlEvents: .TouchUpInside)
         
         let settingButton: FlatButton = FlatButton()
-        settingButton.setTitle("Assign", forState: .Normal)
+        settingButton.setTitle("Create", forState: .Normal)
         settingButton.tintColor = MaterialColor.blue.accent3
         settingButton.addTarget(self, action: #selector(saveButtonPressed), forControlEvents: .TouchUpInside)
         

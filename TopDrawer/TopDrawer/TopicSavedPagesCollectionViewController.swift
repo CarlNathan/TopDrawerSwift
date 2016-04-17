@@ -25,6 +25,7 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSaf
         // self.clearsSelectionOnViewWillAppear = false
 
         // Do any additional setup after loading the view.
+        collectionView?.alwaysBounceVertical = true
         getPages()
         title = topic!.name
     }

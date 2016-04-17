@@ -22,8 +22,9 @@ class TopicsCollectionViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Do any additional setup after loading the view.
+        collectionView?.alwaysBounceVertical = true
         getTopics()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTopic:", name: "NewTopic", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newTopic), name: "NewTopic", object: nil)
 
     }
     

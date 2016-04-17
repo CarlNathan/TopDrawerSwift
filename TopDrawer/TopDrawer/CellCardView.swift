@@ -37,7 +37,7 @@ class CellCardView: CardView {
         let delete = FlatButton()
         let deleteImage = UIImage(named: "ic_close_white")!.imageWithRenderingMode(.AlwaysTemplate)
         delete.setImage(deleteImage, forState: .Normal)
-        delete.backgroundColor = MaterialColor.white
+        delete.backgroundColor = MaterialColor.clear
         delete.pulseColor = MaterialColor.red.base
         delete.tintColor = MaterialColor.red.base
         delete.addTarget(self, action: #selector(handleDelete), forControlEvents: .TouchUpInside)

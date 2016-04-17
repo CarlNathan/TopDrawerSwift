@@ -17,6 +17,7 @@ class FriendsTableView: UITableViewController {
     var selectedFriends = [String]()
 
     override func viewDidLoad() {
+        navigationController?.navigationBar.hidden = false
         setupTableView()
     }
     
@@ -55,6 +56,11 @@ class FriendsTableView: UITableViewController {
             let cell = tableView.cellForRowAtIndexPath(indexPath)
             cell?.accessoryType = .Checkmark
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().postNotificationName("UpadatedSelectedFriends", object: nil, userInfo: ["friends": selectedFriends])
     }
 
 }
