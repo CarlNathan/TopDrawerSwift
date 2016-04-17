@@ -11,7 +11,7 @@ import MobileCoreServices
 import CloudKit
 import Material
 
-class ActionViewController: UIViewController {
+class ActionViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
     
     var URLString: String!
@@ -30,7 +30,7 @@ class ActionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupKeyboardNotifications()
+        setupDetailView()
         setupCardView()
         setupCardViewSnapBehavior()
     
@@ -124,11 +124,21 @@ class ActionViewController: UIViewController {
     func cancel() {
         // Return any edited content to the host app.
         // This template doesn't do anything, so we just echo the passed in items.
-        self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
+        self.extensionContext!.completeRequestReturningItems(nil, completionHandler: nil)
     
     }
     
-    
+    func setupDetailView(){
+        let doneButton = FlatButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+        doneButton.setTitle("Done", forState: .Normal)
+        doneButton.addTarget(self, action: #selector(dismissKeyboard), forControlEvents: .TouchUpInside)
+        doneButton.tintColor = MaterialColor.blue.accent1
+        detailView.descriptionView.delegate = self
+        detailView.titleField.delegate = self
+        detailView.descriptionView.inputAccessoryView = doneButton
+        detailView.titleField.inputAccessoryView = doneButton
+
+    }
     func setupCardView(){
         // Image.
         let size: CGSize = CGSizeMake(UIScreen.mainScreen().bounds.width - CGFloat(40), 80)
@@ -137,12 +147,7 @@ class ActionViewController: UIViewController {
         imageCardView.imageLayer!.contentsGravity = kCAGravityResizeAspectFill
         
         // Title label.
-        let titleLabel: UILabel = UILabel()
-        titleLabel.text = "TopDrawer.Save Page"
-        titleLabel.textColor = MaterialColor.white
-        titleLabel.font = RobotoFont.mediumWithSize(18)
-        imageCardView.titleLabel = titleLabel
-        imageCardView.titleLabelInset.top = 50
+        
         
         // Detail label.
         imageCardView.detailView = detailView
@@ -181,16 +186,12 @@ class ActionViewController: UIViewController {
     
     func setupCardViewSnapBehavior(){
         
-        let snap = UISnapBehavior(item: self.imageCardView, snapToPoint: view.center)
-        snap.damping = 0.5
-        animator.addBehavior(snap)
-        
         let swipe = UIPanGestureRecognizer(target: self, action: #selector(didPan))
         imageCardView.addGestureRecognizer(swipe)
     }
     
     override func viewDidLayoutSubviews() {
-        
+
         imageCardView.translatesAutoresizingMaskIntoConstraints = false
         MaterialLayout.alignToParentHorizontally(view, child: imageCardView, left: 20, right: 20)
         MaterialLayout.alignFromTop(view, child: imageCardView, top: 70)
@@ -228,29 +229,38 @@ class ActionViewController: UIViewController {
         
     }
     
-        func setupKeyboardNotifications(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidShow), name: UIKeyboardDidShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidHide), name: UIKeyboardDidHideNotification, object: nil)
-    }
-    
-    func keyboardDidShow(){
-        UIView.animateWithDuration(0.5) {
-            self.detailView.backgroundColor = MaterialColor.white
-            self.detailView.center.y -= 100
-        }
-    }
-    
-    func keyboardDidHide(){
-        
-        UIView.animateWithDuration(0.5) {
-            self.detailView.backgroundColor = MaterialColor.clear
-            self.detailView.center.y += 100
-            
-        }
-    }
-    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         detailView.titleField.resignFirstResponder()
         detailView.descriptionView.resignFirstResponder()
     }
+    
+    func dismissKeyboard(){
+        detailView.titleField.resignFirstResponder()
+        detailView.descriptionView.resignFirstResponder()
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        animator.removeAllBehaviors()
+        let snap = UISnapBehavior(item: imageCardView, snapToPoint: CGPoint(x: view.center.x, y: view.center.y - 80))
+        animator.addBehavior(snap)
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        animator.removeAllBehaviors()
+        let snap = UISnapBehavior(item: imageCardView, snapToPoint: CGPoint(x: view.center.x, y: view.center.y))
+        animator.addBehavior(snap)
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        animator.removeAllBehaviors()
+        let snap = UISnapBehavior(item: imageCardView, snapToPoint: CGPoint(x: view.center.x, y: view.center.y - 80))
+        animator.addBehavior(snap)
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        animator.removeAllBehaviors()
+        let snap = UISnapBehavior(item: imageCardView, snapToPoint: CGPoint(x: view.center.x, y: view.center.y))
+        animator.addBehavior(snap)
+    }
 }
+

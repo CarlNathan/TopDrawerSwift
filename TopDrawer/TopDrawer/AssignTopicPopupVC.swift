@@ -77,6 +77,12 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
             
         })
     }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIView.animateWithDuration(0.4) {
+            self.cardView.frame = CGRectMake(-100, -100, 500, 800)
+        }
+    }
     
     func prepareTableView() {
         tableView.registerClass(TopicTableViewCell.self, forCellReuseIdentifier: "topicCell")

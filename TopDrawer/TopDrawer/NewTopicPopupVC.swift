@@ -11,10 +11,11 @@ import Material
 import UIKit
 import CloudKit
 
-class NewTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class NewTopicPopupVC: UIViewController {
     //
-    var friends: [Friend]?
     var selectedFriends = [String]()
+    var subjectName: String?
+    var messageText: String?
     var isShared: Bool?
     var page: Page?
     let tableView = UITableView()
@@ -48,8 +49,6 @@ class NewTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     override func viewDidLoad() {
-        self.friends = Array(InboxManager.sharedInstance.friends.values)
-        prepareTableView()
         prepareCardView()
         setupCardViewSnapBehavior()
 
@@ -63,11 +62,11 @@ class NewTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDeleg
         })
     }
     
-    func prepareTableView() {
-        tableView.registerClass(FriendTableViewCell.self, forCellReuseIdentifier: "friendCell")
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.backgroundColor = MaterialColor.grey.lighten5
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIView.animateWithDuration(0.4) {
+            self.cardView.frame = CGRectMake(-100, -100, 500, 800)
+        }
     }
     
     func prepareCardView() {
@@ -83,7 +82,7 @@ class NewTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDeleg
         
         let titleLabel: UILabel = UILabel()
         titleLabel.font = RobotoFont.lightWithSize(20)
-        titleLabel.text = "Topics"
+        titleLabel.text = "New Topic"
         titleLabel.textAlignment = .Center
         titleLabel.textColor = MaterialColor.blueGrey.darken4
         
@@ -98,7 +97,10 @@ class NewTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDeleg
         
         // Use MaterialLayout to easily align the tableView.
         cardView.titleLabel = titleLabel
-        cardView.detailView = tableView
+        let nav = UINavigationController(rootViewController: NewTopicEntryTableViewController())
+        addChildViewController(nav)
+        nav.didMoveToParentViewController(self)
+        cardView.detailView = nav.view
         cardView.leftButtons = [closeButton]
         cardView.rightButtons = [settingButton]
         
@@ -107,37 +109,7 @@ class NewTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDeleg
         MaterialLayout.alignToParent(view, child: cardView, left: 15, right: 15, top: 100, bottom: 100)
     }
     
-    //TableView
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friends!.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendTableViewCell
         
-        cell.friend = self.friends![indexPath.row]
-        cell.textLabel!.text = friends![indexPath.row].firstName! + " " + friends![indexPath.row].familyName!
-        if selectedFriends.contains(cell.friend.recordID!) {
-            cell.accessoryType = .Checkmark
-        }
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let friend = friends![indexPath.row]
-        if let index = selectedFriends.indexOf(friend.recordID!){
-            selectedFriends.removeAtIndex(index)
-            let cell = self.tableView.cellForRowAtIndexPath(indexPath)
-            cell?.accessoryType = .None
-        } else {
-            selectedFriends.append(friends![indexPath.row].recordID!)
-            let cell = self.tableView.cellForRowAtIndexPath(indexPath)
-            cell?.accessoryType = .Checkmark
-        }
-    }
-    
     func saveButtonPressed(sender: AnyObject) {
         
         if selectedFriends.count == 0 {
@@ -190,11 +162,4 @@ class NewTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDeleg
 
 }
 
-
-class FriendTableViewCell: UITableViewCell {
-    var friend: Friend!
-    override func prepareForReuse() {
-        self.accessoryType = .None
-    }
-}
 

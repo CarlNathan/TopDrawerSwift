@@ -60,6 +60,9 @@
 		EDED75CC1CBEEBB10071A36F /* SharedTopicCellCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75CB1CBEEBB10071A36F /* SharedTopicCellCardView.swift */; };
 		EDED75CE1CBEF37D0071A36F /* NewTopicPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */; };
 		EDED75D11CBEF3F30071A36F /* AssignTopicPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */; };
+		EDED75D51CC136680071A36F /* FriendsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D41CC136680071A36F /* FriendsTableView.swift */; };
+		EDED75D71CC15ED10071A36F /* NewTopicEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */; };
+		EDED75DE1CC2AB240071A36F /* TextEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +174,9 @@
 		EDED75CB1CBEEBB10071A36F /* SharedTopicCellCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTopicCellCardView.swift; sourceTree = "<group>"; };
 		EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicPopupVC.swift; sourceTree = "<group>"; };
 		EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignTopicPopupVC.swift; sourceTree = "<group>"; };
+		EDED75D41CC136680071A36F /* FriendsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableView.swift; sourceTree = "<group>"; };
+		EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicEntryTableViewController.swift; sourceTree = "<group>"; };
+		EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEntryViewController.swift; sourceTree = "<group>"; };
 		F7CB34F0BF65C798C980B92D /* Pods_TopDrawer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopDrawer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -401,6 +407,9 @@
 			isa = PBXGroup;
 			children = (
 				EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */,
+				EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */,
+				EDED75D41CC136680071A36F /* FriendsTableView.swift */,
+				EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */,
 				EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */,
 			);
 			name = PopupTableViews;
@@ -508,7 +517,7 @@
 		EDAC5D701C7B83A900C0C306 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Carl Udren";
 				TargetAttributes = {
@@ -687,6 +696,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDAC5DCC1C7CF2AC00C0C306 /* TopicsCollectionViewController.swift in Sources */,
+				EDED75D71CC15ED10071A36F /* NewTopicEntryTableViewController.swift in Sources */,
 				EDAC5DCE1C7CF3E100C0C306 /* TopicCollectionViewCell.swift in Sources */,
 				ED2B08181C7F49780007949E /* MessageContainerViewController.swift in Sources */,
 				EDAC5DCA1C7CDC5D00C0C306 /* DetailViewController.swift in Sources */,
@@ -707,6 +717,7 @@
 				EDED75CC1CBEEBB10071A36F /* SharedTopicCellCardView.swift in Sources */,
 				EDED75CA1CBEE59D0071A36F /* TopicCellCardView.swift in Sources */,
 				ED5EBEB01C823F56009951BB /* TopicTabBarController.swift in Sources */,
+				EDED75DE1CC2AB240071A36F /* TextEntryViewController.swift in Sources */,
 				EDAC5DAD1C7BAAC600C0C306 /* Page.swift in Sources */,
 				EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */,
 				ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */,
@@ -717,6 +728,7 @@
 				ED2B08151C7F48E30007949E /* SharedTableViewController.swift in Sources */,
 				EDED75CE1CBEF37D0071A36F /* NewTopicPopupVC.swift in Sources */,
 				EDED75D11CBEF3F30071A36F /* AssignTopicPopupVC.swift in Sources */,
+				EDED75D51CC136680071A36F /* FriendsTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,6 +934,7 @@
 			baseConfigurationReference = 66A753FD5ADB8738A512837E /* Pods-TopDrawer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TopDrawer/TopDrawer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -935,6 +948,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -943,6 +957,7 @@
 			baseConfigurationReference = 406B90A0928C8301F9FB8F65 /* Pods-TopDrawer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TopDrawer/TopDrawer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
