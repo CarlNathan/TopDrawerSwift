@@ -12,13 +12,25 @@ import Contacts
 
 class FriendsTableViewController: UITableViewController {
 
-    var friends = [Friend]()
+    var friends = [Friend]() {
+        didSet {
+            friends.sortInPlace { (a, b) -> Bool in
+                a.familyName!.compare(b.familyName!) == NSComparisonResult.OrderedDescending
+            }
+            dispatch_async(dispatch_get_main_queue(), {
+                self.tableView.reloadData()
+            })
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         getFriends()
-        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,8 +105,9 @@ class FriendsTableViewController: UITableViewController {
 
     
     func getFriends () {
-        self.friends = Array(InboxManager.sharedInstance.friends.values)
-        self.tableView.reloadData()
+        InboxManager.sharedInstance.findUsers { (friends) in
+            self.friends = Array(InboxManager.sharedInstance.friends.values)
+        }
     }
     
 }

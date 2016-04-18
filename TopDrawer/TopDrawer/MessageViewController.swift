@@ -9,6 +9,7 @@
 import UIKit
 import JSQMessagesViewController
 import CloudKit
+import Material
 
 
 class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDelegate {
@@ -111,6 +112,16 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
 
 extension MessageViewController {
       // MARK: - DataSource
+    
+    func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
+        let message = messages[indexPath.item]
+
+        let initials : String = message.sender.firstName![0] + message.sender.familyName![0]
+        let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: MaterialColor.grey.darken1, textColor: MaterialColor.white, font: RobotoFont.mediumWithSize(20), diameter: 100)
+        return UIImageView(image:userImage.avatarImage)
+
+    }
+
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.jsqMessages.count
     }

@@ -29,7 +29,7 @@ class InboxManager {
         }
     }
     
-    func findUsers() {
+    func findUsers(completionHandler: ([Friend]?) -> Void)  {
         let container = CKContainer.defaultContainer()
         container.discoverAllContactUserInfosWithCompletionHandler { (userInfo, error) -> Void in
             if let e = error {
@@ -122,7 +122,9 @@ extension InboxManager {
     func getPermissions() {
             CKContainer.defaultContainer().requestApplicationPermission(CKApplicationPermissions.UserDiscoverability, completionHandler: { applicationPermissionStatus, error in
                 if applicationPermissionStatus == CKApplicationPermissionStatus.Granted {
-                    self.findUsers()
+                    self.findUsers({ (friends) in
+                        //
+                    })
                 }
             })
             

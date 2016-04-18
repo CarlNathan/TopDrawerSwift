@@ -112,7 +112,7 @@ class NewTopicEntryTableViewController: UITableViewController {
             break
         case "Message":
             let text = TextEntryViewController(placeholder: entryParameters[indexPath.section])
-            if name != "" {
+            if message != "" {
                 text.content = message
             }
             navigationController?.pushViewController(text, animated: true)

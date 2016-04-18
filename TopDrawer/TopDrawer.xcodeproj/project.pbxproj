@@ -19,6 +19,7 @@
 		ED2B08221C7FB0BC0007949E /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08211C7FB0BC0007949E /* Topic.swift */; };
 		ED2B08241C80998B0007949E /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08231C80998B0007949E /* Friend.swift */; };
 		ED2B08271C80B7C40007949E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08261C80B7C40007949E /* Message.swift */; };
+		ED3A5DC31CC547E300559CFB /* StringExtensionIndexing.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A5DC21CC547E300559CFB /* StringExtensionIndexing.swift */; };
 		ED49DC1C1C8881E0003BB009 /* App downloads (2).png in Resources */ = {isa = PBXBuildFile; fileRef = ED49DC1B1C8881E0003BB009 /* App downloads (2).png */; };
 		ED4AB5251CA9C62800A9171F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4AB5241CA9C62800A9171F /* CustomTextField.swift */; };
 		ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */; };
@@ -123,6 +124,7 @@
 		ED2B08211C7FB0BC0007949E /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		ED2B08231C80998B0007949E /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		ED2B08261C80B7C40007949E /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		ED3A5DC21CC547E300559CFB /* StringExtensionIndexing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionIndexing.swift; sourceTree = "<group>"; };
 		ED49DC1B1C8881E0003BB009 /* App downloads (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App downloads (2).png"; sourceTree = "<group>"; };
 		ED4AB5241CA9C62800A9171F /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTopicTableViewCell.swift; sourceTree = "<group>"; };
@@ -266,6 +268,14 @@
 			name = "Shared Topics Tree";
 			sourceTree = "<group>";
 		};
+		ED3A5DC41CC547F200559CFB /* SwiftExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				ED3A5DC21CC547E300559CFB /* StringExtensionIndexing.swift */,
+			);
+			name = SwiftExtensions;
+			sourceTree = "<group>";
+		};
 		ED5EBEBE1C84ED52009951BB /* TestShareExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,6 +318,7 @@
 			children = (
 				EDAC5DA91C7B96A900C0C306 /* TopDrawer.entitlements */,
 				EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */,
+				ED3A5DC41CC547F200559CFB /* SwiftExtensions */,
 				EDAC5DD81C7D2C9E00C0C306 /* DataModel */,
 				EDAC5DD71C7D2C8E00C0C306 /* Detail View Controller */,
 				EDAC5DD51C7D2C3C00C0C306 /* Saved Pages Tree */,
@@ -719,6 +730,7 @@
 				ED5EBEB01C823F56009951BB /* TopicTabBarController.swift in Sources */,
 				EDED75DE1CC2AB240071A36F /* TextEntryViewController.swift in Sources */,
 				EDAC5DAD1C7BAAC600C0C306 /* Page.swift in Sources */,
+				ED3A5DC31CC547E300559CFB /* StringExtensionIndexing.swift in Sources */,
 				EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */,
 				ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */,
 				ED2B08241C80998B0007949E /* Friend.swift in Sources */,

@@ -89,7 +89,14 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSaf
     
     func getPages () {
         InboxManager.sharedInstance.getPagesForTopic(self.topic!) { (pages) -> Void in
-            self.pages = pages!
+            var newPages = pages!
+            
+            newPages.sortInPlace({ (a, b) -> Bool in
+                a.date!.compare(b.date!) == NSComparisonResult.OrderedDescending
+            })
+            
+            self.pages = newPages
+            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.collectionView!.reloadData()
                 

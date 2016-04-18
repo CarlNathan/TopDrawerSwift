@@ -31,8 +31,8 @@ class TrayCollectionViewController: UICollectionViewController, SFSafariViewCont
         
         getPages()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newPage:", name: "PageAddedToPublicTopic", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newRemotePage:", name: "RemotePage", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newPage), name: "PageAddedToPublicTopic", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newRemotePage), name: "RemotePage", object: nil)
         
     }
 
@@ -110,7 +110,14 @@ class TrayCollectionViewController: UICollectionViewController, SFSafariViewCont
     
     func getPages () {
         InboxManager.sharedInstance.getPublicTopicPages(self.topic!) { (pages) -> Void in
-            self.pages = pages!
+            var newPages = pages!
+            
+            newPages.sortInPlace({ (a, b) -> Bool in
+                a.date!.compare(b.date!) == NSComparisonResult.OrderedDescending
+            })
+            
+            self.pages = newPages
+            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.collectionView?.reloadData()
             })

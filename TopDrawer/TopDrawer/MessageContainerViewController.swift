@@ -24,14 +24,14 @@ class MessageContainerViewController: UIViewController, SFSafariViewControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.segmentedControl.addTarget(self, action: "segmentedControlDidChangeValue", forControlEvents: .ValueChanged)
+        self.segmentedControl.addTarget(self, action: #selector(segmentedControlDidChangeValue), forControlEvents: .ValueChanged)
 
         // Do any additional setup after loading the view.
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTopicMarker:", name: "NewTopicMarker", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTopicMarkerDown:", name: "ScrollDown", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTopicMarkerUp:", name: "ScrollUp", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newRemoteTopicMarker:", name: "RemoteMarker", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newTopicMarker), name: "NewTopicMarker", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateTopicMarkerDown), name: "ScrollDown", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateTopicMarkerUp), name: "ScrollUp", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newRemoteTopicMarker), name: "RemoteMarker", object: nil)
         getTopicMarkers()
     }
 
@@ -106,7 +106,7 @@ class MessageContainerViewController: UIViewController, SFSafariViewControllerDe
     func setTopicMarker (page:Page) {
         let image = page.image
         let imageButton = UIButton(type: .Custom)
-        imageButton.addTarget(self, action: "buttonWasPressed", forControlEvents: .TouchUpInside)
+        imageButton.addTarget(self, action: #selector(buttonWasPressed), forControlEvents: .TouchUpInside)
         imageButton.bounds = CGRectMake(0, 0, 20, 20)
         imageButton.setImage(image, forState: .Normal)
         let barButton = UIBarButtonItem(customView: imageButton)
