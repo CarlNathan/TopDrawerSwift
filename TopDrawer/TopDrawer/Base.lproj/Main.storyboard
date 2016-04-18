@@ -812,7 +812,7 @@
                     <navigationItem key="navigationItem" title="Friends" id="BDp-oY-xdg">
                         <barButtonItem key="rightBarButtonItem" title="?" id="Rdn-EL-0cB">
                             <connections>
-                                <segue destination="ctG-Sy-wSk" kind="showDetail" id="2LB-xz-j1r"/>
+                                <segue destination="ctG-Sy-wSk" kind="show" action="showDetailViewController:sender:" id="2LB-xz-j1r"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -834,7 +834,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ur9-MR-zJf">
-                                <rect key="frame" x="20" y="20" width="560" height="150"/>
+                                <rect key="frame" x="20" y="64" width="560" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="YSw-Mq-MOV"/>
