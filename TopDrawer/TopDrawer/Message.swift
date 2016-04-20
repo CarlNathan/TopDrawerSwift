@@ -14,6 +14,7 @@ struct Message {
     var body: String!
     var topicRef: CKRecordID!
     var date: NSDate?
+
     
     init (sender: Friend, body: String, topic: CKRecordID, date: NSDate) {
         self.sender = sender

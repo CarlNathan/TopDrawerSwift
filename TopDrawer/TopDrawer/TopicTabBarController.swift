@@ -11,6 +11,7 @@ import UIKit
 class TopicTabBarController: UITabBarController {
     
     var topic: Topic?
+    var topicMarkers: [TopicMarker]!
 
     override func viewDidLoad() {
         super.viewDidLoad()

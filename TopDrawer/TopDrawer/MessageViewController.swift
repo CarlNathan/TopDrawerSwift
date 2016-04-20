@@ -16,7 +16,11 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
 
     var topic: Topic?
     var messages = [Message]()
-    var jsqMessages = [JSQMessage]() {
+    var topicMarkers = [TopicMarker]()
+    var headerTopics = [TopicMarker]()
+    var markerFlag: Bool = false
+    var messageFlag: Bool = false
+    var dataSource = [String: [Message]]() {
         didSet{
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.collectionView?.reloadData()
@@ -25,27 +29,32 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
             }
         }
     }
+    var jsqMessages = [JSQMessage]() 
     var lastPath: Int!
     
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.lightGrayColor())
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let tabBar = self.tabBarController as! TopicTabBarController
-        self.topic = tabBar.topic
-        self.senderId = InboxManager.sharedInstance.currentUserID.recordName
-        self.senderDisplayName = InboxManager.sharedInstance.currentUserID.recordName
+        topic = tabBar.topic
+        senderId = InboxManager.sharedInstance.currentUserID.recordName
+        senderDisplayName = InboxManager.sharedInstance.currentUserID.recordName
+        collectionView.registerClass(TopicMarkerHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerView")
+        
 
         // Do any additional setup after loading the view.
         getMessages()
+        getTopicMarkers()
         self.scrollToBottomAnimated(true)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageViewController.newRemoteMessage(_:)), name: "RemoteMessage", object: nil)
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(Float(2.0) * Float(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
-            self.getMessages()
-        }
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(Float(2.0) * Float(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+//            self.getMessages()
+//        }
         
     }
     
@@ -61,6 +70,7 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
                 self.addJSQMessage(message!)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.collectionView?.reloadData()
+                    self.scrollToBottomAnimated(true)
                 })
             } else {
                 print("Off topic")
@@ -78,6 +88,22 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         InboxManager.sharedInstance.getMessages(self.topic!) { (messages) -> Void in
             self.messages = messages!
             self.jsqMessagesFromMessages()
+            self.messageFlag = true
+            self.getDataSource()
+        }
+    }
+    
+    func getTopicMarkers () {
+        InboxManager.sharedInstance.getTopicMarkers(self.topic!) { (topicMarkers) in
+            self.topicMarkers = topicMarkers!
+            self.markerFlag = true
+            self.getDataSource()
+        }
+    }
+    
+    func getDataSource() {
+        if markerFlag && messageFlag {
+            (self.dataSource, self.headerTopics) = MessageSorter.sortMessages(self.messages, topicMarkers: self.topicMarkers)
         }
     }
     
@@ -97,6 +123,15 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         })
         self.jsqMessages = newMessages
     }
+    
+    func jsqMessageFromMessage(message: Message) -> JSQMessage {
+        let senderID = message.sender.recordID
+        let senderName = message.sender.firstName! + " " + message.sender.familyName!
+        let text = message.body
+        let date = message.date
+        let newMessage = JSQMessage(senderId: senderID, senderDisplayName: senderName, date: date, text: text)
+        return newMessage
+    }
 
     func addJSQMessage(message: Message) {
         let senderID = message.sender.recordID
@@ -113,22 +148,57 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
 extension MessageViewController {
       // MARK: - DataSource
     
-    func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
-        let message = messages[indexPath.item]
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
+        let message = dataSource[headerTopics[indexPath.section].page!.recordName]![indexPath.row]
+        let initials = message.sender.firstName![0] + message.sender.familyName![0]
+        let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: MaterialColor.grey.darken1, textColor: MaterialColor.white, font: RobotoFont.mediumWithSize(30), diameter: 70)
 
-        let initials : String = message.sender.firstName![0] + message.sender.familyName![0]
-        let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: MaterialColor.grey.darken1, textColor: MaterialColor.white, font: RobotoFont.mediumWithSize(20), diameter: 100)
-        return UIImageView(image:userImage.avatarImage)
-
-    }
-
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.jsqMessages.count
+        return userImage
     }
     
+    //topicmarker views
+    
+    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return headerTopics.count
+    }
+    
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+
+        if kind == UICollectionElementKindSectionHeader {
+            let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "headerView", forIndexPath: indexPath) as! TopicMarkerHeaderView
+            let pageID = headerTopics[indexPath.section].page
+            view.getPageForID(pageID!)
+            return view
+        } else {
+            return UICollectionReusableView()
+        }
+    }
+    
+    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 0)
+    }
+    
+    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let name = headerTopics[section].page!.recordName
+        if name == "nil" {
+            return CGSize(width: collectionView.frame.width, height: 0)
+        } else {
+        return CGSize(width: collectionView.frame.width - 40, height: 60)
+        }
+    }
+
+
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            let source = dataSource[headerTopics[section].page!.recordName]
+            return source!.count
+            
+        }
+    
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
-        let data = self.jsqMessages[indexPath.row]
-        return data
+        let data = dataSource[(headerTopics[indexPath.section].page?.recordName)!]![indexPath.row]
+            return jsqMessageFromMessage(data)
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, didDeleteMessageAtIndexPath indexPath: NSIndexPath!) {
@@ -136,8 +206,9 @@ extension MessageViewController {
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
-        let data = jsqMessages[indexPath.row]
-        switch(data.senderId) {
+        let data = dataSource[(headerTopics[indexPath.section].page?.recordName)!]![indexPath.row]
+        let jsqData = jsqMessageFromMessage(data)
+        switch(jsqData.senderId) {
         case self.senderId:
             return self.outgoingBubble
         default:
@@ -145,9 +216,6 @@ extension MessageViewController {
         }
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
-        return nil
-    }
 }
 
 //MARK: - Toolbar

@@ -20,6 +20,10 @@ class InboxManager {
     func getCurrentUserID () {
         let container = CKContainer.defaultContainer()
         container.fetchUserRecordIDWithCompletionHandler { (userID, error) -> Void in
+            if let e = error {
+                print("0 failed to load: \(e.localizedDescription)")
+                return
+            }
             if let user = userID {
                 self.currentUserID = user
                 self.createRemoteTopicSubscription()
@@ -29,7 +33,7 @@ class InboxManager {
         }
     }
     
-    func findUsers(completionHandler: ([Friend]?) -> Void)  {
+    func findUsers(completionHandler: () -> Void)  {
         let container = CKContainer.defaultContainer()
         container.discoverAllContactUserInfosWithCompletionHandler { (userInfo, error) -> Void in
             if let e = error {
@@ -41,6 +45,7 @@ class InboxManager {
                 let CKID = user.userRecordID?.recordName
                 self.friends[CKID!] = newFriend
             }
+            completionHandler()
         }
     }
     
@@ -122,7 +127,7 @@ extension InboxManager {
     func getPermissions() {
             CKContainer.defaultContainer().requestApplicationPermission(CKApplicationPermissions.UserDiscoverability, completionHandler: { applicationPermissionStatus, error in
                 if applicationPermissionStatus == CKApplicationPermissionStatus.Granted {
-                    self.findUsers({ (friends) in
+                    self.findUsers({
                         //
                     })
                 }
@@ -255,7 +260,7 @@ extension InboxManager {
                 let senderID = message["sender"] as! CKReference
                 var sender: Friend!
                 if senderID.recordID.recordName == self.currentUserID.recordName {
-                    sender = Friend(firstName: "Me", familyName: "", recordIDString: self.currentUserID.recordName)
+                    sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName)
                 } else {
                     sender = self.friends[senderID.recordID.recordName]
 
@@ -592,7 +597,7 @@ extension InboxManager {
             let senderID = message!["sender"] as! CKReference
             var sender: Friend!
             if senderID.recordID.recordName == self.currentUserID.recordName {
-                sender = Friend(firstName: "Me", familyName: "", recordIDString: self.currentUserID.recordName)
+                sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName)
             } else {
                 sender = self.friends[senderID.recordID.recordName]
                 

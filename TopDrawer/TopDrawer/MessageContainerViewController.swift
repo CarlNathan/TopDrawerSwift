@@ -142,7 +142,8 @@ class MessageContainerViewController: UIViewController, SFSafariViewControllerDe
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         self.tabBar = segue.destinationViewController as? TopicTabBarController
         self.tabBar!.tabBar.hidden = true
-        self.tabBar!.topic = self.topic        
+        self.tabBar!.topic = topic
+        self.tabBar!.topicMarkers = topicMarkers
     }
     
     func getTopicMarkers () {
