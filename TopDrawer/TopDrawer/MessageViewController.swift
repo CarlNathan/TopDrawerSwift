@@ -24,14 +24,11 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         didSet{
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.collectionView?.reloadData()
-            self.initLastPath ()
             self.scrollToBottomAnimated(true)
             }
         }
     }
-    var jsqMessages = [JSQMessage]() 
-    var lastPath: Int!
-    
+    var jsqMessages = [JSQMessage]()     
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.lightGrayColor())
     
@@ -250,43 +247,11 @@ extension MessageViewController {
         //self.toolbarItems
     }
     
-    func initLastPath () {
-        let point = CGPointMake(self.view.center.x, self.view.center.y + self.collectionView!.contentOffset.y)
-        if let path = self.collectionView!.indexPathForItemAtPoint(point) {
-            self.lastPath = path.row
-        }else {
-            self.lastPath = 0
-        }
-
-    }
-    
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
-        let point = CGPointMake(self.view.center.x, self.view.center.y + self.collectionView!.contentOffset.y)
-        if let path = self.collectionView!.indexPathForItemAtPoint(point) {
-            switch path.row - lastPath {
-            case 1:
-                //scroll down
-                let message = self.jsqMessages[path.row]
-                self.lastPath = path.row
-                NSNotificationCenter.defaultCenter().postNotificationName("ScrollDown", object: self, userInfo: ["date" : message.date])
-                break
-            case -1:
-                //scroll up
-                let message = self.jsqMessages[path.row]
-                self.lastPath = path.row
-                NSNotificationCenter.defaultCenter().postNotificationName("ScrollUp", object: self, userInfo: ["date" : message.date])
-                break
-            default:
-                //same cell
-                return
-            }
-        }
-    }
     
     //Mark: - TopicMarkerDelegate
     
     func didSelectPageForMarker(page: Page) {
-        
+        // update topic markers and message
         //save marker
         //send notificaiton
         InboxManager.sharedInstance.saveTopicMarker(page, topic: self.topic!)
