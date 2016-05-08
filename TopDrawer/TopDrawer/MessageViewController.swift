@@ -23,12 +23,12 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
     var dataSource = [String: [Message]]() {
         didSet{
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.collectionView.collectionViewLayout.invalidateLayout()
             self.collectionView?.reloadData()
             self.scrollToBottomAnimated(true)
             }
         }
     }
-    var jsqMessages = [JSQMessage]()     
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.lightGrayColor())
     
@@ -41,13 +41,14 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         senderId = InboxManager.sharedInstance.currentUserID.recordName
         senderDisplayName = InboxManager.sharedInstance.currentUserID.recordName
         collectionView.registerClass(TopicMarkerHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerView")
-        
+        prepareCollectionViewFlowLayout()
 
         // Do any additional setup after loading the view.
         getMessages()
         getTopicMarkers()
         self.scrollToBottomAnimated(true)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageViewController.newRemoteMessage(_:)), name: "RemoteMessage", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newTopicMarker), name: "NewTopicMarker", object: nil)
         
 //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(Float(2.0) * Float(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
 //            self.getMessages()
@@ -59,12 +60,18 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    func newTopicMarker(sender: NSNotification) {
+        let marker = sender.userInfo!["marker"] as! TopicMarker
+        let page = sender.userInfo!["page"] as! Page
+        headerTopics.append(marker)
+        dataSource[page.pageID.recordName] = []
+    }
+    
     func newRemoteMessage(sender: NSNotification) {
         let recordID = sender.userInfo!["topicID"] as! CKRecordID
         InboxManager.sharedInstance.getMessageForID(recordID) { (message) -> Void in
             if message?.topicRef == self.topic?.recordID {
-                self.messages.append(message!)
-                self.addJSQMessage(message!)
+                self.dataSource[self.topicMarkers.last!.page!.recordName]?.append(message!)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.collectionView?.reloadData()
                     self.scrollToBottomAnimated(true)
@@ -75,6 +82,11 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         }
 
     }
+    
+    func prepareCollectionViewFlowLayout() {
+        collectionView.collectionViewLayout = StickyHeaderFlowLayout()
+        collectionView.collectionViewLayout.minimumInteritemSpacing = 10
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -84,7 +96,6 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
     func getMessages () {
         InboxManager.sharedInstance.getMessages(self.topic!) { (messages) -> Void in
             self.messages = messages!
-            self.jsqMessagesFromMessages()
             self.messageFlag = true
             self.getDataSource()
         }
@@ -104,23 +115,6 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         }
     }
     
-    func jsqMessagesFromMessages () {
-        var newMessages = [JSQMessage]()
-        for message in self.messages {
-            let senderID = message.sender.recordID
-            let senderName = message.sender.firstName! + " " + message.sender.familyName!
-            let text = message.body
-            let date = message.date
-            let newMessage = JSQMessage(senderId: senderID, senderDisplayName: senderName, date: date, text: text)
-            newMessages.append(newMessage)
-            
-        }
-        newMessages.sortInPlace({ (a, b) -> Bool in
-            a.date!.compare(b.date!) == NSComparisonResult.OrderedAscending
-        })
-        self.jsqMessages = newMessages
-    }
-    
     func jsqMessageFromMessage(message: Message) -> JSQMessage {
         let senderID = message.sender.recordID
         let senderName = message.sender.firstName! + " " + message.sender.familyName!
@@ -129,18 +123,8 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         let newMessage = JSQMessage(senderId: senderID, senderDisplayName: senderName, date: date, text: text)
         return newMessage
     }
-
-    func addJSQMessage(message: Message) {
-        let senderID = message.sender.recordID
-        let senderName = message.sender.firstName! + " " + message.sender.familyName!
-        let text = message.body
-        let date = message.date
-        let newMessage = JSQMessage(senderId: senderID, senderDisplayName: senderName, date: date, text: text)
-        jsqMessages.append(newMessage)
-
-    }
-    
 }
+
 
 extension MessageViewController {
       // MARK: - DataSource
@@ -168,21 +152,20 @@ extension MessageViewController {
             let pageID = headerTopics[indexPath.section].page
             view.getPageForID(pageID!)
             return view
-        } else {
-            return UICollectionReusableView()
         }
+        return UICollectionReusableView()
     }
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 0)
+        return CGSize.zero
     }
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let name = headerTopics[section].page!.recordName
         if name == "nil" {
-            return CGSize(width: collectionView.frame.width, height: 0)
+            return CGSize.zero
         } else {
-        return CGSize(width: collectionView.frame.width - 40, height: 60)
+        return CGSize(width: 60, height: 60)
         }
     }
 
@@ -196,10 +179,6 @@ extension MessageViewController {
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
         let data = dataSource[(headerTopics[indexPath.section].page?.recordName)!]![indexPath.row]
             return jsqMessageFromMessage(data)
-    }
-    
-    override func collectionView(collectionView: JSQMessagesCollectionView!, didDeleteMessageAtIndexPath indexPath: NSIndexPath!) {
-        self.jsqMessages.removeAtIndex(indexPath.row)
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
@@ -218,19 +197,16 @@ extension MessageViewController {
 //MARK: - Toolbar
 extension MessageViewController {
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
-        self.jsqMessages += [message]
-        self.finishSendingMessage()
-        
-        //warning: save new messageobject
-        let cloudMessage = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: text, topic: (self.topic?.recordID)!, date: date)
-        InboxManager.sharedInstance.saveMessage(cloudMessage)
-        self.scrollToBottomAnimated(true)
+        let message = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: text, topic: (self.topic?.recordID)!, date: date)
+        dataSource[(headerTopics.last?.topicID?.recordName)!]?.append(message)
+        InboxManager.sharedInstance.saveMessage(message)
+        finishSendingMessage()
     }
     
     override func didPressAccessoryButton(sender: UIButton!) {
         
-        self.performSegueWithIdentifier("showSelection", sender: self)
+        //self.performSegueWithIdentifier("showSelection", sender: self)
+        InsertTopicMarkerPopupVC.presentPopupCV(self, topic: topic!, delegate: self)
         
     }
     
@@ -256,16 +232,7 @@ extension MessageViewController {
         //send notificaiton
         InboxManager.sharedInstance.saveTopicMarker(page, topic: self.topic!)
         let marker = TopicMarker(page: page.pageID, date: NSDate(), topic: self.topic!.recordID!)
-        NSNotificationCenter.defaultCenter().postNotificationName("NewTopicMarker", object: self, userInfo:["marker":marker])
-        //insert marker message
-        let message = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: NSDate(), text: "#" + page.name!)
-        self.jsqMessages += [message]
-        self.finishSendingMessage()
-        
-        //warning: save new messageobject
-        let cloudMessage = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: "#" + page.name!, topic: (self.topic?.recordID)!, date: NSDate())
-        InboxManager.sharedInstance.saveMessage(cloudMessage)
-        self.scrollToBottomAnimated(true)
+        NSNotificationCenter.defaultCenter().postNotificationName("NewTopicMarker", object: self, userInfo:["marker":marker, "page": page])
     }
 
 }

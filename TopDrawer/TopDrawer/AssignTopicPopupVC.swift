@@ -117,7 +117,6 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
         settingButton.tintColor = MaterialColor.blue.accent3
         settingButton.addTarget(self, action: #selector(saveTopics), forControlEvents: .TouchUpInside)
         
-        // Use MaterialLayout to easily align the tableView.
         cardView.titleLabel = titleLabel
         cardView.detailView = tableView
         cardView.leftButtons = [closeButton]

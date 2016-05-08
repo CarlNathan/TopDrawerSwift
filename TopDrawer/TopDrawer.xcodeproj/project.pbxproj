@@ -23,6 +23,8 @@
 		ED3A5DC61CC56DB300559CFB /* MessageSorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A5DC51CC56DB300559CFB /* MessageSorter.swift */; };
 		ED3A5DC81CC575EF00559CFB /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A5DC71CC575EF00559CFB /* NSDateExtension.swift */; };
 		ED3A5DCA1CC59F8400559CFB /* TopicMarkerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A5DC91CC59F8400559CFB /* TopicMarkerHeaderView.swift */; };
+		ED3A5E081CC81BA100559CFB /* StickyHeaderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A5E071CC81BA100559CFB /* StickyHeaderFlowLayout.swift */; };
+		ED3A5E931CD15B9E00559CFB /* InsertTopicMarkerPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A5E921CD15B9E00559CFB /* InsertTopicMarkerPopupVC.swift */; };
 		ED49DC1C1C8881E0003BB009 /* App downloads (2).png in Resources */ = {isa = PBXBuildFile; fileRef = ED49DC1B1C8881E0003BB009 /* App downloads (2).png */; };
 		ED4AB5251CA9C62800A9171F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4AB5241CA9C62800A9171F /* CustomTextField.swift */; };
 		ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */; };
@@ -67,6 +69,8 @@
 		EDED75D51CC136680071A36F /* FriendsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D41CC136680071A36F /* FriendsTableView.swift */; };
 		EDED75D71CC15ED10071A36F /* NewTopicEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */; };
 		EDED75DE1CC2AB240071A36F /* TextEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */; };
+		EDFE6A6B1CD304B500D997F9 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6A6A1CD304B500D997F9 /* OnboardingPageViewController.swift */; };
+		EDFE6A6D1CD3050F00D997F9 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6A6C1CD3050F00D997F9 /* SignInView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +135,8 @@
 		ED3A5DC51CC56DB300559CFB /* MessageSorter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSorter.swift; sourceTree = "<group>"; };
 		ED3A5DC71CC575EF00559CFB /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
 		ED3A5DC91CC59F8400559CFB /* TopicMarkerHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarkerHeaderView.swift; sourceTree = "<group>"; };
+		ED3A5E071CC81BA100559CFB /* StickyHeaderFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickyHeaderFlowLayout.swift; sourceTree = "<group>"; };
+		ED3A5E921CD15B9E00559CFB /* InsertTopicMarkerPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertTopicMarkerPopupVC.swift; sourceTree = "<group>"; };
 		ED49DC1B1C8881E0003BB009 /* App downloads (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App downloads (2).png"; sourceTree = "<group>"; };
 		ED4AB5241CA9C62800A9171F /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTopicTableViewCell.swift; sourceTree = "<group>"; };
@@ -185,6 +191,8 @@
 		EDED75D41CC136680071A36F /* FriendsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableView.swift; sourceTree = "<group>"; };
 		EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicEntryTableViewController.swift; sourceTree = "<group>"; };
 		EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEntryViewController.swift; sourceTree = "<group>"; };
+		EDFE6A6A1CD304B500D997F9 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		EDFE6A6C1CD3050F00D997F9 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F7CB34F0BF65C798C980B92D /* Pods_TopDrawer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopDrawer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -266,6 +274,7 @@
 				ED2B08171C7F49780007949E /* MessageContainerViewController.swift */,
 				ED2B081B1C7F614C0007949E /* MessageViewController.swift */,
 				ED3A5DC91CC59F8400559CFB /* TopicMarkerHeaderView.swift */,
+				ED3A5E071CC81BA100559CFB /* StickyHeaderFlowLayout.swift */,
 				ED2B08191C7F49D10007949E /* TrayCollectionViewController.swift */,
 				ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */,
 				EDED75CB1CBEEBB10071A36F /* SharedTopicCellCardView.swift */,
@@ -334,6 +343,7 @@
 				ED2B08161C7F48F40007949E /* Shared Topics Tree */,
 				ED2B08131C7F48890007949E /* FriendsTree */,
 				EDED75CF1CBEF3860071A36F /* PopupTableViews */,
+				EDFE6A691CD3045A00D997F9 /* Onboarding */,
 				EDAC5D821C7B83A900C0C306 /* Assets.xcassets */,
 				ED49DC1B1C8881E0003BB009 /* App downloads (2).png */,
 				EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */,
@@ -431,8 +441,18 @@
 				EDED75D41CC136680071A36F /* FriendsTableView.swift */,
 				EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */,
 				EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */,
+				ED3A5E921CD15B9E00559CFB /* InsertTopicMarkerPopupVC.swift */,
 			);
 			name = PopupTableViews;
+			sourceTree = "<group>";
+		};
+		EDFE6A691CD3045A00D997F9 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				EDFE6A6A1CD304B500D997F9 /* OnboardingPageViewController.swift */,
+				EDFE6A6C1CD3050F00D997F9 /* SignInView.swift */,
+			);
+			name = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -723,6 +743,7 @@
 				EDAC5DCA1C7CDC5D00C0C306 /* DetailViewController.swift in Sources */,
 				ED5EBEB81C84A0B3009951BB /* NewTopicViewController.swift in Sources */,
 				ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */,
+				ED3A5E081CC81BA100559CFB /* StickyHeaderFlowLayout.swift in Sources */,
 				EDAC5DD41C7D1F3500C0C306 /* TopicSavedPageCollectionViewCell.swift in Sources */,
 				ED2B08221C7FB0BC0007949E /* Topic.swift in Sources */,
 				ED5EBEB21C82B0B6009951BB /* SharedPageCollectionViewCell.swift in Sources */,
@@ -742,6 +763,7 @@
 				EDED75DE1CC2AB240071A36F /* TextEntryViewController.swift in Sources */,
 				EDAC5DAD1C7BAAC600C0C306 /* Page.swift in Sources */,
 				ED3A5DC31CC547E300559CFB /* StringExtensionIndexing.swift in Sources */,
+				ED3A5E931CD15B9E00559CFB /* InsertTopicMarkerPopupVC.swift in Sources */,
 				EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */,
 				ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */,
 				ED2B08241C80998B0007949E /* Friend.swift in Sources */,
@@ -749,10 +771,12 @@
 				ED3A5DCA1CC59F8400559CFB /* TopicMarkerHeaderView.swift in Sources */,
 				EDADFF211C8674AB0055867E /* TopicMarker.swift in Sources */,
 				ED2B081E1C7F93A60007949E /* InboxManager.swift in Sources */,
+				EDFE6A6D1CD3050F00D997F9 /* SignInView.swift in Sources */,
 				ED2B08151C7F48E30007949E /* SharedTableViewController.swift in Sources */,
 				EDED75CE1CBEF37D0071A36F /* NewTopicPopupVC.swift in Sources */,
 				EDED75D11CBEF3F30071A36F /* AssignTopicPopupVC.swift in Sources */,
 				EDED75D51CC136680071A36F /* FriendsTableView.swift in Sources */,
+				EDFE6A6B1CD304B500D997F9 /* OnboardingPageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

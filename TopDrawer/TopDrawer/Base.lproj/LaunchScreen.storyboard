@@ -17,6 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundGradient" translatesAutoresizingMaskIntoConstraints="NO" id="V3L-Sz-m2a">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App downloads (2).png" translatesAutoresizingMaskIntoConstraints="NO" id="f3O-Wl-VGq">
                                 <rect key="frame" x="260" y="260" width="80" height="80"/>
                                 <constraints>
@@ -33,11 +36,27 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Vsw-Zv-nPP" firstAttribute="top" secondItem="V3L-Sz-m2a" secondAttribute="bottom" id="48Q-0e-rWp"/>
+                            <constraint firstAttribute="trailing" secondItem="V3L-Sz-m2a" secondAttribute="trailing" id="QkP-We-WQl"/>
+                            <constraint firstItem="V3L-Sz-m2a" firstAttribute="leading" secondItem="5re-On-nct" secondAttribute="leading" id="Ssd-2T-o76"/>
                             <constraint firstItem="gqy-rZ-KY3" firstAttribute="top" secondItem="f3O-Wl-VGq" secondAttribute="bottom" constant="8" id="cX8-7B-f6a"/>
+                            <constraint firstItem="V3L-Sz-m2a" firstAttribute="leading" secondItem="5re-On-nct" secondAttribute="leading" id="ei1-8U-kRq"/>
+                            <constraint firstItem="V3L-Sz-m2a" firstAttribute="top" secondItem="5re-On-nct" secondAttribute="top" id="esJ-eB-PC7"/>
+                            <constraint firstAttribute="trailing" secondItem="V3L-Sz-m2a" secondAttribute="trailing" id="fh5-rf-QZQ"/>
+                            <constraint firstItem="V3L-Sz-m2a" firstAttribute="top" secondItem="gqy-rZ-KY3" secondAttribute="bottom" id="gas-vz-2EE"/>
                             <constraint firstItem="gqy-rZ-KY3" firstAttribute="centerX" secondItem="5re-On-nct" secondAttribute="centerX" id="rnN-ez-EJo"/>
+                            <constraint firstItem="Vsw-Zv-nPP" firstAttribute="top" secondItem="V3L-Sz-m2a" secondAttribute="bottom" id="xL2-7M-e8Z"/>
                             <constraint firstItem="f3O-Wl-VGq" firstAttribute="centerY" secondItem="5re-On-nct" secondAttribute="centerY" id="yVN-dB-wII"/>
                             <constraint firstItem="f3O-Wl-VGq" firstAttribute="centerX" secondItem="5re-On-nct" secondAttribute="centerX" id="yfC-bY-CiW"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="QkP-We-WQl"/>
+                                <exclude reference="Ssd-2T-o76"/>
+                                <exclude reference="gas-vz-2EE"/>
+                                <exclude reference="xL2-7M-e8Z"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3zp-TC-A3C" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -47,5 +66,6 @@
     </scenes>
     <resources>
         <image name="App downloads (2).png" width="512" height="512"/>
+        <image name="BackgroundGradient" width="387" height="387"/>
     </resources>
 </document>

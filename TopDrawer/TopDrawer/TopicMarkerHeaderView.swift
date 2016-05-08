@@ -13,7 +13,8 @@ import CloudKit
 
 class TopicMarkerHeaderView: UICollectionReusableView {
     
-    let grad = CAGradientLayer()
+    let imageGrad = CAGradientLayer()
+    let messageFadeGrad = CAGradientLayer()
     var page: Page? {
         didSet {
             imageView.image = page!.image
@@ -25,12 +26,14 @@ class TopicMarkerHeaderView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        grad.colors = [UIColor.clearColor().CGColor, UIColor.blackColor().CGColor]
-        layer.cornerRadius = 10
+        imageGrad.colors = [UIColor.clearColor().CGColor, UIColor.blackColor().CGColor]
+        messageFadeGrad.colors = [UIColor.whiteColor().CGColor, UIColor(white: 1, alpha: 0).CGColor]
+        imageView.layer.cornerRadius = 20
         imageView.contentMode = .ScaleAspectFill
         imageView.layer.masksToBounds = true
         titleLabel.textColor = UIColor.whiteColor()
-        imageView.layer.addSublayer(grad)
+        imageView.layer.addSublayer(imageGrad)
+        layer.addSublayer(messageFadeGrad)
         addSubview(imageView)
         addSubview(titleLabel)
         
@@ -46,14 +49,15 @@ class TopicMarkerHeaderView: UICollectionReusableView {
     }
     
     override func layoutSubviews() {
-        imageView.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+        imageView.frame = CGRect(x:(bounds.size.width*0.05), y: 0, width: (bounds.size.width*0.9), height: bounds.size.height)
         titleLabel.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
-        grad.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+        imageGrad.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+        messageFadeGrad.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height + 20)
     }
     
     override func prepareForReuse() {
-        imageView.image = nil
-        titleLabel.text = nil
+        //imageView.image = nil
+        //titleLabel.text = nil
     }
     
     func getPageForID(pageID: CKRecordID) {

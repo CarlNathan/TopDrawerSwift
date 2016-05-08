@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol TopicMarkerSelectionDelegate {
-    func didSelectPageForMarker(page:Page)
-}
-
 
 class TopicMarkerSelectionTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
