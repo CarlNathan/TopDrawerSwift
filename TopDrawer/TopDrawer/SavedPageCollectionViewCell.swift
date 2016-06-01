@@ -51,14 +51,15 @@ class SavedPageCollectionViewCell: MaterialCollectionViewCell {
     
     override func layoutSubviews() {
         self.contentView.frame = self.bounds;
-        imageView.grid.rows = 6
-        cardView.grid.rows = 6
+        imageView.grid.rows = 5
+        cardView.grid.rows = 7
         contentView.grid.axis.direction = .Vertical
         contentView.grid.views = [imageView, cardView]
         
-        MaterialLayout.alignToParentHorizontally(contentView, child: cardView, left: 20, right: 20)
-        MaterialLayout.alignFromBottom(contentView, child: cardView, bottom: 20)
-        cardView.share.frame = CGRectMake(cardView.frame.width - 70, 10, 60, 40)
+        MaterialLayout.alignToParentHorizontally(contentView, child: cardView, left: 0, right: 0)
+        MaterialLayout.alignFromBottom(contentView, child: cardView, bottom: 0)
+        cardView.share.frame = CGRectMake(cardView.frame.width - 70, 10, 40, 40)
+        cardView.share.shape = .Circle
 
     }
     

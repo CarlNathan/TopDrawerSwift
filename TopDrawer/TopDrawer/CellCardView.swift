@@ -19,7 +19,7 @@ class CellCardView: CardView {
     let detailViewLabel = UILabel()
     var cardDelegate: CellCardViewDelegate?
     var page: Page!
-    var share: FlatButton!
+    var share: FabButton!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,7 +48,6 @@ class CellCardView: CardView {
         catagorize.pulseColor = MaterialColor.black
         catagorize.tintColor = MaterialColor.black
         catagorize.addTarget(self, action: #selector(handleCatagory), forControlEvents: .TouchUpInside)
-        leftButtons = [delete]
         rightButtons = [catagorize]
         
         
@@ -58,13 +57,17 @@ class CellCardView: CardView {
         rightButtonsInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         //share button
-        share = FlatButton(frame: CGRectMake(0,0,0,0))
+        share = FabButton(frame: CGRect.zero)
         let shareImage = UIImage(named: "cm_more_vert_white")!.imageWithRenderingMode(.AlwaysTemplate)
         share.setImage(shareImage, forState: .Normal)
-        share.pulseColor = MaterialColor.black
-        share.tintColor = MaterialColor.black
+        share.pulseColor = MaterialColor.white
+        share.tintColor = MaterialColor.white
+        share.borderColor = MaterialColor.black
+        share.backgroundColor = MaterialColor.black
         share.addTarget(self, action: #selector(handleShare), forControlEvents: .TouchUpInside)
         self.addSubview(share)
+        leftButtons = [delete, catagorize, share]
+
         
         
         

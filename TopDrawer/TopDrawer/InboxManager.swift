@@ -66,7 +66,8 @@ extension InboxManager {
         let description = page["description"] as? String ?? nil
         let date = page["date"] as? NSDate ?? nil
         let URLString = page["URLString"] as? String ?? nil
-        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+        let modifiedDate = page.modificationDate
+        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
         return newPage
     }
     
@@ -90,7 +91,8 @@ extension InboxManager {
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+                let modifiedDate = page.modificationDate
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
                 newPages.append(newPage)
                 
             }
@@ -190,7 +192,8 @@ extension InboxManager {
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+                let modifiedDate = page.modificationDate
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
                 newPages.append(newPage)
     
             }
@@ -295,7 +298,8 @@ extension InboxManager {
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+                let modifiedDate = page.modificationDate
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
                 newPages.append(newPage)
             }
             completionHandler(newPages)
@@ -558,7 +562,8 @@ extension InboxManager {
                 image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
             }
             let topic = record!["topic"] as! [CKReference]
-            let page = Page(name: name, description: description, URLString: url, image: image, date: record?.creationDate, recordID: (record?.recordID)!)
+            let modfiedDate = record!.modificationDate
+            let page = Page(name: name, description: description, URLString: url, image: image, date: record?.creationDate, recordID: (record?.recordID)!, modifiedDate: modfiedDate!)
             page.topic = topic
             completionHandler(page)
         }

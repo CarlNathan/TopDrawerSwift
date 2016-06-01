@@ -8,17 +8,34 @@
 
 import UIKit
 import CloudKit
+import Graph
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var lastUpdate = NSDate(timeIntervalSince1970: NSTimeInterval(0))
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        let graph = Graph()
+        let items = graph.searchForEntity(types: ["PersonalPage"], groups: nil, properties: nil)
+//        for item in items {
+//            item.delete()
+//        }
+        for item in items {
+            let date = item["modificationDate"] as! NSDate
+            if date.compare(lastUpdate) == .OrderedDescending {
+                lastUpdate = item["date"] as! NSDate
+            }
+        }
         InboxManager.sharedInstance.initFriends()
         InboxManager.sharedInstance.getCurrentUserID()
+        MissionControl.sharedInstance.getPersonalPages(lastUpdate) { (Pages) in
+            //
+        }
+        
         
         // Register for push notifications
         let notificationSettings = UIUserNotificationSettings.init(forTypes: UIUserNotificationType.Alert, categories: nil)

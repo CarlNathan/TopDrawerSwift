@@ -10,6 +10,7 @@ import UIKit
 import CloudKit
 import SafariServices
 import Material
+import Graph
 
 private let reuseIdentifier = "SavedPagesCell"
 
@@ -26,6 +27,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     }
     var senderPage: Page?
     let loadLayer = MaterialLayer()
+    let graph = Graph()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,7 +117,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let width = collectionView.bounds.width - 20
-        let height = CGFloat(300.0)
+        let height = CGFloat(220.0)
         return CGSizeMake(width, height)
     }
 
@@ -132,18 +134,13 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
             //MARK: Helper
     
     func downloadSavedPages () {
-            
-            InboxManager.sharedInstance.getPersonalPages { (pages) -> Void in
-                var newPages = pages!
-                
-                newPages.sortInPlace({ (a, b) -> Bool in
-                    a.date!.compare(b.date!) == NSComparisonResult.OrderedDescending
-                })
-                
-                self.pages = newPages
-                
+        let graphPages = graph.searchForEntity(types: ["PersonalPage"], groups: nil, properties: nil)
+        var newPages = [Page]()
+        for entity in graphPages {
+            newPages.append(Page.pageFromEntity(entity))
         }
-    }
+        pages = newPages
+        }
     
         //Mark: - Gesture Actions
     func setupLongPressRecognizer () {

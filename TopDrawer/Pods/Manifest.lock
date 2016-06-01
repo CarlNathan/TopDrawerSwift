@@ -1,14 +1,17 @@
 PODS:
+  - Graph (1.0.12)
   - JSQMessagesViewController (7.2.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - Material (1.38.1)
 
 DEPENDENCIES:
+  - Graph
   - JSQMessagesViewController
   - Material
 
 SPEC CHECKSUMS:
+  Graph: 424ac9d276fbc3bdabb314f3e6e253a5c31b380f
   JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   Material: b23d563687302913bd3a868c6a4814ce1638e08a

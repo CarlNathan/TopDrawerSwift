@@ -84,11 +84,13 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-TopDrawer/Graph.framework"
   install_framework "Pods-TopDrawer/JSQMessagesViewController.framework"
   install_framework "Pods-TopDrawer/JSQSystemSoundPlayer.framework"
   install_framework "Pods-TopDrawer/Material.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-TopDrawer/Graph.framework"
   install_framework "Pods-TopDrawer/JSQMessagesViewController.framework"
   install_framework "Pods-TopDrawer/JSQSystemSoundPlayer.framework"
   install_framework "Pods-TopDrawer/Material.framework"
