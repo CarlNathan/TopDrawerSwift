@@ -1,5 +1,5 @@
 //
-//  FriendsTableViewController.swift
+//  ProfileViewController.swift
 //  TopDrawer
 //
 //  Created by Carl Udren on 2/23/16.
@@ -9,9 +9,12 @@
 import UIKit
 import CloudKit
 import Contacts
+import Material
 
-class FriendsTableViewController: UITableViewController {
-
+class ProfileViewController: UIViewController {
+    
+    let tableView = UITableView()
+    let topView = ProfileTopView()
     var friends = [Friend]() {
         didSet {
             friends.sortInPlace { (a, b) -> Bool in
@@ -23,8 +26,14 @@ class FriendsTableViewController: UITableViewController {
         }
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTopView()
+        setupTableView()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -32,28 +41,58 @@ class FriendsTableViewController: UITableViewController {
         getFriends()
 
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func setupTopView(){
+        topView.delegate = self
+        view.addSubview(topView)
+    }
+    
+    func setupTableView(){
+        tableView.dataSource = self
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "FriendCell")
+        view.addSubview(tableView)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        layoutTopView()
+        layoutTableView()
+    }
+    
+    func layoutTopView(){
+        topView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height/2)
+    }
+    
+    func layoutTableView(){
+        tableView.frame = CGRect(x: 0, y: topView.frame.maxY, width: view.bounds.width, height: view.bounds.height - topView.bounds.height)
+    }
+    
+    func getFriends () {
+        InboxManager.sharedInstance.findUsers {
+            self.friends = Array(InboxManager.sharedInstance.friends.values)
+        }
     }
 
+}
+
+
+
+extension ProfileViewController: UITableViewDataSource {
     // MARK: - Table view data source
 
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return friends.count
     }
 
    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("FriendCell", forIndexPath: indexPath)
 
         // Configure the cell...
         let name = self.friends[indexPath.row].firstName! + " " + self.friends[indexPath.row].familyName!
         cell.textLabel!.text = name
-        cell.detailTextLabel!.text = "Hi!  I'm using TopDrawer!"
+        //cell.detailTextLabel!.text = "Hi!  I'm using TopDrawer!"
 
         return cell
     }
@@ -103,11 +142,30 @@ class FriendsTableViewController: UITableViewController {
     }
     */
 
-    
-    func getFriends () {
-        InboxManager.sharedInstance.findUsers {
-            self.friends = Array(InboxManager.sharedInstance.friends.values)
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate, ProfileTopViewDelegate, UINavigationControllerDelegate {
+    func openImagePicker() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .Camera
+        picker.allowsEditing = false
+        presentViewController(picker, animated: true) { 
+            //
         }
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            topView.profileImage.contentMode = .ScaleAspectFit
+            topView.profileImage.setImage(pickedImage, forState: .Normal)
+        }
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
 }
