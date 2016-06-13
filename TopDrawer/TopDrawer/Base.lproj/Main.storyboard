@@ -148,17 +148,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RBL-PE-JZ9">
-                            <size key="itemSize" width="305" height="120"/>
+                            <size key="itemSize" width="305" height="100"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="5" minY="10" maxX="5" maxY="10"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SavedPagesCell" id="hHb-3l-pRB" customClass="SavedPageCollectionViewCell" customModule="TopDrawer" customModuleProvider="target">
-                                <rect key="frame" x="147.5" y="74" width="305" height="120"/>
+                                <rect key="frame" x="147.5" y="74" width="305" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="305" height="120"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="305" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -419,15 +419,17 @@
             </objects>
             <point key="canvasLocation" x="2523" y="-167"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Custom Tab Bar Controller-->
         <scene sceneID="aI1-R1-oK0">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="61Z-l2-6rf" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="61Z-l2-6rf" customClass="CustomTabBarController" customModule="TopDrawer" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="Lh8-lV-wo4">
+                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" id="Lh8-lV-wo4">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.22010668547269022" green="0.22090051529255317" blue="0.20099939615017987" alpha="0.0" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="wG1-rF-vxx" kind="relationship" relationship="viewControllers" id="1hX-Ve-1Sc"/>
@@ -443,10 +445,10 @@
         <!--Saved-->
         <scene sceneID="FTd-J1-niv">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wG1-rF-vxx" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wG1-rF-vxx" customClass="CustomNavController" customModule="TopDrawer" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Saved" image="download" id="c4L-KA-aha"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vsn-4G-Xih">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vsn-4G-Xih" customClass="NavigationBar" customModule="Material">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -462,10 +464,10 @@
         <!--Catagories-->
         <scene sceneID="92J-dM-F69">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mgA-St-ni7" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mgA-St-ni7" customClass="CustomNavController" customModule="TopDrawer" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Catagories" image="favorites" id="e44-ua-4nm"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zR0-OM-er7">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zR0-OM-er7" customClass="NavigationBar" customModule="Material">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

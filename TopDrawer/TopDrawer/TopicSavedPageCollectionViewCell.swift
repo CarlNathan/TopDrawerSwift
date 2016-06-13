@@ -11,15 +11,15 @@ import Material
 
 class TopicSavedPageCollectionViewCell: MaterialCollectionViewCell {
     
-    var cardView: TopicCellCardView!
+    var labelView: PageLabelView!
     var imageView = UIImageView()
     let dateFormatter = NSDateFormatter()
     var page: Page! {
         didSet {
             imageView.image = page.image
-            cardView.titleLabel!.text = dateFormatter.stringFromDate(page.date!)
-            cardView.detailViewLabel.text = page.name
-            cardView.page = page
+            labelView.titleLabel.text = dateFormatter.stringFromDate(page.date!)
+            labelView.titleLabel.text = page.name
+            labelView.page = page
         }
     }
     
@@ -51,13 +51,9 @@ class TopicSavedPageCollectionViewCell: MaterialCollectionViewCell {
     override func layoutSubviews() {
         self.contentView.frame = self.bounds;
         imageView.grid.columns = 5
-        cardView.grid.columns = 7
+        labelView.grid.columns = 7
         contentView.grid.axis.direction = .Horizontal
-        contentView.grid.views = [imageView, cardView]
-        
-        MaterialLayout.alignToParentHorizontally(contentView, child: cardView, left: 20, right: 20)
-        MaterialLayout.alignFromBottom(contentView, child: cardView, bottom: 20)
-        cardView.share.frame = CGRectMake(cardView.frame.width - 70, 5, 60, 40)
+        contentView.grid.views = [imageView, labelView]
         
     }
     
@@ -66,9 +62,9 @@ class TopicSavedPageCollectionViewCell: MaterialCollectionViewCell {
     }
     
     func setupCardView() {
-        cardView = TopicCellCardView(frame: CGRectMake(10, 10, 10, 10))
-        cardView.page = page
-        contentView.addSubview(cardView)
+        labelView = PageLabelView(frame: CGRect.zero)
+        labelView.page = page
+        contentView.addSubview(labelView)
     }
     
     func setupImageView() {

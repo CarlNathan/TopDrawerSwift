@@ -11,14 +11,14 @@ import Material
 
 class SharedPageCollectionViewCell: MaterialCollectionViewCell {
     
-    var cardView: SharedTopicCellCardView!
+    var cardView: PageLabelView!
     var imageView = UIImageView()
     let dateFormatter = NSDateFormatter()
     var page: Page! {
         didSet {
             imageView.image = page.image
-            cardView.titleLabel!.text = dateFormatter.stringFromDate(page.date!)
-            cardView.detailViewLabel.text = page.name
+            cardView.dateLabel.text = dateFormatter.stringFromDate(page.date!)
+            cardView.titleLabel.text = page.name
             cardView.page = page
         }
     }
@@ -65,7 +65,7 @@ class SharedPageCollectionViewCell: MaterialCollectionViewCell {
     }
     
     func setupCardView() {
-        cardView = SharedTopicCellCardView(frame: CGRectMake(10, 10, 10, 10))
+        cardView = PageLabelView(frame: CGRect.zero)
         cardView.page = page
         contentView.addSubview(cardView)
     }
