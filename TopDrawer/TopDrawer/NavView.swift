@@ -125,7 +125,7 @@ class NavView: MaterialView {
     
     func layoutLogo(){
         logo.frame.size = CGSize(width: 30, height: 30)
-        logo.center = center
+        logo.center = CGPoint(x: center.x, y: center.y+10)
         if titleLabel.text == "" {
             logo.hidden = false
         } else {

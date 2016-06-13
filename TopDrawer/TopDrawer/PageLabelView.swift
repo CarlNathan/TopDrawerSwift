@@ -57,7 +57,7 @@ class PageLabelView: UIView {
         titleLabel.text = "The Title of the Page"
         titleLabel.textColor = MaterialColor.grey.darken3
         titleLabel.font = RobotoFont.lightWithSize(18)
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 3
         addSubview(titleLabel)
         
     }
