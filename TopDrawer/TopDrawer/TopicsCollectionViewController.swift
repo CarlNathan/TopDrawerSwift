@@ -87,5 +87,9 @@ class TopicsCollectionViewController: UICollectionViewController {
         NewTopicPopupVC.presentPopupCV(self)
         
     }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        //implement some dynamic scrolling animation
+    }
         
 }

@@ -105,7 +105,7 @@ class FriendsTableViewController: UITableViewController {
 
     
     func getFriends () {
-        InboxManager.sharedInstance.findUsers { (friends) in
+        InboxManager.sharedInstance.findUsers {
             self.friends = Array(InboxManager.sharedInstance.friends.values)
         }
     }

@@ -20,6 +20,10 @@ class InboxManager {
     func getCurrentUserID () {
         let container = CKContainer.defaultContainer()
         container.fetchUserRecordIDWithCompletionHandler { (userID, error) -> Void in
+            if let e = error {
+                print("0 failed to load: \(e.localizedDescription)")
+                return
+            }
             if let user = userID {
                 self.currentUserID = user
                 self.createRemoteTopicSubscription()
@@ -29,7 +33,7 @@ class InboxManager {
         }
     }
     
-    func findUsers(completionHandler: ([Friend]?) -> Void)  {
+    func findUsers(completionHandler: () -> Void)  {
         let container = CKContainer.defaultContainer()
         container.discoverAllContactUserInfosWithCompletionHandler { (userInfo, error) -> Void in
             if let e = error {
@@ -41,6 +45,7 @@ class InboxManager {
                 let CKID = user.userRecordID?.recordName
                 self.friends[CKID!] = newFriend
             }
+            completionHandler()
         }
     }
     
@@ -61,7 +66,8 @@ extension InboxManager {
         let description = page["description"] as? String ?? nil
         let date = page["date"] as? NSDate ?? nil
         let URLString = page["URLString"] as? String ?? nil
-        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+        let modifiedDate = page.modificationDate
+        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
         return newPage
     }
     
@@ -85,7 +91,8 @@ extension InboxManager {
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+                let modifiedDate = page.modificationDate
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
                 newPages.append(newPage)
                 
             }
@@ -122,7 +129,7 @@ extension InboxManager {
     func getPermissions() {
             CKContainer.defaultContainer().requestApplicationPermission(CKApplicationPermissions.UserDiscoverability, completionHandler: { applicationPermissionStatus, error in
                 if applicationPermissionStatus == CKApplicationPermissionStatus.Granted {
-                    self.findUsers({ (friends) in
+                    self.findUsers({
                         //
                     })
                 }
@@ -185,7 +192,8 @@ extension InboxManager {
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+                let modifiedDate = page.modificationDate
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
                 newPages.append(newPage)
     
             }
@@ -255,7 +263,7 @@ extension InboxManager {
                 let senderID = message["sender"] as! CKReference
                 var sender: Friend!
                 if senderID.recordID.recordName == self.currentUserID.recordName {
-                    sender = Friend(firstName: "Me", familyName: "", recordIDString: self.currentUserID.recordName)
+                    sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName)
                 } else {
                     sender = self.friends[senderID.recordID.recordName]
 
@@ -290,7 +298,8 @@ extension InboxManager {
                 let description = page["description"] as? String ?? nil
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID)
+                let modifiedDate = page.modificationDate
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
                 newPages.append(newPage)
             }
             completionHandler(newPages)
@@ -553,7 +562,8 @@ extension InboxManager {
                 image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
             }
             let topic = record!["topic"] as! [CKReference]
-            let page = Page(name: name, description: description, URLString: url, image: image, date: record?.creationDate, recordID: (record?.recordID)!)
+            let modfiedDate = record!.modificationDate
+            let page = Page(name: name, description: description, URLString: url, image: image, date: record?.creationDate, recordID: (record?.recordID)!, modifiedDate: modfiedDate!)
             page.topic = topic
             completionHandler(page)
         }
@@ -592,7 +602,7 @@ extension InboxManager {
             let senderID = message!["sender"] as! CKReference
             var sender: Friend!
             if senderID.recordID.recordName == self.currentUserID.recordName {
-                sender = Friend(firstName: "Me", familyName: "", recordIDString: self.currentUserID.recordName)
+                sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName)
             } else {
                 sender = self.friends[senderID.recordID.recordName]
                 

@@ -71,6 +71,7 @@ class SharedTableViewController: UITableViewController {
             usersString += user.firstName! + " " + user.familyName! + "   "
         }
         cell.detailTextLabel!.text = usersString
+        cell.accessoryType = .DetailDisclosureButton
 
         return cell
     }

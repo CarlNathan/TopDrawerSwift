@@ -12,15 +12,14 @@ import Material
 
 class SavedPageCollectionViewCell: MaterialCollectionViewCell {
     
-    var cardView: CellCardView!
+    var labelView: PageLabelView!
     var imageView = UIImageView()
     let dateFormatter = NSDateFormatter()
     var page: Page! {
         didSet {
             imageView.image = page.image
-            cardView.titleLabel!.text = dateFormatter.stringFromDate(page.date!)
-            cardView.detailViewLabel.text = page.name
-            cardView.page = page
+            labelView.dateLabel.text = dateFormatter.stringFromDate(page.date!)
+            labelView.page = page
         }
     }
     
@@ -28,7 +27,7 @@ class SavedPageCollectionViewCell: MaterialCollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupImageView()
-        setupCardView()
+        setupLabelView()
         borderColor = MaterialColor.blue.base
         backgroundColor = MaterialColor.white
         dateFormatter.dateFormat = "MM/dd/yyyy"
@@ -37,7 +36,7 @@ class SavedPageCollectionViewCell: MaterialCollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupCardView()
+        setupLabelView()
         setupImageView()
         backgroundColor = MaterialColor.white
         depth = .Depth2
@@ -51,25 +50,20 @@ class SavedPageCollectionViewCell: MaterialCollectionViewCell {
     
     override func layoutSubviews() {
         self.contentView.frame = self.bounds;
-        imageView.grid.rows = 6
-        cardView.grid.rows = 6
-        contentView.grid.axis.direction = .Vertical
-        contentView.grid.views = [imageView, cardView]
-        
-        MaterialLayout.alignToParentHorizontally(contentView, child: cardView, left: 20, right: 20)
-        MaterialLayout.alignFromBottom(contentView, child: cardView, bottom: 20)
-        cardView.share.frame = CGRectMake(cardView.frame.width - 70, 10, 60, 40)
-
+        imageView.grid.columns = 5
+        labelView.grid.columns = 7
+        contentView.grid.axis.direction = .Horizontal
+        contentView.grid.views = [imageView, labelView]
     }
     
     override func prepareForReuse() {
         self.imageView.image = nil
     }
     
-    func setupCardView() {
-        cardView = CellCardView(frame: CGRectMake(10, 10, 10, 10))
-        cardView.page = page
-        contentView.addSubview(cardView)
+    func setupLabelView() {
+        labelView = PageLabelView(frame: CGRect.zero)
+        labelView.page = page
+        contentView.addSubview(labelView)
     }
     
     func setupImageView() {

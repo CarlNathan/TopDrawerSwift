@@ -9,6 +9,7 @@
 import Foundation
 import CloudKit
 import UIKit
+import Graph
 
 class Page {
     let name: String?
@@ -18,16 +19,18 @@ class Page {
     let date: NSDate?
     let image: UIImage?
     let pageID: CKRecordID
+    let modificationDate: NSDate!
     
     
     
-    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: CKRecordID) {
+    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: CKRecordID, modifiedDate: NSDate) {
         self.name = name
         self.description = description
         self.URLString = URLString
         self.image = image
         self.date = date
         self.pageID = recordID
+        self.modificationDate = modifiedDate
         
     }
     
