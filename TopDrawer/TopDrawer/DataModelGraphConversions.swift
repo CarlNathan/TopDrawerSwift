@@ -26,3 +26,23 @@ extension Page {
         
     }
 }
+
+//extension TopicMarker {
+//    class func topicMarkerFromEntity(entity: Entity) -> TopicMarker {
+//        //self.page = page
+//        //self.date = date
+//        //self.topicID = topic
+//    }
+//}
+
+//extension Topic {
+//    class func topicFromEntity(entity: Entity) -> Topic {
+//        let name = entity["name"] as? String ?? nil
+//        let users = entity["users"]
+//        let recordID: String = entity["recordID"]
+//        //self.name = name
+//        //self.users = users
+//        //self.recordID = recordID
+//        return TopicMarker()
+//    }
+//}

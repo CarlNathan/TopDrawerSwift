@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         InboxManager.sharedInstance.initFriends()
         InboxManager.sharedInstance.getCurrentUserID()
-        MissionControl.sharedInstance.getPersonalPages(lastUpdate) { (Pages) in
+        MissionControl.sharedInstance.fetchPrivatePages(lastUpdate) { (Pages) in
             //
         }
         

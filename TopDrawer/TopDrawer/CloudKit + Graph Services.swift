@@ -11,33 +11,45 @@ import CloudKit
 import Graph
 import UIKit
 
+
 class MissionControl {
+    
+    // MARK: Properties
+    
     static let sharedInstance = MissionControl()
-    let graph = Graph()
-    var currentUserID: CKRecordID!
+    private let graph = Graph()
     var friends = [String:Friend] ()
+    var user: PersistedUser?
+    private let userManager = PersistedUserManager()
     
-    //Get Current user
+    // MARK: Manage User
     
-    func getCurrentUserID () {
+//    func signIn() {
+////        user = userManager.fetchLastUser()
+////        getCurrentUserID({ user in
+////            if user
+////            }) { 
+////                //prompt sign in
+////        }
+//    }
+    
+    // MARK: Friend Data Type
+    
+    private func getCurrentUserID (completion: (CKRecordID)->Void, failed: ()->Void) {
         let container = CKContainer.defaultContainer()
-        container.fetchUserRecordIDWithCompletionHandler { (userID, error) -> Void in
+        container.fetchUserRecordIDWithCompletionHandler { (user, error) -> Void in
             if let e = error {
-                print("0 failed to load: \(e.localizedDescription)")
-                return
+                self.provideErrorMessage(e)
             }
-            if let user = userID {
-                self.currentUserID = user
-                let defaults = NSUserDefaults.standardUserDefaults()
-                if !(defaults.objectForKey("TopicSubscriptionCreated") as? Bool ?? false) {
-                    self.createRemoteTopicSubscription()
-                }
-                
+            if let userID = user {
+                self.createRemoteTopicSubscription()
+                completion(userID)
+            } else {
+                failed()
             }
         }
     }
     
-     //Fetch New Friends -> Graph
     
     func findUsers(completionHandler: () -> Void)  {
         let container = CKContainer.defaultContainer()
@@ -62,9 +74,20 @@ class MissionControl {
     }
     
     func friendFromCKDiscoveredUser (user: CKDiscoveredUserInfo) -> Friend {
-        let newFriend = Friend(firstName: (user.displayContact?.givenName)!, familyName: (user.displayContact?.familyName)!, recordIDString: (user.userRecordID?.recordName)!)
+        let givenName = user.displayContact?.givenName
+        let familyName = user.displayContact?.familyName
+        
+        let newFriend = Friend(firstName: (user.displayContact?.givenName)!, familyName: (user.displayContact?.familyName)!, recordIDString: (user.userRecordID?.recordName)!, image: nil)
         return newFriend
     }
+    
+    func getUserImages(){
+        let container = CKContainer.defaultContainer()
+        let DB = container.publicCloudDatabase
+        let predicate = NSPredicate(value: true)
+    }
+    
+    // MARK: Permissions
     
     func getPermissions() {
         CKContainer.defaultContainer().requestApplicationPermission(CKApplicationPermissions.UserDiscoverability, completionHandler: { applicationPermissionStatus, error in
@@ -94,61 +117,105 @@ class MissionControl {
 
 extension MissionControl {
    
-    func getPersonalPages(lastUpdate: NSDate, completionHandler: ([Page]?) -> Void){
-        let privateDB = CKContainer.defaultContainer().privateCloudDatabase
+    func fetchPrivatePages(lastUpdate: NSDate, completionHandler: () -> Void){
+        
         let predicate = NSPredicate(format:"(modificationDate > %@)", lastUpdate)
-        let querry = CKQuery(recordType: "Page", predicate: predicate)
-        privateDB.performQuery(querry, inZoneWithID: nil) { (Pages, error) -> Void in
-            if let e = error {
-                print("2: failed to load: \(e.localizedDescription)")
-                return
-            }
-            for page in Pages! {
-                
-                var image = UIImage()
-                if let imageAsset = page["image"] as? CKAsset ?? nil {
-                    image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
+        
+        performPrivateQuerry(RecordType.Page, predicate: predicate, sortDescriptors: nil) { (records) in
+            if let pages = records {
+                for page in pages {
+                    
+                    var image: UIImage?
+                    if let imageAsset = page["image"] as? CKAsset ?? nil {
+                        image = UIImage(contentsOfFile: imageAsset.fileURL.path!)!
+                    }
+                    
+                    let newPage = Entity(type: "PrivatePage")
+                    newPage["name"] = page["name"] as? String
+                    newPage["description"] = page["description"] as? String
+                    newPage["date"] = page["date"] as? NSDate
+                    newPage ["URLString"] = page["URLString"] as? String
+                    newPage["image"] = image
+                    newPage["recordID"] = page.recordID
+                    newPage["modificationDate"] = page.modificationDate
                 }
-                
-                let newPage = Entity(type: "PersonalPage")
-                newPage["name"] = page["name"] as? String ?? nil
-                newPage["description"] = page["description"] as? String ?? nil
-                newPage["date"] = page["date"] as? NSDate ?? nil
-                newPage ["URLString"] = page["URLString"] as? String ?? nil
-                newPage["image"] = image
-                newPage["recordID"] = page.recordID
-                newPage["modificationDate"] = page.modificationDate
+                self.graph.save()
+                completionHandler()
             }
-            self.graph.save()
-            completionHandler(nil)
+        }
+    }
+
+    
+    func createRemoteTopicSubscription() {
+        let predicate = NSPredicate(format: "%K CONTAINS %@" , "users", CKReference(recordID: self.user!.ID, action: .None))
+        
+        let notificationInfo = CKNotificationInfo()
+        notificationInfo.shouldBadge = true
+        notificationInfo.shouldSendContentAvailable = true
+        notificationInfo.alertBody = "New Topic"
+        
+        createPublicPushSubscription(RecordType.Topic, predicate: predicate, notificationInfo: notificationInfo) { (subscription) in
+            print(subscription)
+        }
+        
+        
+    }
+    
+    private func createPublicPushSubscription(recordType: RecordType, predicate: NSPredicate, notificationInfo: CKNotificationInfo, completion: (CKSubscription?)->Void){
+        let DB = CKContainer.defaultContainer().publicCloudDatabase
+        let subscription = CKSubscription(recordType: recordType.rawValue, predicate: predicate, options: .FiresOnRecordCreation)
+        subscription.notificationInfo = notificationInfo
+        DB.saveSubscription(subscription) { (savedSubscription, error) in
+            if let e = error {
+                self.provideErrorMessage(e)
+            } else {
+                completion(savedSubscription)
+            }
         }
     }
 }
 
 extension MissionControl {
     
-    func createRemoteTopicSubscription() {
-        let predicate = NSPredicate(format: "%K CONTAINS %@" , "users", CKReference(recordID: self.currentUserID, action: .None))
-        let subscription = CKSubscription(recordType: "PublicTopic", predicate: predicate, options: CKSubscriptionOptions.FiresOnRecordCreation)
-        
-        let notificationInfo = CKNotificationInfo()
-        notificationInfo.shouldBadge = true
-        notificationInfo.shouldSendContentAvailable = true
-        notificationInfo.alertBody = "New Topic"
-        subscription.notificationInfo = notificationInfo
-        
-        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
-        publicDB.saveSubscription(subscription) { (subscription, error) -> Void in
-            if let e = error {
-                print("19: failed to load: \(e.localizedDescription)")
-                return
-            }
-            
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setObject(true, forKey: "TopicSubscriptionCreated")
+    // MARK: Perform Cloud Kit Querry
+    
+    private func performPublicQuerry(recordType: RecordType, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, completion: ([CKRecord]?)->Void){
+        let container = CKContainer.defaultContainer()
+        let DB = container.publicCloudDatabase
+        let pred = predicate ?? NSPredicate(value: true)
+        let querry = CKQuery(recordType: recordType.rawValue, predicate: pred)
+        if let sort = sortDescriptors {
+            querry.sortDescriptors = sort
         }
-        
-        
+        DB.performQuery(querry, inZoneWithID: nil) { (records, error) in
+            if let e = error {
+                self.provideErrorMessage(e)
+                return
+            } else {
+                completion(records)
+            }
+        }
     }
-
+    
+    private func performPrivateQuerry(recordType: RecordType, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, completion: ([CKRecord]?)->Void){
+        let container = CKContainer.defaultContainer()
+        let DB = container.privateCloudDatabase
+        let pred = predicate ?? NSPredicate(value: true)
+        let querry = CKQuery(recordType: recordType.rawValue, predicate: pred)
+        if let sort = sortDescriptors {
+            querry.sortDescriptors = sort
+        }
+        DB.performQuery(querry, inZoneWithID: nil) { (records, error) in
+            if let e = error {
+                self.provideErrorMessage(e)
+                return
+            } else {
+                completion(records)
+            }
+        }
+    }
+    
+    private func provideErrorMessage(error: NSError) {
+        print(error.localizedDescription)
+    }
 }

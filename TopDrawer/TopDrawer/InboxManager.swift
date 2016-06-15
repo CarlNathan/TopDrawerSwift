@@ -50,7 +50,7 @@ class InboxManager {
     }
     
     func friendFromCKDiscoveredUser (user: CKDiscoveredUserInfo) -> Friend {
-        let newFriend = Friend(firstName: (user.displayContact?.givenName)!, familyName: (user.displayContact?.familyName)!, recordIDString: (user.userRecordID?.recordName)!)
+        let newFriend = Friend(firstName: (user.displayContact?.givenName)!, familyName: (user.displayContact?.familyName)!, recordIDString: (user.userRecordID?.recordName)!, image: nil)
         return newFriend
     }
 }
@@ -263,7 +263,7 @@ extension InboxManager {
                 let senderID = message["sender"] as! CKReference
                 var sender: Friend!
                 if senderID.recordID.recordName == self.currentUserID.recordName {
-                    sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName)
+                    sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName, image: nil)
                 } else {
                     sender = self.friends[senderID.recordID.recordName]
 
@@ -602,7 +602,7 @@ extension InboxManager {
             let senderID = message!["sender"] as! CKReference
             var sender: Friend!
             if senderID.recordID.recordName == self.currentUserID.recordName {
-                sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName)
+                sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName, image: nil)
             } else {
                 sender = self.friends[senderID.recordID.recordName]
                 

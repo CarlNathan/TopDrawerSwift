@@ -197,7 +197,7 @@ extension MessageViewController {
 //MARK: - Toolbar
 extension MessageViewController {
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let message = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: text, topic: (self.topic?.recordID)!, date: date)
+        let message = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId, image: nil), body: text, topic: (self.topic?.recordID)!, date: date)
         dataSource[(headerTopics.last?.topicID?.recordName)!]?.append(message)
         InboxManager.sharedInstance.saveMessage(message)
         finishSendingMessage()
