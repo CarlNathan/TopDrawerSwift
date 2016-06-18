@@ -67,7 +67,7 @@ extension InboxManager {
         let date = page["date"] as? NSDate ?? nil
         let URLString = page["URLString"] as? String ?? nil
         let modifiedDate = page.modificationDate
-        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
+        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID.recordName, modifiedDate: modifiedDate!, isPublic: true)
         return newPage
     }
     
@@ -92,7 +92,7 @@ extension InboxManager {
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
                 let modifiedDate = page.modificationDate
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID.recordName, modifiedDate: modifiedDate!, isPublic: false)
                 newPages.append(newPage)
                 
             }
@@ -153,7 +153,7 @@ extension InboxManager {
             for topic in Topics! {
                 
                 let name = topic["name"] as? String ?? nil
-                let recordID = topic.recordID
+                let recordID = topic.recordID.recordName
                 let newTopic = Topic(name: name!, users: [Friend](), recordID: recordID)
                 newTopics.append(newTopic)
             }
@@ -193,7 +193,7 @@ extension InboxManager {
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
                 let modifiedDate = page.modificationDate
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID.recordName, modifiedDate: modifiedDate!, isPublic: false)
                 newPages.append(newPage)
     
             }
@@ -241,7 +241,7 @@ extension InboxManager {
                     }
                     
                 }
-                topics.append(Topic(name: name, users: userNames, recordID: publicTopic.recordID))
+                topics.append(Topic(name: name, users: userNames, recordID: publicTopic.recordID.recordName))
             }
             completionHandler(topics)
         }
@@ -249,7 +249,7 @@ extension InboxManager {
     
     func getMessages (topic: Topic, completionHandler: ([Message]?) -> Void) {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
-        let ref = CKReference(recordID: topic.recordID!, action: .None)
+        let ref = CKReference(recordID: CKRecordID(recordName: topic.recordID!), action: .None)
         let predicate = NSPredicate(format: "%K CONTAINS %@", "topic", ref)
         let query = CKQuery(recordType: "Message", predicate: predicate)
         publicDB.performQuery(query, inZoneWithID: nil) { (messages, error) -> Void in
@@ -260,16 +260,9 @@ extension InboxManager {
             var newMessages = [Message]()
             for message in messages! {
                 let body = message["body"] as! String
-                let senderID = message["sender"] as! CKReference
-                var sender: Friend!
-                if senderID.recordID.recordName == self.currentUserID.recordName {
-                    sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName, image: nil)
-                } else {
-                    sender = self.friends[senderID.recordID.recordName]
-
-                }
+                let sender = message["sender"] as! CKReference
                 let date = message.creationDate
-                let newMessage = Message(sender: sender!, body: body, topic: topic.recordID!, date: date!)
+                let newMessage = Message(sender: sender.recordID.recordName, body: body, topic: topic.recordID!, date: date!)
                 newMessages.append(newMessage)
             }
             completionHandler(newMessages)
@@ -278,7 +271,7 @@ extension InboxManager {
     
     func getPublicTopicPages (topic:Topic, completionHandler: ([Page]?) -> Void) {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
-        let ref = CKReference(recordID: topic.recordID!, action: .None)
+        let ref = CKReference(recordID: CKRecordID(recordName: topic.recordID!), action: .None)
         let predicate = NSPredicate(format: "%K CONTAINS %@", "topic", ref)
         let query = CKQuery(recordType: "Page", predicate: predicate)
         publicDB.performQuery(query, inZoneWithID: nil) { (pages, error) -> Void in
@@ -299,7 +292,7 @@ extension InboxManager {
                 let date = page["date"] as? NSDate ?? nil
                 let URLString = page["URLString"] as? String ?? nil
                 let modifiedDate = page.modificationDate
-                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID, modifiedDate: modifiedDate!)
+                let newPage = Page(name: name, description: description, URLString: URLString, image: image, date:  date, recordID: page.recordID.recordName, modifiedDate: modifiedDate!, isPublic: true)
                 newPages.append(newPage)
             }
             completionHandler(newPages)
@@ -307,15 +300,15 @@ extension InboxManager {
 
         }
     
-    func savePageToTopics (page: Page, topics: [CKRecordID]) {
-        let publicDB = CKContainer.defaultContainer().privateCloudDatabase
+    func savePageToTopics (page: Page, topics: [String]) {
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         var ref = [CKReference]()
         for record in topics {
-            let reference = CKReference(recordID: record, action: .None)
+            let reference = CKReference(recordID: CKRecordID(recordName: record), action: .None)
             ref.append(reference)
 
         }
-        publicDB.fetchRecordWithID(page.pageID) { (page, error) -> Void in
+        publicDB.fetchRecordWithID(CKRecordID(recordName: page.pageID)) { (page, error) -> Void in
             if let e = error {
                 print("10: failed to load: \(e.localizedDescription)")
                 return
@@ -332,7 +325,7 @@ extension InboxManager {
         }
     }
     
-    func savePageToPublicTopics (page: Page, topics: [CKRecordID]) {
+    func savePageToPublicTopics (page: Page, topics: [String]) {
         
         let pageRecord = CKRecord(recordType: "Page")
         
@@ -342,7 +335,7 @@ extension InboxManager {
         pageRecord["URLString"] = page.URLString
         var references = [CKReference]()
         for topic in topics {
-            references.append(CKReference(recordID: topic, action: .None))
+            references.append(CKReference(recordID: CKRecordID(recordName: topic), action: .None))
         }
         pageRecord["topic"] = references
         if let image = page.image {
@@ -368,8 +361,8 @@ extension InboxManager {
         let messageRecord = CKRecord(recordType: "Message")
         
         messageRecord["body"] = message.body
-        messageRecord["sender"] = CKReference(recordID: CKRecordID(recordName: message.sender.recordID!), action: .None)
-        messageRecord["topic"] = [CKReference(recordID: message.topicRef, action: .None)]
+        messageRecord["sender"] = CKReference(recordID: CKRecordID(recordName: message.sender!), action: .None)
+        messageRecord["topic"] = [CKReference(recordID: CKRecordID(recordName:message.topicRef!), action: .None)]
         
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveRecord(messageRecord) { (record, error) -> Void in
@@ -391,7 +384,7 @@ extension InboxManager {
             }
             let name = record!["name"] as? String ?? nil
             let recordID = record!.recordID
-            let newTopic = Topic(name: name!, users: [Friend](), recordID: recordID)
+            let newTopic = Topic(name: name!, users: [Friend](), recordID: recordID.recordName)
             NSNotificationCenter.defaultCenter().postNotificationName("NewTopic", object: self, userInfo: ["topic": newTopic])
         }
     }
@@ -424,7 +417,7 @@ extension InboxManager {
                 }
                 
             }
-            let newTopic = Topic(name: name, users: userNames, recordID: record!.recordID)
+            let newTopic = Topic(name: name, users: userNames, recordID: record!.recordID.recordName)
             NSNotificationCenter.defaultCenter().postNotificationName("NewPublicTopic", object: self, userInfo: ["topic": newTopic])
         }
     }
@@ -515,8 +508,8 @@ extension InboxManager {
     func saveTopicMarker (page: Page, topic: Topic) {
         let record = CKRecord(recordType: "TopicMarker")
         record["date"] = NSDate()
-        record["page"] = CKReference(recordID: page.pageID, action: .None)
-        record["topic"] = CKReference(recordID: topic.recordID!, action: .None)
+        record["page"] = CKReference(recordID: CKRecordID(recordName:page.pageID), action: .None)
+        record["topic"] = CKReference(recordID: CKRecordID(recordName: topic.recordID!), action: .None)
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
         publicDB.saveRecord(record) { (record, error) -> Void in
             if let e = error {
@@ -528,7 +521,7 @@ extension InboxManager {
     
     func getTopicMarkers (topic: Topic, completionHandler: ([TopicMarker]?) -> Void) {
         let publicDB = CKContainer.defaultContainer().publicCloudDatabase
-        let predicate = NSPredicate(format: "%K = %@", "topic", CKReference(recordID: topic.recordID!, action: .None))
+        let predicate = NSPredicate(format: "%K = %@", "topic", CKReference(recordID: CKRecordID(recordName: topic.recordID!), action: .None))
         let querry = CKQuery(recordType: "TopicMarker", predicate: predicate)
         publicDB.performQuery(querry, inZoneWithID: nil) { (topicMarkers, error) -> Void in
             if let e = error {
@@ -540,7 +533,7 @@ extension InboxManager {
                 let date = marker["date"] as! NSDate
                 let topic = marker["topic"] as! CKReference
                 let page = marker["page"] as! CKReference
-                let newMarker = TopicMarker(page: page.recordID, date: date, topic: topic.recordID)
+                let newMarker = TopicMarker(page: page.recordID.recordName, date: date, topic: topic.recordID.recordName)
                 newTopicMarkers.append(newMarker)
             }
             completionHandler(newTopicMarkers)
@@ -563,8 +556,12 @@ extension InboxManager {
             }
             let topic = record!["topic"] as! [CKReference]
             let modfiedDate = record!.modificationDate
-            let page = Page(name: name, description: description, URLString: url, image: image, date: record?.creationDate, recordID: (record?.recordID)!, modifiedDate: modfiedDate!)
-            page.topic = topic
+            let page = Page(name: name, description: description, URLString: url, image: image, date: record?.creationDate, recordID: (record?.recordID.recordName)!, modifiedDate: modfiedDate!, isPublic: true)
+            var topicref = [String]()
+            for things in topic {
+                topicref.append(things.recordID.recordName)
+            }
+            page.topic = topicref
             completionHandler(page)
         }
     }
@@ -586,7 +583,7 @@ extension InboxManager {
                 }
                 
             }
-            let topic = Topic(name: name, users: userNames, recordID: record!.recordID)
+            let topic = Topic(name: name, users: userNames, recordID: record!.recordID.recordName)
             completionHandler(topic)
         }
     }
@@ -599,18 +596,10 @@ extension InboxManager {
                 return
             }
             let body = message!["body"] as! String
-            let senderID = message!["sender"] as! CKReference
-            var sender: Friend!
-            if senderID.recordID.recordName == self.currentUserID.recordName {
-                sender = Friend(firstName: "M", familyName: "E", recordIDString: self.currentUserID.recordName, image: nil)
-            } else {
-                sender = self.friends[senderID.recordID.recordName]
-                
-            }
+            let sender = message!["sender"] as! CKReference
             let date = message!.creationDate
-            let topic = message!["topic"] as! [CKReference]
-            var newMessage = Message(sender: sender!, body: body, topic: message!.recordID, date: date!)
-            newMessage.topicRef = topic[0].recordID
+            let topic = message!["topic"] as! CKReference
+            var newMessage = Message(sender: sender.recordID.recordName, body: body, topic: topic.recordID.recordName, date: date!)
             completionHandler(newMessage)
         }
         
@@ -626,7 +615,7 @@ extension InboxManager {
             let date = record!["date"] as! NSDate
             let topic = record!["topic"] as! CKReference
             let page = record!["page"] as! CKReference
-            let newMarker = TopicMarker(page: page.recordID, date: date, topic: topic.recordID)
+            let newMarker = TopicMarker(page: page.recordID.recordName, date: date, topic: topic.recordID.recordName)
             completionHandler(newMarker)
 
         }
@@ -639,7 +628,7 @@ extension InboxManager {
     
     func deletePrivatePage(page: Page) {
         let privateDB = CKContainer.defaultContainer().privateCloudDatabase
-        privateDB.deleteRecordWithID(page.pageID) { (recordID, error) in
+        privateDB.deleteRecordWithID(CKRecordID(recordName: page.pageID)) { (recordID, error) in
             if let e = error {
                 print("26: failed to load: \(e.localizedDescription)")
                 return

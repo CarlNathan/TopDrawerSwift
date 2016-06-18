@@ -7,23 +7,22 @@
 //
 
 import Foundation
-import CloudKit
 import UIKit
-import Graph
 
 class Page {
     let name: String?
     let description: String?
     let URLString: String?
-    var topic: [CKReference]?
+    var topic: [String]?
     let date: NSDate?
     let image: UIImage?
-    let pageID: CKRecordID
+    let pageID: String
     let modificationDate: NSDate!
+    var isPublic: Bool = false
     
     
     
-    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: CKRecordID, modifiedDate: NSDate) {
+    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: String, modifiedDate: NSDate, isPublic: Bool) {
         self.name = name
         self.description = description
         self.URLString = URLString
@@ -31,49 +30,9 @@ class Page {
         self.date = date
         self.pageID = recordID
         self.modificationDate = modifiedDate
+        self.isPublic = isPublic
         
     }
-    
-    func assignTopic (topics: [String]) {
-        
-    }
-    
 }
 
 
-extension Page {
-    
-    func saveToCloudKit() {
-        
-        let pageID = CKRecordID(recordName: self.name!)
-        let pageRecord = CKRecord(recordType: "Page", recordID: pageID)
-        
-        pageRecord["description"] = self.description
-        pageRecord["date"] = self.date
-        pageRecord["URLString"] = URLString
-        if let topic = self.topic {
-            pageRecord["Topic"] = topic
-
-        }
-        
-        let data = UIImagePNGRepresentation(self.image!)
-        let directory = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-        let path = directory.path! + "/\(self.name).png"
-        data!.writeToFile(path, atomically: false)
-        pageRecord["image"] = CKAsset(fileURL: NSURL(fileURLWithPath: path))
-        
-        let dataBase = CKContainer.defaultContainer().privateCloudDatabase
-        dataBase.saveRecord(pageRecord) { (record, error) -> Void in
-            if let e = error {
-                print("Error Saving Meal: \(e.localizedDescription)")
-                return
-            }
-            do{
-            try NSFileManager.defaultManager().removeItemAtPath(path)
-            } catch _ {
-                //handle error
-            }
-            
-        }
-    }
-}

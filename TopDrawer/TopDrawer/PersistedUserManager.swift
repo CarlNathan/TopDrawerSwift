@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CloudKit
 
 class PersistedUserManager {
     
@@ -15,8 +14,10 @@ class PersistedUserManager {
     
     //Constants
     let ID = "ID"
-    let pagesUpdated = "pagesUpdated"
-    let topicsUpdated = "topicsUpdated"
+    let privatePagesUpdated = "privatePagesUpdated"
+    let publicPagesUpdated = "publicPagesUpdated"
+    let publicTopicsUpdated = "publicTopicsUpdated"
+    let privateTopicsUpdated = "privateTopicsUpdated"
     let messagesUpdated = "messagesUpdated"
     let topicMarkersUpdated = "topicMarkersUpdated"
     let lastUser = "LastUser"
@@ -24,10 +25,12 @@ class PersistedUserManager {
     func persistUser(userObject: PersistedUser){
         var userDictionary = Dictionary<String, AnyObject>()
         userDictionary[ID] = userObject.ID
-        userDictionary[pagesUpdated]=userObject.pagesUpdated
-        userDictionary[topicsUpdated]=userObject.topicsUpdated
-        userDictionary[messagesUpdated]=userObject.messageUpdated
-        userDictionary[topicMarkersUpdated]=userObject.topicMarkersUpdated
+        userDictionary[privatePagesUpdated] = userObject.privatePagesUpdated
+        userDictionary[publicPagesUpdated] = userObject.publicPagesUpdated
+        userDictionary[publicTopicsUpdated] = userObject.publicTopicsUpdated
+        userDictionary[privateTopicsUpdated] = userObject.privateTopicsUpdated
+        userDictionary[messagesUpdated] = userObject.messageUpdated
+        userDictionary[topicMarkersUpdated] = userObject.topicMarkersUpdated
         
         userDefaults.setObject(userDictionary, forKey: lastUser)
         
@@ -36,35 +39,41 @@ class PersistedUserManager {
     func fetchLastUser() -> PersistedUser?{
         let userDictionary = userDefaults.objectForKey(lastUser) as? Dictionary<String,AnyObject>
         if let dict = userDictionary {
-            let id = dict[ID] as! CKRecordID
-            let pages = dict[pagesUpdated] as! NSDate
-            let topics = dict[topicsUpdated] as! NSDate
+            let id = dict[ID] as! String
+            let publicPages = dict[publicPagesUpdated] as! NSDate
+            let privatePages = dict[privatePagesUpdated] as! NSDate
+            let publicTopics = dict[publicTopicsUpdated] as! NSDate
+            let privateTopics = dict[privateTopicsUpdated] as! NSDate
             let messages = dict[messagesUpdated] as! NSDate
             let topicMarkers = dict[topicMarkersUpdated] as! NSDate
-            return PersistedUser(id: id, pagesUpdated: pages, topicsUpdated: topics, messageUpdated: messages, topicMarkersUpdated: topicMarkers)
+            return PersistedUser(id: id, publicPagesUpdated: publicPages, privatePagesUpdated: privatePages, publicTopicsUpdated: publicTopics, privateTopicsUpdated: privateTopics, messageUpdated: messages, topicMarkersUpdated: topicMarkers)
         } else {
             return nil
         }
     }
     
-    func generateNewPersistedUser(userID: CKRecordID) -> PersistedUser{
+    func generateNewPersistedUser(userID: String) -> PersistedUser{
         let date = NSDate(timeIntervalSince1970: NSTimeInterval(0))
-        return PersistedUser(id: userID, pagesUpdated: date, topicsUpdated: date, messageUpdated: date, topicMarkersUpdated: date)
+        return PersistedUser(id: userID, publicPagesUpdated: date, privatePagesUpdated: date, publicTopicsUpdated: date, privateTopicsUpdated: date, messageUpdated: date, topicMarkersUpdated: date)
     }
     
 }
 
 struct PersistedUser {
-    let ID: CKRecordID
-    var pagesUpdated: NSDate
-    var topicsUpdated: NSDate
+    let ID: String
+    var privatePagesUpdated: NSDate
+    var publicTopicsUpdated: NSDate
+    var privateTopicsUpdated: NSDate
     var messageUpdated: NSDate
     var topicMarkersUpdated: NSDate
+    var publicPagesUpdated: NSDate
     
-    init(id: CKRecordID, pagesUpdated: NSDate, topicsUpdated: NSDate, messageUpdated: NSDate, topicMarkersUpdated: NSDate) {
+    init(id: String, publicPagesUpdated: NSDate, privatePagesUpdated: NSDate, publicTopicsUpdated: NSDate, privateTopicsUpdated: NSDate, messageUpdated: NSDate, topicMarkersUpdated: NSDate) {
         self.ID = id
-        self.pagesUpdated = pagesUpdated
-        self.topicsUpdated = topicsUpdated
+        self.privatePagesUpdated = privatePagesUpdated
+        self.publicPagesUpdated = publicPagesUpdated
+        self.publicTopicsUpdated = publicTopicsUpdated
+        self.privateTopicsUpdated = privateTopicsUpdated
         self.messageUpdated = messageUpdated
         self.topicMarkersUpdated = topicMarkersUpdated
     }

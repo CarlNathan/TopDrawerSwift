@@ -55,7 +55,7 @@ class TrayCollectionViewController: UICollectionViewController, SFSafariViewCont
     func newRemotePage(sender: NSNotification) {
         let recordID = sender.userInfo!["topicID"] as! CKRecordID
         InboxManager.sharedInstance.getPageForID(recordID) { (page) -> Void in
-            if ((page!.topic?.contains(CKReference(recordID: self.topic!.recordID!, action: .None))) != nil) {
+            if ((page!.topic?.contains(self.topic!.recordID!)) != nil) {
                 self.pages.append(page!)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.collectionView?.reloadData()

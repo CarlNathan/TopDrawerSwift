@@ -15,5 +15,16 @@ public enum RecordType: String {
     case Topic = "Topic"
     case Message = "Message"
     case Friend = "Friend"
-    case UserImage = "UserImage"
+    case User = "SearchableUser"
+}
+
+public enum EntityType: String {
+    case PublicPage = "PublicPage"
+    case PrivatePage = "PrivatePage"
+    case TopicMarker = "TopicMarker"
+    case PublicTopic = "PublicTopic"
+    case PrivateTopic = "PrivateTopic"
+    case Message = "Message"
+    case Friend = "Friend"
+    case User = "SearchableUser"
 }

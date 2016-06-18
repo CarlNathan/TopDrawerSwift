@@ -12,8 +12,9 @@ import UIKit
 class Friend {
     var firstName: String?
     var familyName: String?
-    var recordID: String?
+    var recordID: String!
     var userImage: UIImage?
+    var email: String?
     
     init (firstName: String?, familyName: String?, recordIDString: String, image: UIImage?) {
         self.firstName = firstName

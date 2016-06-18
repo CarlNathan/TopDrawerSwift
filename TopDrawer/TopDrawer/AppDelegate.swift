@@ -32,9 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         InboxManager.sharedInstance.initFriends()
         InboxManager.sharedInstance.getCurrentUserID()
-        MissionControl.sharedInstance.fetchPrivatePages(lastUpdate) { (Pages) in
-            //
-        }
         
         
         // Register for push notifications
