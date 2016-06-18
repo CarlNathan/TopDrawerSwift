@@ -9,8 +9,7 @@
 import Foundation
 import Graph
 
-class GraphServices {
-    static let sharedInstance = GraphServices()
+class GraphServices: PersistedDataSource {
     private let graph = Graph()
     
     func wipePersistedData() {
@@ -22,7 +21,7 @@ class GraphServices {
     
     //MARK: Pages
     
-    func getPrivatePages(completion: ([Page])->Void) {
+    func getPrivatePages()->[Page] {
         let entities = graph.searchForEntity(types: [EntityType.PrivatePage.rawValue], groups: nil, properties: nil)
         var pages = [Page]()
         for entity in entities {
@@ -64,7 +63,7 @@ class GraphServices {
     
     //MARK: Messages
     
-    func getMessagesForTopic(topicID: String) -> [Message] {
+    private func getMessagesForTopic(topicID: String) -> [Message] {
         let entities = graph.searchForEntity(types: [EntityType.Message.rawValue], groups: nil, properties: nil)
         var messages = [Message]()
         for entity in entities {
@@ -75,4 +74,24 @@ class GraphServices {
         return messages
     }
     
+    //MARK: Topic Markers
+    
+    private func getTopicMarkersForTopic(topicID: String) -> [TopicMarker] {
+        let entities = graph.searchForEntity(types: [EntityType.TopicMarker.rawValue], groups: nil, properties: nil)
+        var topicMarkers = [TopicMarker]()
+        for entity in entities {
+            if entity["topic"] as? String == topicID {
+                topicMarkers.append(TopicMarker.topicMarkerFromEntity(entity))
+            }
+        }
+        return topicMarkers
+    }
+    
+    //MARK: Topic Markers and Messages
+    
+    func getMessagesAndTopicMarkersForTopic(topicID: String) -> ([TopicMarker],[Message]) {
+        let messages = getMessagesForTopic(topicID)
+        let topicMarkers = getTopicMarkersForTopic(topicID)
+        return (topicMarkers,messages)
+    }
 }

@@ -28,13 +28,14 @@ extension Page {
     }
 }
 
-//extension TopicMarker {
-//    class func topicMarkerFromEntity(entity: Entity) -> TopicMarker {
-//        //self.page = page
-//        //self.date = date
-//        //self.topicID = topic
-//    }
-//}
+extension TopicMarker {
+    class func topicMarkerFromEntity(entity: Entity) -> TopicMarker {
+        let page = entity["page"] as? String
+        let date = entity["date"] as? NSDate
+        let topicID = entity["topic"] as? String
+        return TopicMarker(page: page, date: date, topic: topicID)
+    }
+}
 
 extension Topic {
     class func topicFromEntity(entity: Entity) -> Topic {

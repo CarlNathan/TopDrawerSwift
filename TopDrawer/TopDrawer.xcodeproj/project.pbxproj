@@ -70,6 +70,7 @@
 		EDBDDBD71D0B58FA00F11E17 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBD61D0B58FA00F11E17 /* CustomTabBarController.swift */; };
 		EDBDDBD91D0B590E00F11E17 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBD81D0B590E00F11E17 /* TabView.swift */; };
 		EDBDDBDD1D0F380900F11E17 /* ProfileTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBDC1D0F380900F11E17 /* ProfileTopView.swift */; };
+		EDDE2FF91D159D440067B44D /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE2FF81D159D440067B44D /* DataSource.swift */; };
 		EDED75C41CB32C350071A36F /* App downloads (2).png in Resources */ = {isa = PBXBuildFile; fileRef = EDED75C31CB32C350071A36F /* App downloads (2).png */; };
 		EDED75CE1CBEF37D0071A36F /* NewTopicPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */; };
 		EDED75D11CBEF3F30071A36F /* AssignTopicPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */; };
@@ -202,6 +203,7 @@
 		EDBDDBD61D0B58FA00F11E17 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		EDBDDBD81D0B590E00F11E17 /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		EDBDDBDC1D0F380900F11E17 /* ProfileTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTopView.swift; sourceTree = "<group>"; };
+		EDDE2FF81D159D440067B44D /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		EDED75C31CB32C350071A36F /* App downloads (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App downloads (2).png"; sourceTree = "<group>"; };
 		EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicPopupVC.swift; sourceTree = "<group>"; };
 		EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignTopicPopupVC.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 				ED2B081D1C7F93A60007949E /* InboxManager.swift */,
 				EDFE6AAF1CEA351900D997F9 /* DataModelGraphConversions.swift */,
 				EDFE6AAB1CE0F9A600D997F9 /* CloudKitServices + Graph.swift */,
+				EDDE2FF81D159D440067B44D /* DataSource.swift */,
 				ED4F38471D122CA3006514C1 /* DataClasses */,
 				ED4F38481D122CCA006514C1 /* User */,
 				ED4F38491D122CF0006514C1 /* Friends */,
@@ -837,6 +840,7 @@
 				EDBDDBCE1D0B19CC00F11E17 /* PageLabelView.swift in Sources */,
 				EDBDDBDD1D0F380900F11E17 /* ProfileTopView.swift in Sources */,
 				EDFE6AAC1CE0F9A700D997F9 /* CloudKitServices + Graph.swift in Sources */,
+				EDDE2FF91D159D440067B44D /* DataSource.swift in Sources */,
 				EDAC5DCA1C7CDC5D00C0C306 /* DetailViewController.swift in Sources */,
 				ED5EBEB81C84A0B3009951BB /* NewTopicViewController.swift in Sources */,
 				ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */,
