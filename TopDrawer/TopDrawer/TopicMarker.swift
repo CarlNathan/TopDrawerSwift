@@ -13,7 +13,7 @@ class TopicMarker {
     let date: NSDate?
     let topicID: String?
     
-    init (page: String, date: NSDate, topic: String) {
+    init (page: String?, date: NSDate?, topic: String?) {
         self.page = page
         self.date = date
         self.topicID = topic
