@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import CloudKit
 
 class TopicMarker {
-    let page: CKRecordID?
+    let page: String?
     let date: NSDate?
-    let topicID: CKRecordID?
+    let topicID: String?
     
-    init (page: CKRecordID, date: NSDate, topic: CKRecordID) {
+    init (page: String, date: NSDate, topic: String) {
         self.page = page
         self.date = date
         self.topicID = topic

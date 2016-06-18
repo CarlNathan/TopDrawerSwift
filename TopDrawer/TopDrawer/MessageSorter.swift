@@ -44,7 +44,7 @@ class MessageSorter: NSObject {
                     break
                 }
             }
-            data[topic.page!.recordName] = messagesInRange.reverse()
+            data[topic.page!] = messagesInRange.reverse()
         }
         
         data["nil"] = sortedMessages.reverse()
@@ -55,8 +55,8 @@ class MessageSorter: NSObject {
     }
     
     class func getNilTopicMarker() -> TopicMarker {
-        let nilPage = Page(name: nil, description: nil, URLString: nil, image: nil, date: nil, recordID: CKRecordID(recordName: "nil"), modifiedDate: NSDate(timeIntervalSince1970: NSTimeInterval(0)))
-        let marker = TopicMarker(page: nilPage.pageID, date: NSDate(), topic: CKRecordID(recordName:"nil"))
+        let nilPage = Page(name: nil, description: nil, URLString: nil, image: nil, date: nil, recordID: "nil", modifiedDate: NSDate(timeIntervalSince1970: NSTimeInterval(0)), isPublic: true)
+        let marker = TopicMarker(page: nilPage.pageID, date: NSDate(), topic: "nil")
         return marker
     }
 }

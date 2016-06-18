@@ -7,16 +7,15 @@
 //
 
 import Foundation
-import CloudKit
 
-struct Message {
-    var sender: Friend!
-    var body: String!
-    var topicRef: CKRecordID!
+class Message {
+    var sender: String?
+    var body: String?
+    var topicRef: String?
     var date: NSDate?
 
     
-    init (sender: Friend, body: String, topic: CKRecordID, date: NSDate) {
+    init (sender: String?, body: String?, topic: String?, date: NSDate?) {
         self.sender = sender
         self.body = body
         self.topicRef = topic

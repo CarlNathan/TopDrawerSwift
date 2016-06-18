@@ -64,14 +64,14 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         let marker = sender.userInfo!["marker"] as! TopicMarker
         let page = sender.userInfo!["page"] as! Page
         headerTopics.append(marker)
-        dataSource[page.pageID.recordName] = []
+        dataSource[page.pageID] = []
     }
     
     func newRemoteMessage(sender: NSNotification) {
         let recordID = sender.userInfo!["topicID"] as! CKRecordID
         InboxManager.sharedInstance.getMessageForID(recordID) { (message) -> Void in
             if message?.topicRef == self.topic?.recordID {
-                self.dataSource[self.topicMarkers.last!.page!.recordName]?.append(message!)
+                self.dataSource[self.topicMarkers.last!.page!]?.append(message!)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.collectionView?.reloadData()
                     self.scrollToBottomAnimated(true)
@@ -116,7 +116,8 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
     }
     
     func jsqMessageFromMessage(message: Message) -> JSQMessage {
-        let senderID = message.sender.recordID
+        let senderID = message.sender
+        let sender = FriendManager().friendForID(senderID!)
         let senderName = message.sender.firstName! + " " + message.sender.familyName!
         let text = message.body
         let date = message.date
@@ -131,7 +132,7 @@ extension MessageViewController {
     
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
-        let message = dataSource[headerTopics[indexPath.section].page!.recordName]![indexPath.row]
+        let message = dataSource[headerTopics[indexPath.section].page!]![indexPath.row]
         let initials = message.sender.firstName![0] + message.sender.familyName![0]
         let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: MaterialColor.grey.darken1, textColor: MaterialColor.white, font: RobotoFont.mediumWithSize(30), diameter: 70)
 
@@ -150,7 +151,7 @@ extension MessageViewController {
         if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "headerView", forIndexPath: indexPath) as! TopicMarkerHeaderView
             let pageID = headerTopics[indexPath.section].page
-            view.getPageForID(pageID!)
+            view.getPageForID(CKRecordID(recordName: pageID!))
             return view
         }
         return UICollectionReusableView()
@@ -161,7 +162,7 @@ extension MessageViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let name = headerTopics[section].page!.recordName
+        let name = headerTopics[section].page!
         if name == "nil" {
             return CGSize.zero
         } else {
@@ -171,18 +172,18 @@ extension MessageViewController {
 
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            let source = dataSource[headerTopics[section].page!.recordName]
+            let source = dataSource[headerTopics[section].page!]
             return source!.count
             
         }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
-        let data = dataSource[(headerTopics[indexPath.section].page?.recordName)!]![indexPath.row]
+        let data = dataSource[(headerTopics[indexPath.section].page)!]![indexPath.row]
             return jsqMessageFromMessage(data)
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
-        let data = dataSource[(headerTopics[indexPath.section].page?.recordName)!]![indexPath.row]
+        let data = dataSource[(headerTopics[indexPath.section].page)!]![indexPath.row]
         let jsqData = jsqMessageFromMessage(data)
         switch(jsqData.senderId) {
         case self.senderId:
@@ -197,8 +198,8 @@ extension MessageViewController {
 //MARK: - Toolbar
 extension MessageViewController {
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let message = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId), body: text, topic: (self.topic?.recordID)!, date: date)
-        dataSource[(headerTopics.last?.topicID?.recordName)!]?.append(message)
+        let message = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId, image: nil), body: text, topic: (self.topic?.recordID)!, date: date)
+        dataSource[(headerTopics.last?.topicID)!]?.append(message)
         InboxManager.sharedInstance.saveMessage(message)
         finishSendingMessage()
     }

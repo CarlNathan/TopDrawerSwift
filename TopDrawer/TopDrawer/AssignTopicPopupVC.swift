@@ -9,12 +9,12 @@
 import Foundation
 import Material
 import UIKit
-import CloudKit
 
 class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    //
+    
+    
     var topics =  [Topic]()
-    var selectedTopics = [CKRecordID]()
+    var selectedTopics = [String]()
     var isShared: Bool?
     var page: Page?
     let tableView = UITableView()
@@ -51,7 +51,7 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         prepareTableView()
         prepareCardView()
-        if self.isShared! {
+        if isShared! {
             InboxManager.sharedInstance.getPublicTopics({ (topics) -> Void in
                 self.topics = topics!
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -77,6 +77,7 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
             
         })
     }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         UIView.animateWithDuration(0.4) {

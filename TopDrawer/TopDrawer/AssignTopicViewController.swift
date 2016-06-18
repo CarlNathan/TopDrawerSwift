@@ -13,7 +13,7 @@ class AssignTopicViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet weak var tableView: UITableView!
     var topics =  [Topic]()
-    var selectedTopics = [CKRecordID]()
+    var selectedTopics = [String]()
     var isShared: Bool?
     var page: Page?
     @IBOutlet weak var titleLabel: UILabel!

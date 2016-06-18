@@ -8,7 +8,6 @@
 
 import Foundation
 import Material
-import CloudKit
 import UIKit
 
 class FriendsTableView: UITableViewController {
