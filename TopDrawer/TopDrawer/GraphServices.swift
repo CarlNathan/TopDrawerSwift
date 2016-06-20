@@ -27,7 +27,7 @@ class GraphServices: PersistedDataSource {
         for entity in entities {
             pages.append(Page.pageFromEntity(entity))
         }
-        completion(pages)
+        return pages
     }
     
     func getPagesForTopic(topicID: String) -> [Page] {

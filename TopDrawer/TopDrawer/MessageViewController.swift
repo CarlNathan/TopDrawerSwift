@@ -118,7 +118,7 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
     func jsqMessageFromMessage(message: Message) -> JSQMessage {
         let senderID = message.sender
         let sender = FriendManager().friendForID(senderID!)
-        let senderName = message.sender.firstName! + " " + message.sender.familyName!
+        let senderName = "Sender"
         let text = message.body
         let date = message.date
         let newMessage = JSQMessage(senderId: senderID, senderDisplayName: senderName, date: date, text: text)
@@ -133,7 +133,7 @@ extension MessageViewController {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
         let message = dataSource[headerTopics[indexPath.section].page!]![indexPath.row]
-        let initials = message.sender.firstName![0] + message.sender.familyName![0]
+        let initials = "AZ"
         let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: MaterialColor.grey.darken1, textColor: MaterialColor.white, font: RobotoFont.mediumWithSize(30), diameter: 70)
 
         return userImage
@@ -198,7 +198,7 @@ extension MessageViewController {
 //MARK: - Toolbar
 extension MessageViewController {
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let message = Message(sender: Friend(firstName: nil, familyName: nil, recordIDString: senderId, image: nil), body: text, topic: (self.topic?.recordID)!, date: date)
+        let message = Message(sender: senderId, body: text, topic: (self.topic?.recordID)!, date: date)
         dataSource[(headerTopics.last?.topicID)!]?.append(message)
         InboxManager.sharedInstance.saveMessage(message)
         finishSendingMessage()

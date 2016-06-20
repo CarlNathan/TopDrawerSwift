@@ -31,7 +31,7 @@ class DataSource {
     
     func wipePersistedData(completion: ()->Void) {
         runInBackgroundThread {
-            reader.wipePersistedData()
+            self.reader.wipePersistedData()
             dispatch_async(dispatch_get_main_queue(), {
                 completion()
             })
@@ -40,7 +40,7 @@ class DataSource {
     
     func getPrivatePages(completion: ([Page])->Void) {
         runInBackgroundThread {
-            let pages = reader.getPrivatePages()
+            let pages = self.reader.getPrivatePages()
             dispatch_async(dispatch_get_main_queue(), {
                 completion(pages)
             })
@@ -49,7 +49,7 @@ class DataSource {
     
     func getPagesForTopic(topicID: String, completion: ([Page])->Void) {
         runInBackgroundThread {
-            let pages = reader.getPagesForTopic(topicID)
+            let pages = self.reader.getPagesForTopic(topicID)
             dispatch_async(dispatch_get_main_queue(), {
                 completion(pages)
             })
@@ -58,7 +58,7 @@ class DataSource {
     
     func getPrivateTopics(completion: ([Topic])->Void) {
         runInBackgroundThread {
-            let topics = reader.getPrivateTopics()
+            let topics = self.reader.getPrivateTopics()
             dispatch_async(dispatch_get_main_queue(), {
                 completion(topics)
             })
@@ -67,7 +67,7 @@ class DataSource {
 
     func getPublicTopics(completion: ([Topic])->Void) {
         runInBackgroundThread {
-            let topics = reader.getPrivateTopics()
+            let topics = self.reader.getPrivateTopics()
             dispatch_async(dispatch_get_main_queue(), {
                 completion(topics)
             })
@@ -76,7 +76,7 @@ class DataSource {
     
     func getMessagesAndTopicMarkersForTopic(topicID: String, completion: ([TopicMarker],[Message])->Void) {
         runInBackgroundThread {
-            let (topicMarkers, messages) = reader.getMessagesAndTopicMarkersForTopic(topicID)
+            let (topicMarkers, messages) = self.reader.getMessagesAndTopicMarkersForTopic(topicID)
             dispatch_async(dispatch_get_main_queue(), {
                 completion(topicMarkers,messages)
             })

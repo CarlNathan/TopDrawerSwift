@@ -48,7 +48,7 @@ class MissionControl {
                 self.userManager.persistUser(user!)
             }
             if userID.recordName != user!.ID {
-                GraphServices.sharedInstance.wipePersistedData()
+                GraphServices().wipePersistedData()
                 user = self.userManager.generateNewPersistedUser(userID.recordName)
                 self.userManager.persistUser(user!)
             }
