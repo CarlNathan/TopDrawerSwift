@@ -22,4 +22,16 @@ class Friend {
         self.recordID = recordIDString
         self.userImage = image
     }
+    
+    func getName() -> String {
+        var name = ""
+        if let first = firstName {
+            name += first
+            name += " "
+        }
+        if let family = familyName {
+            name += family
+        }
+        return name
+    }
 }

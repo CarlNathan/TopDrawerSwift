@@ -17,11 +17,20 @@ protocol PersistedDataSource {
     func getMessagesAndTopicMarkersForTopic(topicID: String) -> ([TopicMarker],[Message])
 }
 
+protocol FriendManagerProtocol {
+    func updateFriendsInMemory()
+    func friendForID(id: String) -> Friend?
+    func allFriends() -> [Friend]
+}
+
 class DataSource {
     
     static let sharedInstance = DataSource()
     
     private let reader: PersistedDataSource = GraphServices()
+    
+    private let friendManager: FriendManagerProtocol = FriendManager()
+    
     
     private func runInBackgroundThread(block: ()->Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { 
@@ -82,7 +91,17 @@ class DataSource {
             })
         }
     }
-
-
+    
+    //MARK: FriendManager
+    func updateFriends() {
+        friendManager.updateFriendsInMemory()
+    }
+    
+    func friendForID(id: String) -> Friend? {
+        return friendManager.friendForID(id)
+    }
+    func allFriends() -> [Friend] {
+        return friendManager.allFriends()
+    }
     
 }

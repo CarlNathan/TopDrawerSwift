@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PersistedUserManager {
+class PersistedUserManager: PersistedUserManagerProtocol {
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
@@ -34,6 +34,10 @@ class PersistedUserManager {
         
         userDefaults.setObject(userDictionary, forKey: lastUser)
         
+    }
+    
+    func wipeUser() -> Void {
+        userDefaults.removeObjectForKey(lastUser)
     }
     
     func fetchLastUser() -> PersistedUser?{

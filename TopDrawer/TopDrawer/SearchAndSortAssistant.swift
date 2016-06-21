@@ -77,4 +77,15 @@ class SearchAndSortAssistant {
             })
         return sortedTopics
         }
+    
+    //MARK: Friends
+    
+    func searchFriends() {
+        
+    }
+    
+    func sortFriends() {
+        
+    }
+    
 }

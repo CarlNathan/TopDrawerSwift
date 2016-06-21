@@ -13,7 +13,13 @@ import UIKit
 class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
-    var topics =  [Topic]()
+    var topics =  [Topic]() {
+        didSet {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+            })
+        }
+    }
     var selectedTopics = [String]()
     var isShared: Bool?
     var page: Page?
@@ -51,23 +57,20 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         prepareTableView()
         prepareCardView()
+        setupCardViewSnapBehavior()
+        getTopics()
+    }
+    
+    private func getTopics() {
         if isShared! {
-            InboxManager.sharedInstance.getPublicTopics({ (topics) -> Void in
-                self.topics = topics!
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.tableView.reloadData()
-                })
+            DataSource.sharedInstance.getPublicTopics({ (fetchedTopics) in
+                self.topics = fetchedTopics
             })
         } else {
-            InboxManager.sharedInstance.getTopics({ (topics) -> Void in
-                self.topics = topics!
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.tableView.reloadData()
-                })
+            DataSource.sharedInstance.getPrivateTopics({ (fetchedTopics) in
+                self.topics = fetchedTopics
             })
-            
         }
-        setupCardViewSnapBehavior()
     }
     
     override func viewWillAppear(animated: Bool) {

@@ -11,16 +11,42 @@ import CloudKit
 import Graph
 import UIKit
 
+protocol PersistedUserManagerProtocol {
+    func persistUser(userObject: PersistedUser)
+    func wipeUser() -> Void
+    func fetchLastUser() -> PersistedUser?
+    func generateNewPersistedUser(userID: String) -> PersistedUser
+}
 
 class MissionControl {
+    
+    func startupSequence() {
+        signIn {
+            //once we have user
+            //1. GetFriends
+            //2. Get Pages
+            //3. Get Topics
+            self.findUsers({
+                DataSource.sharedInstance.updateFriends()
+            })
+            self.getPublicTopics({
+                //
+            })
+            self.getPrivateTopics({
+                //
+            })
+            self.fetchPrivatePages({
+                //
+            })
+        }
+    }
     
     // MARK: Properties
     
     static let sharedInstance = MissionControl()
     private let graph = Graph()
     var user: PersistedUser?
-    private let userManager = PersistedUserManager()
-    let friendManager = FriendManager()
+    private let userManager: PersistedUserManagerProtocol = PersistedUserManager()
     
     // MARK: Permissions
     
@@ -40,18 +66,19 @@ class MissionControl {
     
     // MARK: Manage User
     
-    func signIn() {
-        var user = userManager.fetchLastUser()
+    func signIn(completion: ()->Void) {
+        user = userManager.fetchLastUser()
         getCurrentUserID({ userID in
-            if user == nil {
-                user = self.userManager.generateNewPersistedUser(userID.recordName)
-                self.userManager.persistUser(user!)
+            if self.user == nil {
+                self.user = self.userManager.generateNewPersistedUser(userID.recordName)
+                self.userManager.persistUser(self.user!)
             }
-            if userID.recordName != user!.ID {
+            if userID.recordName != self.user!.ID {
                 GraphServices().wipePersistedData()
-                user = self.userManager.generateNewPersistedUser(userID.recordName)
-                self.userManager.persistUser(user!)
+                self.user = self.userManager.generateNewPersistedUser(userID.recordName)
+                self.userManager.persistUser(self.user!)
             }
+            completion()
             }) { 
                 //failed to get user: FIX ME: prompt sign in
         }
@@ -64,8 +91,8 @@ class MissionControl {
                 self.provideErrorMessage(e)
             }
             if let userID = user {
-                self.createRemoteTopicSubscription()
                 completion(userID)
+                //self.createRemoteTopicSubscription()
             } else {
                 failed()
             }
@@ -128,11 +155,11 @@ class MissionControl {
         let dispatchGroup = dispatch_group_create()
         container.discoverAllContactUserInfosWithCompletionHandler { (userInfo, error) -> Void in
             if let e = error {
-                print("1: failed to load: \(e.localizedDescription)")
+                self.provideErrorMessage(e)
                 return
             }
+            let friends = self.graph.searchForEntity(types: [EntityType.Friend.rawValue], groups: nil, properties: nil)
             for user in userInfo! {
-                let friends = self.graph.searchForEntity(types: [EntityType.Friend.rawValue], groups: nil, properties: nil)
                 var flag: Bool = false
                 for friend in friends {
                     if friend["recordID"] as? String == user.userRecordID?.recordName {
@@ -166,18 +193,20 @@ class MissionControl {
     func fetchUserImage(recordID: CKRecordID, completion: (UIImage?)->Void) {
         let predicate = NSPredicate(format:"(userID == %@)", recordID.recordName)
         performPublicQuerry(RecordType.User, predicate: predicate, sortDescriptors: nil) { (records) in
-            if records != nil {
+            if records!.count > 0 {
                 let record = records![0]
                 if let imageAsset = record["image"] as? CKAsset {
                     let image = UIImage(contentsOfFile: imageAsset.fileURL.path!)
                     completion(image)
                 }
+            } else {
+                completion(nil)
             }
         }
     }
     
-    func fetchUserFromRecordID(recordID: CKRecordID, completion: ()-> Void) {
-        let predicate = NSPredicate(format:"(userID == %@)", recordID.recordName)
+    func fetchUserFromRecordID(recordID: String, completion: ()-> Void) {
+        let predicate = NSPredicate(format:"(userID == %@)", recordID)
         performPublicQuerry(RecordType.User, predicate: predicate, sortDescriptors: nil) { (records) in
             if let users = records {
                 for user in users {
@@ -219,6 +248,7 @@ extension MissionControl {
                         newTopic["friends"] = userIDs
                         self.getMessagesForTopic(topic.recordID)
                         self.getTopicMarkersForTopic(topic.recordID)
+                        self.getPagesForTopic(topic.recordID)
                     }
                 }
                 self.graph.save()
@@ -253,11 +283,10 @@ extension MissionControl {
     
     //MARK: Pages
    
-    func fetchPublicPages(completionHandler: () -> Void) {
+    func getPagesForTopic(topicID: CKRecordID) {
         
-        let lastUpdate = userManager.fetchLastUser()!.publicPagesUpdated
-        let predicate = NSPredicate(format:"(modificationDate > %@)", lastUpdate)
-        
+        let ref = CKReference(recordID: topicID, action: .None)
+        let predicate = NSPredicate(format: "%K CONTAINS %@", "topic", ref)
         performPublicQuerry(RecordType.Page, predicate: predicate, sortDescriptors: nil) { (records) in
             if let pages = records {
                 for page in pages {
@@ -280,10 +309,6 @@ extension MissionControl {
                     newPage["topic"] = topic.recordID.recordName
                 }
                 self.graph.save()
-                var user = self.userManager.fetchLastUser()!
-                user.publicPagesUpdated = NSDate()
-                self.userManager.persistUser(user)
-                completionHandler()
             }
         }
     }
@@ -307,7 +332,7 @@ extension MissionControl {
                     newPage["date"] = page["date"] as? NSDate
                     newPage ["URLString"] = page["URLString"] as? String
                     newPage["image"] = image
-                    newPage["recordID"] = page.recordID
+                    newPage["recordID"] = page.recordID.recordName
                     newPage["modificationDate"] = page.modificationDate
                     newPage["isPublic"] = true
                 }

@@ -40,7 +40,7 @@ extension TopicMarker {
 extension Topic {
     class func topicFromEntity(entity: Entity) -> Topic {
         let name = entity["name"] as? String
-        let users = entity["users"] as? [Friend]
+        let users = entity["users"] as? [String]
         let recordID = entity["recordID"] as? String
         
         return Topic(name: name, users: users, recordID: recordID)
@@ -49,9 +49,9 @@ extension Topic {
 
 extension Friend {
     class func friendFomEntity(entity: Entity) -> Friend {
-        let firstName = entity["firstName"] as? String
+        let firstName = entity["givenName"] as? String
         let familyName = entity["familyName"] as? String
-        let recordID = entity["recordIDString"] as! String
+        let recordID = entity["recordID"] as! String
         let userImage = entity["image"] as? UIImage
         
         return Friend(firstName: firstName, familyName: familyName, recordIDString: recordID, image: userImage)

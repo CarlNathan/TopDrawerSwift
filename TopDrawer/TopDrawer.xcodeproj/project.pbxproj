@@ -71,6 +71,9 @@
 		EDBDDBD91D0B590E00F11E17 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBD81D0B590E00F11E17 /* TabView.swift */; };
 		EDBDDBDD1D0F380900F11E17 /* ProfileTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBDC1D0F380900F11E17 /* ProfileTopView.swift */; };
 		EDDE2FF91D159D440067B44D /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE2FF81D159D440067B44D /* DataSource.swift */; };
+		EDDE301D1D189C5F0067B44D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE301C1D189C5F0067B44D /* UIImageExtension.swift */; };
+		EDDE301F1D19E8A40067B44D /* SavingInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE301E1D19E8A40067B44D /* SavingInterface.swift */; };
+		EDDE30211D19EA480067B44D /* PushHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE30201D19EA480067B44D /* PushHandling.swift */; };
 		EDED75C41CB32C350071A36F /* App downloads (2).png in Resources */ = {isa = PBXBuildFile; fileRef = EDED75C31CB32C350071A36F /* App downloads (2).png */; };
 		EDED75CE1CBEF37D0071A36F /* NewTopicPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */; };
 		EDED75D11CBEF3F30071A36F /* AssignTopicPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */; };
@@ -204,6 +207,9 @@
 		EDBDDBD81D0B590E00F11E17 /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		EDBDDBDC1D0F380900F11E17 /* ProfileTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTopView.swift; sourceTree = "<group>"; };
 		EDDE2FF81D159D440067B44D /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		EDDE301C1D189C5F0067B44D /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		EDDE301E1D19E8A40067B44D /* SavingInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavingInterface.swift; sourceTree = "<group>"; };
+		EDDE30201D19EA480067B44D /* PushHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushHandling.swift; sourceTree = "<group>"; };
 		EDED75C31CB32C350071A36F /* App downloads (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App downloads (2).png"; sourceTree = "<group>"; };
 		EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicPopupVC.swift; sourceTree = "<group>"; };
 		EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignTopicPopupVC.swift; sourceTree = "<group>"; };
@@ -311,6 +317,7 @@
 			children = (
 				ED3A5DC21CC547E300559CFB /* StringExtensionIndexing.swift */,
 				ED3A5DC71CC575EF00559CFB /* NSDateExtension.swift */,
+				EDDE301C1D189C5F0067B44D /* UIImageExtension.swift */,
 			);
 			name = SwiftExtensions;
 			sourceTree = "<group>";
@@ -494,6 +501,8 @@
 				EDFE6AAF1CEA351900D997F9 /* DataModelGraphConversions.swift */,
 				EDFE6AAB1CE0F9A600D997F9 /* CloudKitServices + Graph.swift */,
 				EDDE2FF81D159D440067B44D /* DataSource.swift */,
+				EDDE301E1D19E8A40067B44D /* SavingInterface.swift */,
+				EDDE30201D19EA480067B44D /* PushHandling.swift */,
 				ED4F38471D122CA3006514C1 /* DataClasses */,
 				ED4F38481D122CCA006514C1 /* User */,
 				ED4F38491D122CF0006514C1 /* Friends */,
@@ -834,9 +843,11 @@
 			files = (
 				EDAC5DCC1C7CF2AC00C0C306 /* TopicsCollectionViewController.swift in Sources */,
 				EDED75D71CC15ED10071A36F /* NewTopicEntryTableViewController.swift in Sources */,
+				EDDE30211D19EA480067B44D /* PushHandling.swift in Sources */,
 				ED3A5DC61CC56DB300559CFB /* MessageSorter.swift in Sources */,
 				EDAC5DCE1C7CF3E100C0C306 /* TopicCollectionViewCell.swift in Sources */,
 				ED2B08181C7F49780007949E /* MessageContainerViewController.swift in Sources */,
+				EDDE301D1D189C5F0067B44D /* UIImageExtension.swift in Sources */,
 				EDBDDBCE1D0B19CC00F11E17 /* PageLabelView.swift in Sources */,
 				EDBDDBDD1D0F380900F11E17 /* ProfileTopView.swift in Sources */,
 				EDFE6AAC1CE0F9A700D997F9 /* CloudKitServices + Graph.swift in Sources */,
@@ -854,6 +865,7 @@
 				EDAC5DDA1C7D32A300C0C306 /* ProfileViewController.swift in Sources */,
 				ED2B08271C80B7C40007949E /* Message.swift in Sources */,
 				ED2B081C1C7F614C0007949E /* MessageViewController.swift in Sources */,
+				EDDE301F1D19E8A40067B44D /* SavingInterface.swift in Sources */,
 				ED4F384E1D122F3F006514C1 /* FriendManager.swift in Sources */,
 				EDAC5DAF1C7BB57000C0C306 /* SavedPagesCollectionViewController.swift in Sources */,
 				EDADFF251C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift in Sources */,

@@ -67,9 +67,7 @@ class ProfileViewController: UIViewController {
     }
     
     func getFriends () {
-        InboxManager.sharedInstance.findUsers {
-            self.friends = Array(InboxManager.sharedInstance.friends.values)
-        }
+        friends = DataSource.sharedInstance.allFriends()
     }
 
 }
@@ -157,9 +155,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate, ProfileTopView
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            
-            topView.profileImage.contentMode = .ScaleAspectFit
-            topView.profileImage.setImage(pickedImage, forState: .Normal)
+            let ratio = pickedImage.size.height/pickedImage.width
+            let scaledImage = pickedImage.scaleImage(CGSize(width: 100, height: ratio*100))
+            topView.profileImage.setImage(scaledImage, forState: .Normal)
         }
         dismissViewControllerAnimated(true, completion: nil)
     }

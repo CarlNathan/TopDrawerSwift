@@ -21,7 +21,7 @@ class FriendsTableView: UITableViewController {
     }
     
     func setupTableView(){
-        self.friends = Array(InboxManager.sharedInstance.friends.values)
+        self.friends = DataSource.sharedInstance.allFriends()
         tableView.registerClass(FriendTableViewCell.self, forCellReuseIdentifier: "friendCell")
         tableView.dataSource = self
         tableView.delegate = self
@@ -36,7 +36,7 @@ class FriendsTableView: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendTableViewCell
         
         cell.friend = self.friends![indexPath.row]
-        cell.textLabel!.text = friends![indexPath.row].firstName! + " " + friends![indexPath.row].familyName!
+        cell.textLabel!.text = friends![indexPath.row].getName()
         if selectedFriends.contains(cell.friend.recordID!) {
             cell.accessoryType = .Checkmark
         }

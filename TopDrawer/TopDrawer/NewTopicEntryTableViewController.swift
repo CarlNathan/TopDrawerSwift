@@ -75,9 +75,11 @@ class NewTopicEntryTableViewController: UITableViewController {
             if selectedFriends.count > 0 {
                 var text: String = ""
                 for CKID in selectedFriends {
-                    let person = InboxManager.sharedInstance.friends[CKID]!as Friend
-                    let name = person.firstName! + " " + person.familyName! + "   "
-                    text += name
+                    let person = DataSource.sharedInstance.friendForID(CKID)
+                    if let name = person?.getName() {
+                        text += name
+                        text += "   "
+                    }
                 }
                 cell.textLabel!.text = text
             } else {

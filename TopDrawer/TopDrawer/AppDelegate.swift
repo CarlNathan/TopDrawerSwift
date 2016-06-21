@@ -18,22 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        let graph = Graph()
-        let items = graph.searchForEntity(types: ["PersonalPage"], groups: nil, properties: nil)
-//        for item in items {
-//            item.delete()
-//        }
-        for item in items {
-            let date = item["modificationDate"] as! NSDate
-            if date.compare(lastUpdate) == .OrderedDescending {
-                lastUpdate = item["date"] as! NSDate
-            }
-        }
-        InboxManager.sharedInstance.initFriends()
-        InboxManager.sharedInstance.getCurrentUserID()
-        
-        
+       
+        GraphServices().wipePersistedData()
+        PersistedUserManager().wipeUser()
+        MissionControl.sharedInstance.startupSequence()
         // Register for push notifications
         let notificationSettings = UIUserNotificationSettings.init(forTypes: UIUserNotificationType.Alert, categories: nil)
         application.registerUserNotificationSettings(notificationSettings)

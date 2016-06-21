@@ -23,13 +23,9 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
             }
         }
     }
-    var senderPage: Page?
-    let loadLayer = MaterialLayer()
-    let graph = Graph()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //setupLoadingCircle()
         setupCollectionView()
         setupLongPressRecognizer()
         
@@ -47,23 +43,14 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         collectionView?.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0)
     }
     
-    func setupLoadingCircle() {
-        loadLayer.image = UIImage(named: "Loading Circle")
-        loadLayer.frame = CGRectMake(view.center.x - 50 , view.center.y - 50, 100, 100)
-        view.layer.addSublayer(loadLayer)
-        
-        let fullRotation = CABasicAnimation(keyPath: "transform.rotation")
-        fullRotation.fromValue = 0
-        fullRotation.toValue = -((360*M_PI)/180)
-        fullRotation.duration = 2
-        fullRotation.repeatCount = 1e100
-        
-        loadLayer.animate(fullRotation)
+    override func viewWillAppear(animated: Bool) {
+        getPages()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        downloadSavedPages()
+    private func getPages() {
+        DataSource.sharedInstance.getPrivatePages { (fetchedPages) in
+            self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
+        }
     }
     
     deinit {
@@ -88,16 +75,6 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
             let senderID = sender as! SavedPageCollectionViewCell
             let detailView = segue.destinationViewController as!DetailViewContoller
             detailView.URLString = senderID.page.URLString
-        }
-        if segue.identifier == "privateTopic" {
-            let detailView = segue.destinationViewController as! AssignTopicViewController
-            detailView.page = self.senderPage
-            detailView.isShared = false
-        }
-        if segue.identifier == "sharedTopic" {
-            let detailView = segue.destinationViewController as! AssignTopicViewController
-            detailView.page = self.senderPage
-            detailView.isShared = true
         }
     }
 
@@ -133,17 +110,6 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         presentViewController(sfc, animated: true, completion: nil)
     }
     
-
-            //MARK: Helper
-    
-    func downloadSavedPages() {
-        let graphPages = graph.searchForEntity(types: ["PersonalPage"], groups: nil, properties: nil)
-        var newPages = [Page]()
-        for entity in graphPages {
-            newPages.append(Page.pageFromEntity(entity))
-        }
-        pages = newPages
-        }
     
         //Mark: - Gesture Actions
     func setupLongPressRecognizer () {
@@ -156,35 +122,36 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     func handleLongPress (sender: UIGestureRecognizer) {
         let p = sender.locationInView(self.collectionView)
         if let path = self.collectionView?.indexPathForItemAtPoint(p) {
-            //assign the cell properties to action
-            self.senderPage = self.pages [path.row]
-            let alertController = UIAlertController(title: nil, message: "Where would you like to send this page?", preferredStyle: .ActionSheet)
-        
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-                // ... canceled do nothing
-            }
-            alertController.addAction(cancelAction)
-        
-            let privateOption = UIAlertAction(title: "Private Topic", style: .Default) { (action) in
-                // ... inbox manager add reference to saved page
-                //self.performSegueWithIdentifier("privateTopic", sender: self)
-                AssignTopicPopupVC.presentPopupCV(self, page: self.senderPage!, shared: false)
-                // reload data
-            }
-            alertController.addAction(privateOption)
-        
-            let sharedOption = UIAlertAction(title: "Shared Topic", style: .Default) { (action) in
-                // ... inbox manager add reference to saved page
-                self.performSegueWithIdentifier("sharedTopic", sender: self)
-                // reaload data
-            }
-            alertController.addAction(sharedOption)
-        
-            self.presentViewController(alertController, animated: true) {
-                // completion handler
-            }
+            let senderPage = self.pages [path.row]
+            launchTopicOptionAlertView(senderPage)
         }
     }
+    
+    func launchTopicOptionAlertView(senderPage: Page) {
+        let alertController = UIAlertController(title: nil, message: "Where would you like to send this page?", preferredStyle: .ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            // ... canceled do nothing
+        }
+        alertController.addAction(cancelAction)
+        
+        let privateOption = UIAlertAction(title: "Private Topic", style: .Default) { (action) in
+            AssignTopicPopupVC.presentPopupCV(self, page: senderPage, shared: false)
+        }
+        alertController.addAction(privateOption)
+        
+        let sharedOption = UIAlertAction(title: "Shared Topic", style: .Default) { (action) in
+            AssignTopicPopupVC.presentPopupCV(self, page: senderPage, shared: true)
+        }
+        alertController.addAction(sharedOption)
+        
+        self.presentViewController(alertController, animated: true) {
+            // completion handler
+        }
+    }
+}
+
+extension SavedPagesCollectionViewController {
     
     //Cell Card View Delegate
     
@@ -196,34 +163,9 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     }
     
     func catagoryButtonPressed(page: Page) {
-        senderPage = page
-        let alertController = UIAlertController(title: nil, message: "Where would you like to send this page?", preferredStyle: .ActionSheet)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-            // ... canceled do nothing
-        }
-        alertController.addAction(cancelAction)
-        
-        let privateOption = UIAlertAction(title: "Private Topic", style: .Default) { (action) in
-            // ... inbox manager add reference to saved page
-            self.performSegueWithIdentifier("privateTopic", sender: self)
-            // reload data
-        }
-        alertController.addAction(privateOption)
-        
-        let sharedOption = UIAlertAction(title: "Shared Topic", style: .Default) { (action) in
-            // ... inbox manager add reference to saved page
-            self.performSegueWithIdentifier("sharedTopic", sender: self)
-            // reaload data
-        }
-        alertController.addAction(sharedOption)
-        
-        self.presentViewController(alertController, animated: true) {
-            // completion handler
-        }
+        launchTopicOptionAlertView(page)
     }
     func deleteButtonPressed(page: Page) {
-        //handleDelete
         let alertController = UIAlertController(title: "Warning", message: "Are you sure you want to delete this page? It will be removed from all of your topics.", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
             // ... Canacel - do nothing

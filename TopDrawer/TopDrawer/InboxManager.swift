@@ -154,7 +154,7 @@ extension InboxManager {
                 
                 let name = topic["name"] as? String ?? nil
                 let recordID = topic.recordID.recordName
-                let newTopic = Topic(name: name!, users: [Friend](), recordID: recordID)
+                let newTopic = Topic(name: name!, users: [String](), recordID: recordID)
                 newTopics.append(newTopic)
             }
             completionHandler(newTopics)
@@ -233,13 +233,9 @@ extension InboxManager {
             for publicTopic in publicTopics! {
                 let name = publicTopic["name"] as! String
                 let users = publicTopic["users"] as! [CKReference]
-                var userNames = [Friend]()
+                var userNames = [String]()
                 for user in users {
-                    if let newUser = self.friends[user.recordID.recordName]
-                    {
-                    userNames.append(newUser)
-                    }
-                    
+                    userNames.append(user.recordID.recordName)
                 }
                 topics.append(Topic(name: name, users: userNames, recordID: publicTopic.recordID.recordName))
             }
@@ -384,7 +380,7 @@ extension InboxManager {
             }
             let name = record!["name"] as? String ?? nil
             let recordID = record!.recordID
-            let newTopic = Topic(name: name!, users: [Friend](), recordID: recordID.recordName)
+            let newTopic = Topic(name: name!, users: [String](), recordID: recordID.recordName)
             NSNotificationCenter.defaultCenter().postNotificationName("NewTopic", object: self, userInfo: ["topic": newTopic])
         }
     }
@@ -409,13 +405,9 @@ extension InboxManager {
             self.createSubscriptions((record?.recordID)!)
             let name = record!["name"] as! String
             let users = record!["users"] as! [CKReference]
-            var userNames = [Friend]()
+            var userNames = [String]()
             for user in users {
-                if let newUser = self.friends[user.recordID.recordName]
-                {
-                    userNames.append(newUser)
-                }
-                
+                userNames.append(user.recordID.recordName)
             }
             let newTopic = Topic(name: name, users: userNames, recordID: record!.recordID.recordName)
             NSNotificationCenter.defaultCenter().postNotificationName("NewPublicTopic", object: self, userInfo: ["topic": newTopic])
@@ -575,13 +567,9 @@ extension InboxManager {
             }
             let name = record!["name"] as! String
             let users = record!["users"] as! [CKReference]
-            var userNames = [Friend]()
+            var userNames = [String]()
             for user in users {
-                if let newUser = self.friends[user.recordID.recordName]
-                {
-                    userNames.append(newUser)
-                }
-                
+                userNames.append(user.recordID.recordName)
             }
             let topic = Topic(name: name, users: userNames, recordID: record!.recordID.recordName)
             completionHandler(topic)

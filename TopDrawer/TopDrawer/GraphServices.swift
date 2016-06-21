@@ -13,7 +13,7 @@ class GraphServices: PersistedDataSource {
     private let graph = Graph()
     
     func wipePersistedData() {
-        let entities = graph.searchForEntity()
+        let entities = graph.searchForEntity(types:[EntityType.Friend.rawValue, EntityType.Message.rawValue,EntityType.PublicPage.rawValue,EntityType.PrivatePage.rawValue,EntityType.PrivateTopic.rawValue, EntityType.PublicTopic.rawValue, EntityType.TopicMarker.rawValue, EntityType.User.rawValue])
         for entity in entities {
             entity.delete()
         }
