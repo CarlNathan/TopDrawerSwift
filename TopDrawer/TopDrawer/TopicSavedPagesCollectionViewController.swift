@@ -95,7 +95,7 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSaf
     
     func getPages () {
         DataSource.sharedInstance.getPagesForTopic(topic!.recordID!) { (fetchedPages) in
-            self.pages = fetchedPages
+            self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
         }
     }
 

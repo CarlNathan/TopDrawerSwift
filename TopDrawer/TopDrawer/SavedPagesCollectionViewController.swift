@@ -29,7 +29,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         setupCollectionView()
         setupLongPressRecognizer()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SavedPagesCollectionViewController.newPage(_:)), name: "SavedNewPersonalPage", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getPages), name: "ReloadData", object: nil)
         
         // Do any additional setup after loading the view.
         
@@ -47,7 +47,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         getPages()
     }
     
-    private func getPages() {
+    func getPages() {
         DataSource.sharedInstance.getPrivatePages { (fetchedPages) in
             self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
         }
@@ -57,14 +57,6 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func newPage(sender:NSNotification) {
-        let record = sender.userInfo!["page"] as! CKRecord
-        let page = InboxManager.sharedInstance.pageFromCKRecord(record)
-        pages.append(page)
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.collectionView?.reloadData()
-        })
-    }
     
     // MARK: - Navigation
 
@@ -173,7 +165,7 @@ extension SavedPagesCollectionViewController {
         alertController.addAction(cancelAction)
         let OKAction = UIAlertAction(title: "Delete", style: .Destructive) { (action) in
             // ...Completely Delete Record
-            InboxManager.sharedInstance.deletePrivatePage(page)
+            DataCoordinatorInterface.sharedInstance.deletePage(page)
             if let pageIndex = self.pages.indexOf({$0.pageID == page.pageID}) {
                 self.collectionView?.performBatchUpdates({
                     self.pages.removeAtIndex(pageIndex)

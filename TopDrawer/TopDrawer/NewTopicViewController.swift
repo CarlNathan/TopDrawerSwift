@@ -20,7 +20,7 @@ class NewTopicViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.friends = Array(InboxManager.sharedInstance.friends.values)
+        self.friends = DataSource.sharedInstance.allFriends()
     }
     
     
@@ -64,10 +64,12 @@ class NewTopicViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func saveButtonPressed(sender: AnyObject) {
         
         if selectedFriends.count == 0 {
-            InboxManager.sharedInstance.createNewTopic(self.nameTextField.text!)
-            self.dismissViewControllerAnimated(true, completion: nil)
+            let topic = Topic(name: nameTextField.text!, users: nil, recordID: nil)
+            SavingInterface.sharedInstance.createNewPrivateTopic(topic)
+            dismissViewControllerAnimated(true, completion: nil)
         } else {
-            InboxManager.sharedInstance.createNewPublicTopic(self.nameTextField.text!, users: selectedFriends)
+            let topic = Topic(name: nameTextField.text!, users: selectedFriends, recordID: nil)
+            SavingInterface.sharedInstance.createNewSharedTopic(topic)
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }

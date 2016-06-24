@@ -8,59 +8,42 @@
 
 import Foundation
 
-protocol PersistedDataSource {
-    func wipePersistedData()
-    func getPrivatePages()->[Page]
-    func getPagesForTopic(topicID: String) -> [Page]
-    func getPrivateTopics() -> [Topic]
-    func getPublicTopics() -> [Topic] 
-    func getMessagesAndTopicMarkersForTopic(topicID: String) -> ([TopicMarker],[Message])
-}
 
-protocol FriendManagerProtocol {
-    func updateFriendsInMemory()
-    func friendForID(id: String) -> Friend?
-    func allFriends() -> [Friend]
-}
-
-class DataSource {
+class DataSource: ThreadingManager {
     
     static let sharedInstance = DataSource()
     
     private let reader: PersistedDataSource = GraphServices()
-    
     private let friendManager: FriendManagerProtocol = FriendManager()
-    
-    
-    private func runInBackgroundThread(block: ()->Void) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { 
-            block()
-        }
-    }
     
     func wipePersistedData(completion: ()->Void) {
         runInBackgroundThread {
             self.reader.wipePersistedData()
-            dispatch_async(dispatch_get_main_queue(), {
-                completion()
-            })
+            self.runInMainThread(completion)
         }
     }
     
     func getPrivatePages(completion: ([Page])->Void) {
         runInBackgroundThread {
             let pages = self.reader.getPrivatePages()
-            dispatch_async(dispatch_get_main_queue(), {
-                completion(pages)
-            })
+            self.runInMainThread({completion(pages)})
         }
     }
     
     func getPagesForTopic(topicID: String, completion: ([Page])->Void) {
         runInBackgroundThread {
             let pages = self.reader.getPagesForTopic(topicID)
-            dispatch_async(dispatch_get_main_queue(), {
+            self.runInMainThread({
                 completion(pages)
+            })
+        }
+    }
+    
+    func getPageForID(pageID: String, completion: (Page)->Void) {
+        runInBackgroundThread {
+            let page = self.reader.getPageForID(pageID)
+            self.runInMainThread({
+                completion(page)
             })
         }
     }
@@ -68,7 +51,7 @@ class DataSource {
     func getPrivateTopics(completion: ([Topic])->Void) {
         runInBackgroundThread {
             let topics = self.reader.getPrivateTopics()
-            dispatch_async(dispatch_get_main_queue(), {
+            self.runInMainThread({
                 completion(topics)
             })
         }
@@ -76,8 +59,8 @@ class DataSource {
 
     func getPublicTopics(completion: ([Topic])->Void) {
         runInBackgroundThread {
-            let topics = self.reader.getPrivateTopics()
-            dispatch_async(dispatch_get_main_queue(), {
+            let topics = self.reader.getPublicTopics()
+            self.runInMainThread({
                 completion(topics)
             })
         }
@@ -86,7 +69,7 @@ class DataSource {
     func getMessagesAndTopicMarkersForTopic(topicID: String, completion: ([TopicMarker],[Message])->Void) {
         runInBackgroundThread {
             let (topicMarkers, messages) = self.reader.getMessagesAndTopicMarkersForTopic(topicID)
-            dispatch_async(dispatch_get_main_queue(), {
+            self.runInMainThread({
                 completion(topicMarkers,messages)
             })
         }

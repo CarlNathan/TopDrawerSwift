@@ -12,7 +12,8 @@ import Foundation
 public enum RecordType: String {
     case Page = "Page"
     case TopicMarker = "TopicMarker"
-    case Topic = "Topic"
+    case PrivateTopic = "Topic"
+    case PublicTopic = "PublicTopic"
     case Message = "Message"
     case Friend = "Friend"
     case User = "SearchableUser"

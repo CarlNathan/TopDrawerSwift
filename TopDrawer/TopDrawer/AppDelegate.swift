@@ -21,8 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        
         GraphServices().wipePersistedData()
         PersistedUserManager().wipeUser()
-        MissionControl.sharedInstance.startupSequence()
-        // Register for push notifications
+        DataCoordinatorInterface.sharedInstance.startupSequence()
+        
+        
         let notificationSettings = UIUserNotificationSettings.init(forTypes: UIUserNotificationType.Alert, categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
         application.registerForRemoteNotifications()
@@ -56,40 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         
         
-        if let pushInfo = userInfo as? [String: NSObject] {
-            
-            
-            let notification = CKNotification(fromRemoteNotificationDictionary: pushInfo)
-            let alertBody = notification.alertBody
-            
-            print(alertBody)
-            if let queryNotification = notification as? CKQueryNotification {
-                let recordID = queryNotification.recordID
-                guard let body = queryNotification.alertBody else {
-                    return
-                }
-                
-                
-                switch body {
-                case "New Topic":
-                    NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "RemoteTopic", object: self, userInfo: ["topicID":recordID!]))
-                    InboxManager.sharedInstance.createSubscriptions(recordID!)
-                    break
-                case "New Page":
-                    NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "RemotePage", object: self, userInfo: ["topicID":recordID!]))
-                    break
-                case "New Message":
-                    NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "RemoteMessage", object: self, userInfo: ["topicID":recordID!]))
-                    break
-                case "New Marker":
-                    NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "RemoteMarker", object: self, userInfo: ["topicID":recordID!]))
-                    break
-                default:
-                    return
-                }
-            }
     }
-
-}
+    
+    
 }
 

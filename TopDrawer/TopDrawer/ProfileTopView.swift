@@ -15,7 +15,7 @@ protocol ProfileTopViewDelegate {
 }
 
 class ProfileTopView: UIView {
-    let user = MissionControl.sharedInstance.user?.ID
+    let user = DataCoordinatorInterface.sharedInstance.user
     let backgroundImageView = UIImageView()
     let profileImage = FabButton()
     let usernameLabel = UILabel()

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Friend {
+class Friend: TopDrawerRemoteModifiableObejct {
     var firstName: String?
     var familyName: String?
     var recordID: String!
@@ -33,5 +33,9 @@ class Friend {
             name += family
         }
         return name
+    }
+    
+    func getID() -> String {
+        return recordID
     }
 }

@@ -21,7 +21,7 @@ class FriendsTableView: UITableViewController {
     }
     
     func setupTableView(){
-        self.friends = DataSource.sharedInstance.allFriends()
+        self.friends = SearchAndSortAssistant().sortFriends(DataSource.sharedInstance.allFriends())
         tableView.registerClass(FriendTableViewCell.self, forCellReuseIdentifier: "friendCell")
         tableView.dataSource = self
         tableView.delegate = self

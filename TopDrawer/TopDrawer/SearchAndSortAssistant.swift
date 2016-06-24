@@ -84,8 +84,12 @@ class SearchAndSortAssistant {
         
     }
     
-    func sortFriends() {
-        
+    func sortFriends(friends: [Friend]) -> [Friend] {
+        var sortedFriends = friends
+        sortedFriends.sortInPlace { (a, b) -> Bool in
+            a.familyName!.compare(b.familyName!) == NSComparisonResult.OrderedDescending
+        }
+        return sortedFriends
     }
     
 }

@@ -120,7 +120,7 @@ class InsertTopicMarkerPopupVC: UIViewController {
     
     func getPages () {
         DataSource.sharedInstance.getPagesForTopic(self.topic.recordID!) { (fetchedPages) in
-            self.pages = fetchedPages
+            self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
         }
     }
     

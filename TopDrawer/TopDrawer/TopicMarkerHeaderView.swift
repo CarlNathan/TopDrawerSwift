@@ -60,8 +60,8 @@ class TopicMarkerHeaderView: UICollectionReusableView {
         //titleLabel.text = nil
     }
     
-    func getPageForID(pageID: CKRecordID) {
-        InboxManager.sharedInstance.getPageForID(pageID) { (page) in
+    func getPageForID(pageID: String) {
+        DataSource.sharedInstance.getPageForID(pageID) { (page) in
             self.page = page
         }
     }

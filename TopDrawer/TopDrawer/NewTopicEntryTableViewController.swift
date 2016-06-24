@@ -10,12 +10,17 @@ import Foundation
 import UIKit
 import Material
 
+protocol NewTopicEntryTableViewControllerDelegate {
+    func updateEntryFields(name: String, selectedFriends: [String], message: String)
+}
+
 class NewTopicEntryTableViewController: UITableViewController {
     
     let entryParameters = ["Name", "Recipients", "Message"]
     var selectedFriends = [String]()
     var message = ""
     var name = ""
+    var delegate: NewTopicEntryTableViewControllerDelegate?
     
     override func viewDidLoad() {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -42,6 +47,12 @@ class NewTopicEntryTableViewController: UITableViewController {
         let dictionary = sender.userInfo as! [NSString: [String]]
         selectedFriends = dictionary["friends"]!
         tableView.reloadData()
+    }
+    
+    func updateEntryFields() {
+        if delegate != nil {
+            delegate?.updateEntryFields(name, selectedFriends: selectedFriends, message: message)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

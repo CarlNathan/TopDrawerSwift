@@ -9,20 +9,20 @@
 import Foundation
 import UIKit
 
-class Page {
+class Page: TopDrawerRemoteModifiableObejct {
     let name: String?
     let description: String?
     let URLString: String?
     var topic: [String]?
     let date: NSDate?
     let image: UIImage?
-    let pageID: String
+    var pageID: String!
     let modificationDate: NSDate!
     var isPublic: Bool = false
     
     
     
-    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: String, modifiedDate: NSDate, isPublic: Bool) {
+    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: String, modifiedDate: NSDate, isPublic: Bool, topics: [String]?) {
         self.name = name
         self.description = description
         self.URLString = URLString
@@ -31,7 +31,12 @@ class Page {
         self.pageID = recordID
         self.modificationDate = modifiedDate
         self.isPublic = isPublic
+        self.topic = topics
         
+    }
+    
+    func getID()->String {
+        return pageID
     }
 }
 

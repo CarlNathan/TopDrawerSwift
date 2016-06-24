@@ -14,7 +14,14 @@ class TopicMarkerSelectionTableViewController: UIViewController, UITableViewData
 
     var delegate: TopicMarkerSelectionDelegate?
     var topic: Topic?
-    var pages = [Page]()
+    var pages = [Page]() {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.tableView.reloadData()
+                self.tableView.userInteractionEnabled = true
+            }
+        }
+    }
 
     
     override func viewDidLoad() {
@@ -56,13 +63,8 @@ class TopicMarkerSelectionTableViewController: UIViewController, UITableViewData
     }
 
     func getPages () {
-        InboxManager.sharedInstance.getPublicTopicPages(self.topic!) { (pages) -> Void in
-            self.pages = pages!
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.tableView?.reloadData()
-                self.tableView?.userInteractionEnabled = true
-            })
-            
+        DataSource.sharedInstance.getPagesForTopic(topic!.recordID!) { (pages) in
+            self.pages = SearchAndSortAssistant().sortPages(SortType.DateOldToNew, pages: pages)
         }
     }
     

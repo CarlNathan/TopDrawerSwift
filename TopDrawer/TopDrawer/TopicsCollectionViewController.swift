@@ -26,16 +26,8 @@ class TopicsCollectionViewController: UICollectionViewController {
 
         collectionView?.alwaysBounceVertical = true
         getTopics()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newTopic), name: "NewTopic", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getTopics), name: "ReloadData", object: nil)
 
-    }
-    
-    func newTopic(sender:NSNotification) {
-        self.topics.append(sender.userInfo!["topic"]as! Topic)
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.collectionView?.reloadData()
-        })
-        
     }
 
     
@@ -76,7 +68,8 @@ class TopicsCollectionViewController: UICollectionViewController {
     func getTopics () {
         
         DataSource.sharedInstance.getPrivateTopics { (fetchedTopics) in
-            self.topics = fetchedTopics
+            self.topics = SearchAndSortAssistant().sortTopics(fetchedTopics)
+            
         }
     }
     

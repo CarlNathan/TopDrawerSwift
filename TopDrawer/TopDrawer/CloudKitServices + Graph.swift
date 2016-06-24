@@ -9,90 +9,31 @@
 import Foundation
 import CloudKit
 import Graph
-import UIKit
 
-protocol PersistedUserManagerProtocol {
-    func persistUser(userObject: PersistedUser)
-    func wipeUser() -> Void
-    func fetchLastUser() -> PersistedUser?
-    func generateNewPersistedUser(userID: String) -> PersistedUser
-}
 
-class MissionControl {
+class CloudKitGraphCoordinator: CloudKitAbstract, TopDrawerDataCoordinator {
     
-    func startupSequence() {
-        signIn {
-            //once we have user
-            //1. GetFriends
-            //2. Get Pages
-            //3. Get Topics
-            self.findUsers({
-                DataSource.sharedInstance.updateFriends()
-            })
-            self.getPublicTopics({
-                //
-            })
-            self.getPrivateTopics({
-                //
-            })
-            self.fetchPrivatePages({
-                //
-            })
-        }
+    private var user: PersistedUser?
+    
+    func setUser(user: PersistedUser?) {
+        self.user = user
     }
     
     // MARK: Properties
     
-    static let sharedInstance = MissionControl()
     private let graph = Graph()
-    var user: PersistedUser?
-    private let userManager: PersistedUserManagerProtocol = PersistedUserManager()
     
-    // MARK: Permissions
-    
-    func getPermissions() {
-        CKContainer.defaultContainer().requestApplicationPermission(CKApplicationPermissions.UserDiscoverability, completionHandler: { applicationPermissionStatus, error in
-            if applicationPermissionStatus == CKApplicationPermissionStatus.Granted {
-                let defaults = NSUserDefaults.standardUserDefaults()
-                defaults.setObject(true, forKey: "UserDiscoverabilityEnabled")
-                self.findUsers({
-                    //
-                })
-            }
-        })
-        
-    }
-
     
     // MARK: Manage User
     
-    func signIn(completion: ()->Void) {
-        user = userManager.fetchLastUser()
-        getCurrentUserID({ userID in
-            if self.user == nil {
-                self.user = self.userManager.generateNewPersistedUser(userID.recordName)
-                self.userManager.persistUser(self.user!)
-            }
-            if userID.recordName != self.user!.ID {
-                GraphServices().wipePersistedData()
-                self.user = self.userManager.generateNewPersistedUser(userID.recordName)
-                self.userManager.persistUser(self.user!)
-            }
-            completion()
-            }) { 
-                //failed to get user: FIX ME: prompt sign in
-        }
-    }
-    
-    private func getCurrentUserID (completion: (CKRecordID)->Void, failed: ()->Void) {
+    func getCurrentUserID (completion: (String)->Void, failed: ()->Void) {
         let container = CKContainer.defaultContainer()
         container.fetchUserRecordIDWithCompletionHandler { (user, error) -> Void in
             if let e = error {
                 self.provideErrorMessage(e)
             }
             if let userID = user {
-                completion(userID)
-                //self.createRemoteTopicSubscription()
+                completion(userID.recordName)
             } else {
                 failed()
             }
@@ -100,8 +41,8 @@ class MissionControl {
     }
     
     private func createSearchableUser() {
-        let persistedUserID = userManager.fetchLastUser()?.ID
-        let predicate = NSPredicate(format:"(userID == %@)", persistedUserID!)
+        let persistedUserID = user!.ID
+        let predicate = NSPredicate(format:"(userID == %@)", persistedUserID)
         performPublicQuerry(RecordType.User, predicate: predicate, sortDescriptors: nil) { (records) in
             if records == nil || records!.count == 0 {
                 let user = CKRecord(recordType: RecordType.User.rawValue)
@@ -120,9 +61,9 @@ class MissionControl {
         
     }
     
-    func updateSearchableUser(image: UIImage, displayName: String) {
-        let persistedUserID = userManager.fetchLastUser()?.ID
-        let predicate = NSPredicate(format:"(userID == %@)", persistedUserID!)
+    func updateUserDisplayData(image: UIImage, displayName: String) {
+        let persistedUserID = user!.ID
+        let predicate = NSPredicate(format:"(userID == %@)", persistedUserID)
         performPublicQuerry(RecordType.User, predicate: predicate, sortDescriptors: nil) { (records) in
             if let users = records {
                 let user = users[0]
@@ -150,7 +91,7 @@ class MissionControl {
     // MARK: Friend Data Type
     
     
-    func findUsers(completionHandler: () -> Void)  {
+    func findFriends(completionHandler: () -> Void)  {
         let container = CKContainer.defaultContainer()
         let dispatchGroup = dispatch_group_create()
         container.discoverAllContactUserInfosWithCompletionHandler { (userInfo, error) -> Void in
@@ -190,7 +131,7 @@ class MissionControl {
         }
     }
     
-    func fetchUserImage(recordID: CKRecordID, completion: (UIImage?)->Void) {
+    private func fetchUserImage(recordID: CKRecordID, completion: (UIImage?)->Void) {
         let predicate = NSPredicate(format:"(userID == %@)", recordID.recordName)
         performPublicQuerry(RecordType.User, predicate: predicate, sortDescriptors: nil) { (records) in
             if records!.count > 0 {
@@ -205,7 +146,7 @@ class MissionControl {
         }
     }
     
-    func fetchUserFromRecordID(recordID: String, completion: ()-> Void) {
+    func fetchUserFromID(recordID: String, completion: ()-> Void) {
         let predicate = NSPredicate(format:"(userID == %@)", recordID)
         performPublicQuerry(RecordType.User, predicate: predicate, sortDescriptors: nil) { (records) in
             if let users = records {
@@ -222,15 +163,15 @@ class MissionControl {
     }
 }
 
-extension MissionControl {
+extension CloudKitGraphCoordinator {
     // MARK: Topics
     func getPublicTopics(completion: ()->Void) {
         let predicate = NSPredicate(format: "%K CONTAINS %@", "users", CKRecordID(recordName: user!.ID))
-        performPublicQuerry(RecordType.Topic, predicate: predicate, sortDescriptors: nil) { (records) in
+        performPublicQuerry(RecordType.PrivateTopic, predicate: predicate, sortDescriptors: nil) { (records) in
             if let topics = records {
                 var flag: Bool = false
                 for topic in topics {
-                    let graphTopics = self.graph.searchForEntity(types: [RecordType.Topic.rawValue], groups: nil, properties: nil)
+                    let graphTopics = self.graph.searchForEntity(types: [EntityType.PublicTopic.rawValue], groups: nil, properties: nil)
                     for graphTopic in graphTopics {
                         if graphTopic["recordID"] as! String == topic.recordID.recordName {
                             flag = true
@@ -250,19 +191,19 @@ extension MissionControl {
                         self.getTopicMarkersForTopic(topic.recordID)
                         self.getPagesForTopic(topic.recordID)
                     }
-                }
                 self.graph.save()
+                }
                 completion()
             }
         }
     }
     
     func getPrivateTopics(completion: ()-> Void) {
-        performPrivateQuerry(RecordType.Topic, predicate: nil, sortDescriptors: nil) { (records) in
+        performPrivateQuerry(RecordType.PrivateTopic, predicate: nil, sortDescriptors: nil) { (records) in
             if let topics = records {
                 var flag: Bool = false
                 for topic in topics {
-                    let graphTopics = self.graph.searchForEntity(types: [RecordType.Topic.rawValue], groups: nil, properties: nil)
+                    let graphTopics = self.graph.searchForEntity(types: [EntityType.PrivateTopic.rawValue], groups: nil, properties: nil)
                     for graphTopic in graphTopics {
                         if graphTopic["recordID"] as! String == topic.recordID.recordName {
                             flag = true
@@ -281,9 +222,17 @@ extension MissionControl {
 
     }
     
+    func getItemsForTopic(topicID: String, completion: ()-> Void) {
+        let recordID = CKRecordID(recordName: topicID)
+        self.getMessagesForTopic(recordID)
+        self.getTopicMarkersForTopic(recordID)
+        self.getPagesForTopic(recordID)
+        completion()
+    }
+    
     //MARK: Pages
    
-    func getPagesForTopic(topicID: CKRecordID) {
+    private func getPagesForTopic(topicID: CKRecordID) {
         
         let ref = CKReference(recordID: topicID, action: .None)
         let predicate = NSPredicate(format: "%K CONTAINS %@", "topic", ref)
@@ -305,17 +254,21 @@ extension MissionControl {
                     newPage["recordID"] = page.recordID.recordName
                     newPage["modificationDate"] = page.modificationDate
                     newPage["isPublic"] = true
-                    let topic = page["topic"] as! CKReference
-                    newPage["topic"] = topic.recordID.recordName
+                    let topics = page["topic"] as! [CKReference]
+                    var topicStrings = [String]()
+                    for topic in topics {
+                        topicStrings.append(topic.recordID.recordName)
+                    }
+                    newPage["topic"] = topicStrings
                 }
                 self.graph.save()
             }
         }
     }
     
-    func fetchPrivatePages(completion: () -> Void) {
+    func fetchPrivatePages(completion: (PersistedUser) -> Void) {
         
-        let lastUpdate = userManager.fetchLastUser()!.privatePagesUpdated
+        let lastUpdate = user!.privatePagesUpdated
         let predicate = NSPredicate(format:"(modificationDate > %@)", lastUpdate)
         performPrivateQuerry(RecordType.Page, predicate: predicate, sortDescriptors: nil) { (records) in
             if let pages = records {
@@ -334,13 +287,13 @@ extension MissionControl {
                     newPage["image"] = image
                     newPage["recordID"] = page.recordID.recordName
                     newPage["modificationDate"] = page.modificationDate
-                    newPage["isPublic"] = true
+                    newPage["isPublic"] = false
+                    
                 }
                 self.graph.save()
-                var user = self.userManager.fetchLastUser()!
-                user.privatePagesUpdated = NSDate()
-                self.userManager.persistUser(user)
-                completion()
+                var updatedUser = self.user
+                updatedUser!.privatePagesUpdated = NSDate()
+                completion(updatedUser!)
             }
         }
 
@@ -360,6 +313,7 @@ extension MissionControl {
                 newMessage["sender"] = sender.recordID.recordName
                 let topic = message["topic"] as! CKReference
                 newMessage["topic"] = topic.recordID.recordName
+                newMessage["date"] = message.creationDate
             }
             self.graph.save()
         }
@@ -375,7 +329,7 @@ extension MissionControl {
             if let topicMarkers = records {
                 for topicMarker in topicMarkers {
                     let newTopicMarker = Entity(type: EntityType.TopicMarker.rawValue)
-                    newTopicMarker["date"] = topicMarker["date"] as? NSDate
+                    newTopicMarker["date"] = topicMarker.creationDate
                     let page = topicMarker["page"] as! CKReference
                     newTopicMarker["page"] = page.recordID.recordName
                     let topic = topicMarker["topic"] as! CKReference
@@ -386,116 +340,6 @@ extension MissionControl {
         }
 
     }
-    
-    // MARK: Subscriptions
-    
-    func createRemoteTopicSubscription() {
-        let predicate = NSPredicate(format: "%K CONTAINS %@" , "users", CKRecordID(recordName: user!.ID))
-        
-        let notificationInfo = CKNotificationInfo()
-        notificationInfo.shouldBadge = true
-        notificationInfo.shouldSendContentAvailable = true
-        notificationInfo.alertBody = "New Topic"
-        
-        createPublicPushSubscription(RecordType.Topic, predicate: predicate, notificationInfo: notificationInfo) { (subscription) in
-            print(subscription)
-        }
-    }
-    
-    func createSubscriptions (recordID: CKRecordID) {
-        
-        let messageRef = CKReference(recordID: recordID, action: .None)
-        let messagePredicate = NSPredicate(format: "%K CONTAINS %@" , "topic", [messageRef])
-        let pageRef = CKReference(recordID: recordID, action: .None)
-        let pagePredicate = NSPredicate(format: "%K CONTAINS %@", "topic", [pageRef])
-        let markerRef = CKReference(recordID: recordID, action: .None)
-        let markerPredicate = NSPredicate(format: "%K = %@" , "topic", markerRef)
-        
-        let messageNotificationInfo = CKNotificationInfo()
-        messageNotificationInfo.shouldBadge = true
-        messageNotificationInfo.shouldSendContentAvailable = true
-        messageNotificationInfo.alertBody = "New Message"
-        
-        let pageNotificationInfo = CKNotificationInfo()
-        pageNotificationInfo.shouldBadge = true
-        pageNotificationInfo.shouldSendContentAvailable = true
-        pageNotificationInfo.alertBody = "New Page"
-        
-        let markerNotificationInfo = CKNotificationInfo()
-        markerNotificationInfo.shouldBadge = true
-        markerNotificationInfo.shouldSendContentAvailable = true
-        markerNotificationInfo.alertBody = "New Marker"
-        
-        createPublicPushSubscription(RecordType.Message, predicate: messagePredicate, notificationInfo: messageNotificationInfo) { (messageSubscription) in
-            print(messageSubscription)
-        }
-        
-        createPublicPushSubscription(RecordType.Page, predicate: pagePredicate, notificationInfo: pageNotificationInfo) { (pageSubscription) in
-            print(pageSubscription)
-        }
-        
-        createPublicPushSubscription(RecordType.TopicMarker, predicate: markerPredicate, notificationInfo: markerNotificationInfo) { (markerSubscription) in
-            print(markerSubscription)
-        }
-    }
 
-    
-    private func createPublicPushSubscription(recordType: RecordType, predicate: NSPredicate, notificationInfo: CKNotificationInfo, completion: (CKSubscription?)->Void){
-        let DB = CKContainer.defaultContainer().publicCloudDatabase
-        let subscription = CKSubscription(recordType: recordType.rawValue, predicate: predicate, options: .FiresOnRecordCreation)
-        subscription.notificationInfo = notificationInfo
-        DB.saveSubscription(subscription) { (savedSubscription, error) in
-            if let e = error {
-                self.provideErrorMessage(e)
-            } else {
-                completion(savedSubscription)
-            }
-        }
-    }
 }
 
-extension MissionControl {
-    
-    // MARK: Perform Cloud Kit Querry
-    
-    private func performPublicQuerry(recordType: RecordType, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, completion: ([CKRecord]?)->Void){
-        let container = CKContainer.defaultContainer()
-        let DB = container.publicCloudDatabase
-        let pred = predicate ?? NSPredicate(value: true)
-        let querry = CKQuery(recordType: recordType.rawValue, predicate: pred)
-        if let sort = sortDescriptors {
-            querry.sortDescriptors = sort
-        }
-        DB.performQuery(querry, inZoneWithID: nil) { (records, error) in
-            if let e = error {
-                self.provideErrorMessage(e)
-                return
-            } else {
-                completion(records)
-            }
-        }
-    }
-    
-    private func performPrivateQuerry(recordType: RecordType, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, completion: ([CKRecord]?)->Void){
-        let container = CKContainer.defaultContainer()
-        let DB = container.privateCloudDatabase
-        let pred = predicate ?? NSPredicate(value: true)
-        let querry = CKQuery(recordType: recordType.rawValue, predicate: pred)
-        if let sort = sortDescriptors {
-            querry.sortDescriptors = sort
-        }
-        DB.performQuery(querry, inZoneWithID: nil) { (records, error) in
-            if let e = error {
-                self.provideErrorMessage(e)
-                return
-            } else {
-                completion(records)
-            }
-        }
-    }
-
-    
-    private func provideErrorMessage(error: NSError) {
-        print(error.localizedDescription)
-    }
-}

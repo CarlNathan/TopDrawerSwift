@@ -64,11 +64,11 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
     private func getTopics() {
         if isShared! {
             DataSource.sharedInstance.getPublicTopics({ (fetchedTopics) in
-                self.topics = fetchedTopics
+                self.topics = SearchAndSortAssistant().sortTopics(fetchedTopics)
             })
         } else {
             DataSource.sharedInstance.getPrivateTopics({ (fetchedTopics) in
-                self.topics = fetchedTopics
+                self.topics = SearchAndSortAssistant().sortTopics(fetchedTopics)
             })
         }
     }
@@ -169,9 +169,9 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
     }
     func saveTopics(sender: AnyObject) {
         if isShared! {
-            InboxManager.sharedInstance.savePageToPublicTopics(self.page!, topics: selectedTopics)
+            SavingInterface.sharedInstance.assignPageToPublicTopics(page!, topics: selectedTopics)
         } else {
-            InboxManager.sharedInstance.savePageToTopics(self.page!, topics: selectedTopics)
+            SavingInterface.sharedInstance.assignPageToPrivateTopics(page!, topics: selectedTopics)
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
