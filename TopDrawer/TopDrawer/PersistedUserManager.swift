@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PersistedUserManager {
+class PersistedUserManager: PersistedUserManagerProtocol {
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
@@ -21,6 +21,7 @@ class PersistedUserManager {
     let messagesUpdated = "messagesUpdated"
     let topicMarkersUpdated = "topicMarkersUpdated"
     let lastUser = "LastUser"
+    let PermissionsGranted = "PermissionsGranted"
 
     func persistUser(userObject: PersistedUser){
         var userDictionary = Dictionary<String, AnyObject>()
@@ -36,6 +37,10 @@ class PersistedUserManager {
         
     }
     
+    func wipeUser() -> Void {
+        userDefaults.removeObjectForKey(lastUser)
+    }
+    
     func fetchLastUser() -> PersistedUser?{
         let userDictionary = userDefaults.objectForKey(lastUser) as? Dictionary<String,AnyObject>
         if let dict = userDictionary {
@@ -46,7 +51,8 @@ class PersistedUserManager {
             let privateTopics = dict[privateTopicsUpdated] as! NSDate
             let messages = dict[messagesUpdated] as! NSDate
             let topicMarkers = dict[topicMarkersUpdated] as! NSDate
-            return PersistedUser(id: id, publicPagesUpdated: publicPages, privatePagesUpdated: privatePages, publicTopicsUpdated: publicTopics, privateTopicsUpdated: privateTopics, messageUpdated: messages, topicMarkersUpdated: topicMarkers)
+            let permissions = dict[PermissionsGranted] as! Bool
+            return PersistedUser(id: id, publicPagesUpdated: publicPages, privatePagesUpdated: privatePages, publicTopicsUpdated: publicTopics, privateTopicsUpdated: privateTopics, messageUpdated: messages, topicMarkersUpdated: topicMarkers, permissionsGranted: permissions)
         } else {
             return nil
         }
@@ -54,7 +60,7 @@ class PersistedUserManager {
     
     func generateNewPersistedUser(userID: String) -> PersistedUser{
         let date = NSDate(timeIntervalSince1970: NSTimeInterval(0))
-        return PersistedUser(id: userID, publicPagesUpdated: date, privatePagesUpdated: date, publicTopicsUpdated: date, privateTopicsUpdated: date, messageUpdated: date, topicMarkersUpdated: date)
+        return PersistedUser(id: userID, publicPagesUpdated: date, privatePagesUpdated: date, publicTopicsUpdated: date, privateTopicsUpdated: date, messageUpdated: date, topicMarkersUpdated: date, permissionsGranted: false)
     }
     
 }
@@ -67,8 +73,9 @@ struct PersistedUser {
     var messageUpdated: NSDate
     var topicMarkersUpdated: NSDate
     var publicPagesUpdated: NSDate
+    var permissionsGranted: Bool
     
-    init(id: String, publicPagesUpdated: NSDate, privatePagesUpdated: NSDate, publicTopicsUpdated: NSDate, privateTopicsUpdated: NSDate, messageUpdated: NSDate, topicMarkersUpdated: NSDate) {
+    init(id: String, publicPagesUpdated: NSDate, privatePagesUpdated: NSDate, publicTopicsUpdated: NSDate, privateTopicsUpdated: NSDate, messageUpdated: NSDate, topicMarkersUpdated: NSDate, permissionsGranted: Bool) {
         self.ID = id
         self.privatePagesUpdated = privatePagesUpdated
         self.publicPagesUpdated = publicPagesUpdated
@@ -76,6 +83,11 @@ struct PersistedUser {
         self.privateTopicsUpdated = privateTopicsUpdated
         self.messageUpdated = messageUpdated
         self.topicMarkersUpdated = topicMarkersUpdated
+        self.permissionsGranted = permissionsGranted
+    }
+    
+    mutating func markPermissionsGranted() {
+        permissionsGranted = true
     }
     
 }

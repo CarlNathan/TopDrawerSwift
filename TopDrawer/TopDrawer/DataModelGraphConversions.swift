@@ -21,7 +21,8 @@ extension Page {
         let id = entity["recordID"] as! String
         let modifiedDate = entity["modificationDate"] as? NSDate
         let isPublic = entity["isPublic"] as? Bool
-        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date: date, recordID: id, modifiedDate: modifiedDate!, isPublic: isPublic!)
+        let topics = entity["topic"] as? [String]
+        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date: date, recordID: id, modifiedDate: modifiedDate!, isPublic: isPublic!, topics: topics)
         
         return newPage
         
@@ -40,7 +41,7 @@ extension TopicMarker {
 extension Topic {
     class func topicFromEntity(entity: Entity) -> Topic {
         let name = entity["name"] as? String
-        let users = entity["users"] as? [Friend]
+        let users = entity["friends"] as? [String]
         let recordID = entity["recordID"] as? String
         
         return Topic(name: name, users: users, recordID: recordID)
@@ -49,9 +50,9 @@ extension Topic {
 
 extension Friend {
     class func friendFomEntity(entity: Entity) -> Friend {
-        let firstName = entity["firstName"] as? String
+        let firstName = entity["givenName"] as? String
         let familyName = entity["familyName"] as? String
-        let recordID = entity["recordIDString"] as! String
+        let recordID = entity["recordID"] as! String
         let userImage = entity["image"] as? UIImage
         
         return Friend(firstName: firstName, familyName: familyName, recordIDString: recordID, image: userImage)

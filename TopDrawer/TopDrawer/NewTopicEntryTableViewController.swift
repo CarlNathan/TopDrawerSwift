@@ -10,12 +10,17 @@ import Foundation
 import UIKit
 import Material
 
+protocol NewTopicEntryTableViewControllerDelegate {
+    func updateEntryFields(name: String, selectedFriends: [String], message: String)
+}
+
 class NewTopicEntryTableViewController: UITableViewController {
     
     let entryParameters = ["Name", "Recipients", "Message"]
     var selectedFriends = [String]()
     var message = ""
     var name = ""
+    var delegate: NewTopicEntryTableViewControllerDelegate?
     
     override func viewDidLoad() {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -42,6 +47,12 @@ class NewTopicEntryTableViewController: UITableViewController {
         let dictionary = sender.userInfo as! [NSString: [String]]
         selectedFriends = dictionary["friends"]!
         tableView.reloadData()
+    }
+    
+    func updateEntryFields() {
+        if delegate != nil {
+            delegate?.updateEntryFields(name, selectedFriends: selectedFriends, message: message)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -75,9 +86,11 @@ class NewTopicEntryTableViewController: UITableViewController {
             if selectedFriends.count > 0 {
                 var text: String = ""
                 for CKID in selectedFriends {
-                    let person = InboxManager.sharedInstance.friends[CKID]!as Friend
-                    let name = person.firstName! + " " + person.familyName! + "   "
-                    text += name
+                    let person = DataSource.sharedInstance.friendForID(CKID)
+                    if let name = person?.getName() {
+                        text += name
+                        text += "   "
+                    }
                 }
                 cell.textLabel!.text = text
             } else {

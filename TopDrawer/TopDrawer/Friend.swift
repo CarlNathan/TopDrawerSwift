@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Friend {
+class Friend: TopDrawerRemoteModifiableObejct {
     var firstName: String?
     var familyName: String?
     var recordID: String!
@@ -21,5 +21,21 @@ class Friend {
         self.familyName = familyName
         self.recordID = recordIDString
         self.userImage = image
+    }
+    
+    func getName() -> String {
+        var name = ""
+        if let first = firstName {
+            name += first
+            name += " "
+        }
+        if let family = familyName {
+            name += family
+        }
+        return name
+    }
+    
+    func getID() -> String {
+        return recordID
     }
 }

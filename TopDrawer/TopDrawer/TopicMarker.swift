@@ -10,7 +10,7 @@ import Foundation
 
 class TopicMarker {
     let page: String?
-    let date: NSDate?
+    var date: NSDate?
     let topicID: String?
     
     init (page: String?, date: NSDate?, topic: String?) {
@@ -18,4 +18,5 @@ class TopicMarker {
         self.date = date
         self.topicID = topic
     }
+    
 }

@@ -18,8 +18,6 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
     var messages = [Message]()
     var topicMarkers = [TopicMarker]()
     var headerTopics = [TopicMarker]()
-    var markerFlag: Bool = false
-    var messageFlag: Bool = false
     var dataSource = [String: [Message]]() {
         didSet{
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
@@ -38,49 +36,20 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         
         let tabBar = self.tabBarController as! TopicTabBarController
         topic = tabBar.topic
-        senderId = InboxManager.sharedInstance.currentUserID.recordName
-        senderDisplayName = InboxManager.sharedInstance.currentUserID.recordName
+        senderId = DataCoordinatorInterface.sharedInstance.user!.ID
+        senderDisplayName = DataCoordinatorInterface.sharedInstance.user!.ID
         collectionView.registerClass(TopicMarkerHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerView")
         prepareCollectionViewFlowLayout()
 
         // Do any additional setup after loading the view.
-        getMessages()
-        getTopicMarkers()
+        getData()
         self.scrollToBottomAnimated(true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageViewController.newRemoteMessage(_:)), name: "RemoteMessage", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newTopicMarker), name: "NewTopicMarker", object: nil)
-        
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(Float(2.0) * Float(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
-//            self.getMessages()
-//        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getData), name: "ReloadData", object: nil)
         
     }
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    func newTopicMarker(sender: NSNotification) {
-        let marker = sender.userInfo!["marker"] as! TopicMarker
-        let page = sender.userInfo!["page"] as! Page
-        headerTopics.append(marker)
-        dataSource[page.pageID] = []
-    }
-    
-    func newRemoteMessage(sender: NSNotification) {
-        let recordID = sender.userInfo!["topicID"] as! CKRecordID
-        InboxManager.sharedInstance.getMessageForID(recordID) { (message) -> Void in
-            if message?.topicRef == self.topic?.recordID {
-                self.dataSource[self.topicMarkers.last!.page!]?.append(message!)
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.collectionView?.reloadData()
-                    self.scrollToBottomAnimated(true)
-                })
-            } else {
-                print("Off topic")
-            }
-        }
-
     }
     
     func prepareCollectionViewFlowLayout() {
@@ -93,31 +62,17 @@ class MessageViewController: JSQMessagesViewController, TopicMarkerSelectionDele
         // Dispose of any resources that can be recreated.
     }
     
-    func getMessages () {
-        InboxManager.sharedInstance.getMessages(self.topic!) { (messages) -> Void in
-            self.messages = messages!
-            self.messageFlag = true
-            self.getDataSource()
-        }
-    }
-    
-    func getTopicMarkers () {
-        InboxManager.sharedInstance.getTopicMarkers(self.topic!) { (topicMarkers) in
-            self.topicMarkers = topicMarkers!
-            self.markerFlag = true
-            self.getDataSource()
-        }
-    }
-    
-    func getDataSource() {
-        if markerFlag && messageFlag {
+    func getData () {
+        DataSource.sharedInstance.getMessagesAndTopicMarkersForTopic(topic!.recordID!) { (topicMarkers, messages) in
+            self.messages = messages
+            self.topicMarkers = topicMarkers
             (self.dataSource, self.headerTopics) = MessageSorter.sortMessages(self.messages, topicMarkers: self.topicMarkers)
         }
     }
     
     func jsqMessageFromMessage(message: Message) -> JSQMessage {
         let senderID = message.sender
-        let sender = FriendManager().friendForID(senderID!)
+        let sender = DataSource.sharedInstance.friendForID(senderID!)
         let senderName = "Sender"
         let text = message.body
         let date = message.date
@@ -151,7 +106,7 @@ extension MessageViewController {
         if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "headerView", forIndexPath: indexPath) as! TopicMarkerHeaderView
             let pageID = headerTopics[indexPath.section].page
-            view.getPageForID(CKRecordID(recordName: pageID!))
+            view.getPageForID(pageID!)
             return view
         }
         return UICollectionReusableView()
@@ -200,7 +155,7 @@ extension MessageViewController {
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         let message = Message(sender: senderId, body: text, topic: (self.topic?.recordID)!, date: date)
         dataSource[(headerTopics.last?.topicID)!]?.append(message)
-        InboxManager.sharedInstance.saveMessage(message)
+        SavingInterface.sharedInstance.saveMessage(message)
         finishSendingMessage()
     }
     
@@ -231,7 +186,8 @@ extension MessageViewController {
         // update topic markers and message
         //save marker
         //send notificaiton
-        InboxManager.sharedInstance.saveTopicMarker(page, topic: self.topic!)
+        let topicMarker = TopicMarker(page: page.pageID, date: nil, topic: topic!.recordID!)
+        SavingInterface.sharedInstance.saveTopicMarker(topicMarker)
         let marker = TopicMarker(page: page.pageID, date: NSDate(), topic: self.topic!.recordID!)
         NSNotificationCenter.defaultCenter().postNotificationName("NewTopicMarker", object: self, userInfo:["marker":marker, "page": page])
     }

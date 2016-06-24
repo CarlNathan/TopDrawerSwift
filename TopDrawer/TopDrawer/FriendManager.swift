@@ -9,7 +9,7 @@
 import Foundation
 import Graph
 
-class FriendManager {
+class FriendManager: FriendManagerProtocol {
     
     private var friends = [String:Friend]()
     private let graph = Graph()
@@ -18,7 +18,7 @@ class FriendManager {
         updateFriendsInMemory()
     }
     
-    private func updateFriendsInMemory(){
+    func updateFriendsInMemory(){
         friends = [String:Friend]()
         let entities = graph.searchForEntity(types: [EntityType.Friend.rawValue], groups: nil, properties: nil)
         for friend in entities {
@@ -28,6 +28,10 @@ class FriendManager {
     
     func friendForID(id: String) -> Friend? {
         return friends[id]
+    }
+    
+    func allFriends() -> [Friend] {
+        return Array(friends.values)
     }
     
     

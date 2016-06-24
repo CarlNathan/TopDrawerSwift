@@ -18,7 +18,13 @@ class InsertTopicMarkerPopupVC: UIViewController {
     
     var delegate: TopicMarkerSelectionDelegate?
     var topic: Topic!
-    var pages: [Page] = [Page]()
+    var pages: [Page] = [Page]() {
+        didSet {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.collectionView?.reloadData()
+            })
+        }
+    }
     var collectionView: UICollectionView!
     var cardView: CardView!
     lazy var animator: UIDynamicAnimator = {
@@ -113,12 +119,8 @@ class InsertTopicMarkerPopupVC: UIViewController {
     }
     
     func getPages () {
-        InboxManager.sharedInstance.getPublicTopicPages(self.topic!) { (pages) -> Void in
-            self.pages = pages!
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.collectionView?.reloadData()
-            })
-            
+        DataSource.sharedInstance.getPagesForTopic(self.topic.recordID!) { (fetchedPages) in
+            self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
         }
     }
     

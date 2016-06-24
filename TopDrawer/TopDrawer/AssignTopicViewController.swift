@@ -15,7 +15,11 @@ class AssignTopicViewController: UIViewController, UITableViewDelegate, UITableV
     var topics =  [Topic]()
     var selectedTopics = [String]()
     var isShared: Bool?
-    var page: Page?
+    var page: Page? {
+        didSet {
+            selectedTopics = page!.topic!
+        }
+    }
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
@@ -27,15 +31,15 @@ class AssignTopicViewController: UIViewController, UITableViewDelegate, UITableV
         self.titleLabel.text = self.page?.name
         self.imageView.image = self.page!.image
         if self.isShared! {
-            InboxManager.sharedInstance.getPublicTopics({ (topics) -> Void in
-                self.topics = topics!
+            DataSource.sharedInstance.getPublicTopics({ (topics) in
+                self.topics = topics
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.tableView.reloadData()
                 })
             })
         } else {
-            InboxManager.sharedInstance.getTopics({ (topics) -> Void in
-                self.topics = topics!
+            DataSource.sharedInstance.getPrivateTopics({ (topics) in
+                self.topics = topics
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.tableView.reloadData()
                 })
@@ -94,9 +98,9 @@ class AssignTopicViewController: UIViewController, UITableViewDelegate, UITableV
     }
     @IBAction func saveTopics(sender: AnyObject) {
         if isShared! {
-            InboxManager.sharedInstance.savePageToPublicTopics(self.page!, topics: selectedTopics)
+            SavingInterface.sharedInstance.assignPageToPublicTopics(page!, topics: selectedTopics)
         } else {
-            InboxManager.sharedInstance.savePageToTopics(self.page!, topics: selectedTopics)
+            SavingInterface.sharedInstance.assignPageToPrivateTopics(page!, topics: selectedTopics)
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }

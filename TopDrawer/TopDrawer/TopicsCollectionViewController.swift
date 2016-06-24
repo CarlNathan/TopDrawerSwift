@@ -13,27 +13,21 @@ private let reuseIdentifier = "TopicCell"
 
 class TopicsCollectionViewController: UICollectionViewController {
     
-    var topics = [Topic]()
+    var topics = [Topic]() {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.collectionView?.reloadData()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Do any additional setup after loading the view.
         collectionView?.alwaysBounceVertical = true
         getTopics()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newTopic), name: "NewTopic", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getTopics), name: "ReloadData", object: nil)
 
-    }
-    
-    func newTopic(sender:NSNotification) {
-        self.topics.append(sender.userInfo!["topic"]as! Topic)
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.collectionView?.reloadData()
-        })
-        
     }
 
     
@@ -59,7 +53,6 @@ class TopicsCollectionViewController: UICollectionViewController {
 
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return topics.count
     }
 
@@ -74,12 +67,9 @@ class TopicsCollectionViewController: UICollectionViewController {
 
     func getTopics () {
         
-        InboxManager.sharedInstance.getTopics {(topics) -> Void in
-            self.topics = topics!
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.collectionView!.reloadData()
-                
-            })
+        DataSource.sharedInstance.getPrivateTopics { (fetchedTopics) in
+            self.topics = SearchAndSortAssistant().sortTopics(fetchedTopics)
+            
         }
     }
     

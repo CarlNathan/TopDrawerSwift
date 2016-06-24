@@ -13,7 +13,7 @@ class GraphServices: PersistedDataSource {
     private let graph = Graph()
     
     func wipePersistedData() {
-        let entities = graph.searchForEntity()
+        let entities = graph.searchForEntity(types:[EntityType.Friend.rawValue, EntityType.Message.rawValue,EntityType.PublicPage.rawValue,EntityType.PrivatePage.rawValue,EntityType.PrivateTopic.rawValue, EntityType.PublicTopic.rawValue, EntityType.TopicMarker.rawValue, EntityType.User.rawValue])
         for entity in entities {
             entity.delete()
         }
@@ -39,6 +39,11 @@ class GraphServices: PersistedDataSource {
             }
         }
         return pages
+    }
+    
+    func getPageForID(pageID: String) -> Page {
+        let entities = graph.searchForEntity(types: nil, groups: nil, properties: [(key: "recordID", value: pageID)])
+        return Page.pageFromEntity(entities.first!)
     }
     
     //MARK: Topics

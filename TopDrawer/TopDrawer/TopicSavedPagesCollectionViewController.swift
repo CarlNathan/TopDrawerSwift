@@ -14,9 +14,15 @@ private let reuseIdentifier = "TopicSavedCell"
 
 class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSafariViewControllerDelegate {
 
-    var pages = [Page]()
+    var pages = [Page]() {
+        didSet{
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.collectionView!.reloadData()
+                
+            })
+        }
+    }
     var topic: Topic?
-    var topicId: CKRecordID?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,20 +94,8 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSaf
     
     
     func getPages () {
-        InboxManager.sharedInstance.getPagesForTopic(self.topic!) { (pages) -> Void in
-            var newPages = pages!
-            
-            newPages.sortInPlace({ (a, b) -> Bool in
-                a.date!.compare(b.date!) == NSComparisonResult.OrderedDescending
-            })
-            
-            self.pages = newPages
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.collectionView!.reloadData()
-                
-            })
-
+        DataSource.sharedInstance.getPagesForTopic(topic!.recordID!) { (fetchedPages) in
+            self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
         }
     }
 

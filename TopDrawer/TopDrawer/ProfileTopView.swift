@@ -15,7 +15,7 @@ protocol ProfileTopViewDelegate {
 }
 
 class ProfileTopView: UIView {
-    let user = MissionControl.sharedInstance.user?.ID
+    let user = DataCoordinatorInterface.sharedInstance.user
     let backgroundImageView = UIImageView()
     let profileImage = FabButton()
     let usernameLabel = UILabel()
@@ -43,10 +43,11 @@ class ProfileTopView: UIView {
     
     func setupProfileImage(){
         profileImage.setImage(UIImage(named: "contacts"), forState: .Normal)
+        profileImage.imageView?.contentMode = .Center
         profileImage.layer.masksToBounds = true
         profileImage.addTarget(self, action: #selector(selectedImageButton), forControlEvents: .TouchUpInside)
         profileImage.backgroundColor = MaterialColor.white
-        profileImage.borderColor = MaterialColor.grey.darken2
+        profileImage.borderColor = MaterialColor.blueGrey.darken2
         profileImage.borderWidth = 2
         addSubview(profileImage)
     }

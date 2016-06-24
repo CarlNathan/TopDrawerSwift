@@ -96,7 +96,9 @@ class NewTopicPopupVC: UIViewController {
         
         // Use MaterialLayout to easily align the tableView.
         cardView.titleLabel = titleLabel
-        let nav = UINavigationController(rootViewController: NewTopicEntryTableViewController())
+        let entryController = NewTopicEntryTableViewController()
+        entryController.delegate = self
+        let nav = UINavigationController(rootViewController: entryController)
         addChildViewController(nav)
         nav.didMoveToParentViewController(self)
         cardView.detailView = nav.view
@@ -110,15 +112,24 @@ class NewTopicPopupVC: UIViewController {
     
         
     func saveButtonPressed(sender: AnyObject) {
-        
-        if selectedFriends.count == 0 {
-            //InboxManager.sharedInstance.createNewTopic(self.nameTextField.text!)
-            self.dismissViewControllerAnimated(true, completion: nil)
-        } else {
-            //InboxManager.sharedInstance.createNewPublicTopic(self.nameTextField.text!, users: selectedFriends)
+        if subjectName != nil {
+            if selectedFriends.count == 0 {
+                let topic = Topic(name: subjectName, users: nil, recordID: nil)
+                SavingInterface.sharedInstance.createNewPrivateTopic(topic)
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else {
+                let topic = Topic(name: subjectName, users: selectedFriends, recordID: nil)
+                SavingInterface.sharedInstance.createNewSharedTopic(topic, completion: { (savedTopic) in
+                    if self.messageText != nil {
+                        let message = Message(sender: DataCoordinatorInterface.sharedInstance.user!.ID, body: self.messageText, topic: savedTopic.recordID, date: NSDate())
+                        SavingInterface.sharedInstance.saveMessage(message)
+                    }
+                })
+            }
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+        
     func cancelWasPressed(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -161,4 +172,12 @@ class NewTopicPopupVC: UIViewController {
 
 }
 
+extension NewTopicPopupVC: NewTopicEntryTableViewControllerDelegate {
+    func updateEntryFields(name: String, selectedFriends: [String], message: String) {
+        self.subjectName = name
+        self.selectedFriends = selectedFriends
+        self.messageText = message
+    }
+
+}
 
