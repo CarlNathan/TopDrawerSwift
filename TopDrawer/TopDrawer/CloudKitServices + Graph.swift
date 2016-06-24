@@ -167,7 +167,7 @@ extension CloudKitGraphCoordinator {
     // MARK: Topics
     func getPublicTopics(completion: ()->Void) {
         let predicate = NSPredicate(format: "%K CONTAINS %@", "users", CKRecordID(recordName: user!.ID))
-        performPublicQuerry(RecordType.PrivateTopic, predicate: predicate, sortDescriptors: nil) { (records) in
+        performPublicQuerry(RecordType.PublicTopic, predicate: predicate, sortDescriptors: nil) { (records) in
             if let topics = records {
                 var flag: Bool = false
                 for topic in topics {

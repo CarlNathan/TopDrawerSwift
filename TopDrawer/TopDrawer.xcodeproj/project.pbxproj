@@ -43,8 +43,6 @@
 		ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */; };
 		ED5EBEB01C823F56009951BB /* TopicTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */; };
 		ED5EBEB21C82B0B6009951BB /* SharedPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */; };
-		ED5EBEB41C83E420009951BB /* AssignTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEB31C83E420009951BB /* AssignTopicViewController.swift */; };
-		ED5EBEB81C84A0B3009951BB /* NewTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEB71C84A0B3009951BB /* NewTopicViewController.swift */; };
 		ED5EBEC01C84ED52009951BB /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEBF1C84ED52009951BB /* ShareViewController.swift */; };
 		ED5EBEC31C84ED52009951BB /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED5EBEC11C84ED52009951BB /* MainInterface.storyboard */; };
 		ED5EBEC71C84ED52009951BB /* TestShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = ED5EBEBD1C84ED52009951BB /* TestShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -177,8 +175,6 @@
 		ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTopicTableViewCell.swift; sourceTree = "<group>"; };
 		ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicTabBarController.swift; sourceTree = "<group>"; };
 		ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedPageCollectionViewCell.swift; sourceTree = "<group>"; };
-		ED5EBEB31C83E420009951BB /* AssignTopicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignTopicViewController.swift; sourceTree = "<group>"; };
-		ED5EBEB71C84A0B3009951BB /* NewTopicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicViewController.swift; sourceTree = "<group>"; };
 		ED5EBEBD1C84ED52009951BB /* TestShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TestShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED5EBEBF1C84ED52009951BB /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		ED5EBEC21C84ED52009951BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -539,8 +535,6 @@
 			isa = PBXGroup;
 			children = (
 				EDAC5DC91C7CDC5D00C0C306 /* DetailViewController.swift */,
-				ED5EBEB71C84A0B3009951BB /* NewTopicViewController.swift */,
-				ED5EBEB31C83E420009951BB /* AssignTopicViewController.swift */,
 			);
 			name = "Detail View Controller";
 			sourceTree = "<group>";
@@ -903,7 +897,6 @@
 				EDAC5DCA1C7CDC5D00C0C306 /* DetailViewController.swift in Sources */,
 				ED0A0B631D1C475C000D7DCD /* CloudKitPermissionsSubscriptionsService.swift in Sources */,
 				ED0A0B501D1AD99B000D7DCD /* ThreadingManager.swift in Sources */,
-				ED5EBEB81C84A0B3009951BB /* NewTopicViewController.swift in Sources */,
 				ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */,
 				ED3A5E081CC81BA100559CFB /* StickyHeaderFlowLayout.swift in Sources */,
 				EDBDDBD11D0B3CAE00F11E17 /* NavController.swift in Sources */,
@@ -939,7 +932,6 @@
 				ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */,
 				ED0A0B4E1D1AD8D4000D7DCD /* TopDrawerProtocols.swift in Sources */,
 				ED2B08241C80998B0007949E /* Friend.swift in Sources */,
-				ED5EBEB41C83E420009951BB /* AssignTopicViewController.swift in Sources */,
 				ED3A5DCA1CC59F8400559CFB /* TopicMarkerHeaderView.swift in Sources */,
 				EDADFF211C8674AB0055867E /* TopicMarker.swift in Sources */,
 				ED0A0B5D1D1AE5F0000D7DCD /* CloudKitAbstract.swift in Sources */,
