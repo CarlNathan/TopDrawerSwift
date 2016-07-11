@@ -32,13 +32,12 @@ class TopicSavedPagesCollectionViewController: UICollectionViewController, SFSaf
 
         // Do any additional setup after loading the view.
         collectionView?.alwaysBounceVertical = true
-        getPages()
         title = topic!.name
+        getPages()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        getPages()
     }
 
     override func didReceiveMemoryWarning() {

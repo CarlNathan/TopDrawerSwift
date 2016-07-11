@@ -31,11 +31,15 @@ class GraphServices: PersistedDataSource {
     }
     
     func getPagesForTopic(topicID: String) -> [Page] {
-        let entities = graph.searchForEntity(types: [EntityType.PublicPage.rawValue, EntityType.PrivatePage.rawValue], groups: nil, properties: nil)
         var pages = [Page]()
+        let entities = graph.searchForEntity(types: [EntityType.PublicPage.rawValue, EntityType.PrivatePage.rawValue], groups: nil, properties: nil)
         for entity in entities {
-            if entity["topic"] as? String == topicID {
-                pages.append(Page.pageFromEntity(entity))
+            if let topicIDStrings = entity["topic"] as? [String] {
+                for IDString in topicIDStrings {
+                    if IDString == topicID {
+                        pages.append(Page.pageFromEntity(entity))
+                    }
+                }
             }
         }
         return pages

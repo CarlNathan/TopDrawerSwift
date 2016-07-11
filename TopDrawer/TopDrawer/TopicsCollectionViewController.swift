@@ -27,7 +27,10 @@ class TopicsCollectionViewController: UICollectionViewController {
         collectionView?.alwaysBounceVertical = true
         getTopics()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getTopics), name: "ReloadData", object: nil)
-
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        getTopics()
     }
 
     

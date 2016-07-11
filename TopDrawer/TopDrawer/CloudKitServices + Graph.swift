@@ -192,6 +192,7 @@ extension CloudKitGraphCoordinator {
                         self.getPagesForTopic(topic.recordID)
                     }
                 self.graph.save()
+                self.newDataNotification()
                 }
                 completion()
             }
@@ -288,9 +289,18 @@ extension CloudKitGraphCoordinator {
                     newPage["recordID"] = page.recordID.recordName
                     newPage["modificationDate"] = page.modificationDate
                     newPage["isPublic"] = false
+                    let refs = page["topic"] as? [CKReference]
+                    var topicStrings = [String]()
+                    if let topics = refs {
+                        for topic in topics {
+                            topicStrings.append(topic.recordID.recordName)
+                        }
+                    }
+                    newPage["topic"] = topicStrings
                     
                 }
                 self.graph.save()
+                self.newDataNotification()
                 var updatedUser = self.user
                 updatedUser!.privatePagesUpdated = NSDate()
                 completion(updatedUser!)
@@ -339,6 +349,11 @@ extension CloudKitGraphCoordinator {
             }
         }
 
+    }
+    
+    private func newDataNotification() {
+        NSNotificationCenter.defaultCenter().postNotificationName("ReloadData", object: self, userInfo: nil)
+        
     }
 
 }
