@@ -52,7 +52,7 @@ class GraphSaveServices: TopDrawerPersistedSavingAssistant {
     func assignPageToPrivateTopics(newPage: Page, topics: [String]) {
         let entities = graph.searchForEntity(types: nil, groups: nil, properties: [(key: "recordID", value: newPage.pageID)])
         let page = entities[0]
-        page["topic"] = newPage.topic
+        page["topic"] = topics
         graph.save()
     }
     

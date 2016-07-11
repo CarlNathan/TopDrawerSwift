@@ -16,6 +16,9 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
     var topics =  [Topic]() {
         didSet {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if let ST = self.page?.topic {
+                    self.selectedTopics = ST
+                }
                 self.tableView.reloadData()
             })
         }
@@ -167,6 +170,7 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
     func cancelWasPressed(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
     func saveTopics(sender: AnyObject) {
         if isShared! {
             SavingInterface.sharedInstance.assignPageToPublicTopics(page!, topics: selectedTopics)

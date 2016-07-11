@@ -73,7 +73,7 @@ class SearchAndSortAssistant {
     func sortTopics(topics: [Topic]) -> [Topic] {
         var sortedTopics = topics
         sortedTopics.sortInPlace({ (a, b) -> Bool in
-                a.name!.compare(b.name!) == NSComparisonResult.OrderedDescending
+                a.name!.compare(b.name!) == NSComparisonResult.OrderedAscending
             })
         return sortedTopics
         }

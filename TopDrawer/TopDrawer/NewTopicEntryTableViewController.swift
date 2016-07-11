@@ -35,17 +35,20 @@ class NewTopicEntryTableViewController: UITableViewController {
     func updateName(sender: NSNotification) {
         let dictionary = sender.userInfo as! [String: String]
         name = dictionary["text"]!
+        updateEntryFields()
         tableView.reloadData()
     }
     func updateMessage(sender: NSNotification) {
         let dictionary = sender.userInfo as! [String: String]
         message = dictionary["text"]!
+        updateEntryFields()
         tableView.reloadData()
     }
     
     func updateSelectedFriends(sender: NSNotification){
         let dictionary = sender.userInfo as! [NSString: [String]]
         selectedFriends = dictionary["friends"]!
+        updateEntryFields()
         tableView.reloadData()
     }
     
