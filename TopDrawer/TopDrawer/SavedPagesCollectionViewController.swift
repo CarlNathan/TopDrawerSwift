@@ -23,11 +23,13 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
             }
         }
     }
+    var tabView: PullTabView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         setupLongPressRecognizer()
+        setupTabView()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getPages), name: "ReloadData", object: nil)
         
@@ -39,8 +41,18 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         //
     }
     
+    func setupTabView() {
+        let layout = UICollectionViewFlowLayout()
+        let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        let ds = PagesPullTabDataSource(collectionView: cv)
+        tabView = PullTabView(dataSource: ds, referenceView: view, collectionView: cv)
+        view.addSubview(tabView!)
+        tabView!.layoutSubviews()
+    }
+    
     func setupCollectionView() {
-        collectionView?.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0)
+        collectionView?.contentInset = UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0)
+        collectionView?.alwaysBounceVertical = true
     }
     
     override func viewWillAppear(animated: Bool) {

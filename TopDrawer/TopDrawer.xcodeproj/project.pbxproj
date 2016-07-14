@@ -11,6 +11,8 @@
 		ED01502B1C8B4BB100CF0978 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D821C7B83A900C0C306 /* Assets.xcassets */; };
 		ED01CAE61CAA0FDA0086F669 /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED73EF081CA9A46600331CC2 /* Material.framework */; };
 		ED01CAEC1CAC590C0086F669 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED01CAEB1CAC590C0086F669 /* DetailView.swift */; };
+		ED07048D1D38207A002D5D17 /* PullTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED07048C1D38207A002D5D17 /* PullTabView.swift */; };
+		ED07048F1D3823CE002D5D17 /* PagesPullTabDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED07048E1D3823CE002D5D17 /* PagesPullTabDataSource.swift */; };
 		ED0A0B4E1D1AD8D4000D7DCD /* TopDrawerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0A0B4D1D1AD8D4000D7DCD /* TopDrawerProtocols.swift */; };
 		ED0A0B501D1AD99B000D7DCD /* ThreadingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0A0B4F1D1AD99B000D7DCD /* ThreadingManager.swift */; };
 		ED0A0B531D1ADB65000D7DCD /* GraphSaveServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0A0B521D1ADB65000D7DCD /* GraphSaveServices.swift */; };
@@ -143,6 +145,8 @@
 		406B90A0928C8301F9FB8F65 /* Pods-TopDrawer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopDrawer.release.xcconfig"; path = "Pods/Target Support Files/Pods-TopDrawer/Pods-TopDrawer.release.xcconfig"; sourceTree = "<group>"; };
 		66A753FD5ADB8738A512837E /* Pods-TopDrawer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopDrawer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TopDrawer/Pods-TopDrawer.debug.xcconfig"; sourceTree = "<group>"; };
 		ED01CAEB1CAC590C0086F669 /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		ED07048C1D38207A002D5D17 /* PullTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullTabView.swift; sourceTree = "<group>"; };
+		ED07048E1D3823CE002D5D17 /* PagesPullTabDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagesPullTabDataSource.swift; sourceTree = "<group>"; };
 		ED0A0B4D1D1AD8D4000D7DCD /* TopDrawerProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopDrawerProtocols.swift; sourceTree = "<group>"; };
 		ED0A0B4F1D1AD99B000D7DCD /* ThreadingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadingManager.swift; sourceTree = "<group>"; };
 		ED0A0B521D1ADB65000D7DCD /* GraphSaveServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphSaveServices.swift; sourceTree = "<group>"; };
@@ -425,6 +429,15 @@
 			path = TestShareExtension;
 			sourceTree = "<group>";
 		};
+		ED6A89D91D35357600224041 /* PullDownMenu */ = {
+			isa = PBXGroup;
+			children = (
+				ED07048C1D38207A002D5D17 /* PullTabView.swift */,
+				ED07048E1D3823CE002D5D17 /* PagesPullTabDataSource.swift */,
+			);
+			name = PullDownMenu;
+			sourceTree = "<group>";
+		};
 		EDAC5D6F1C7B83A900C0C306 = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +570,7 @@
 		EDBDDBCF1D0B3C4F00F11E17 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				ED6A89D91D35357600224041 /* PullDownMenu */,
 				EDBDDBD51D0B58E900F11E17 /* TabBar */,
 				EDBDDBD21D0B45F600F11E17 /* NavBar */,
 			);
@@ -889,6 +903,7 @@
 				EDAC5DCE1C7CF3E100C0C306 /* TopicCollectionViewCell.swift in Sources */,
 				ED2B08181C7F49780007949E /* MessageContainerViewController.swift in Sources */,
 				EDDE301D1D189C5F0067B44D /* UIImageExtension.swift in Sources */,
+				ED07048F1D3823CE002D5D17 /* PagesPullTabDataSource.swift in Sources */,
 				ED0A0B5B1D1AE269000D7DCD /* BackgroundDataCoordinateInterface.swift in Sources */,
 				EDBDDBCE1D0B19CC00F11E17 /* PageLabelView.swift in Sources */,
 				EDBDDBDD1D0F380900F11E17 /* ProfileTopView.swift in Sources */,
@@ -904,6 +919,7 @@
 				EDAC5DD41C7D1F3500C0C306 /* TopicSavedPageCollectionViewCell.swift in Sources */,
 				ED2B08221C7FB0BC0007949E /* Topic.swift in Sources */,
 				ED5EBEB21C82B0B6009951BB /* SharedPageCollectionViewCell.swift in Sources */,
+				ED07048D1D38207A002D5D17 /* PullTabView.swift in Sources */,
 				ED4F38441D11DBB0006514C1 /* GraphFetchServices.swift in Sources */,
 				ED0A0B591D1AE1DA000D7DCD /* PushInterface.swift in Sources */,
 				EDFE6AB01CEA351900D997F9 /* DataModelGraphConversions.swift in Sources */,
