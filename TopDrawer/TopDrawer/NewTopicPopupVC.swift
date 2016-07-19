@@ -42,7 +42,7 @@ class NewTopicPopupVC: UIViewController {
         sender.navigationController?.definesPresentationContext = true
         let popup = NewTopicPopupVC()
         popup.view.backgroundColor = MaterialColor.clear
-        sender.navigationController?.tabBarController!.presentViewController(popup, animated: true) {
+        sender.navigationController?.presentViewController(popup, animated: true) {
             //completion
         }
     }
@@ -64,7 +64,7 @@ class NewTopicPopupVC: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         UIView.animateWithDuration(0.4) {
-            self.cardView.frame = CGRectMake(-100, -100, 500, 800)
+            self.cardView.frame = CGRectMake(-100, -100, self.view.bounds.width+100, self.view.bounds.height+100)
         }
     }
     

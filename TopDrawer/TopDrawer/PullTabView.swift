@@ -64,6 +64,7 @@ class PullTabView: UIVisualEffectView {
         setupTabButton()
         setupSnapBehavior()
         grav = UIGravityBehavior(items: [self])
+        setupNotifications()
 
     }
     
@@ -77,6 +78,10 @@ class PullTabView: UIVisualEffectView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleTabPush), name: "PopDownMenu", object: nil)
     }
     
     override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
@@ -113,6 +118,7 @@ class PullTabView: UIVisualEffectView {
     }
     
     func handleTabPush() {
+        animator.removeAllBehaviors()
         if grav.gravityDirection.dy <= 1 {
             grav.gravityDirection = CGVector(dx: 0, dy: 5)
         } else {

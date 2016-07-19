@@ -79,9 +79,9 @@ class NavView: MaterialView {
     func setupLeftButton(){
         leftButton.backgroundColor = MaterialColor.white
         leftButton.imageView!.contentMode = .ScaleToFill
-        leftButton.setImage(UIImage(named: "ic_arrow_back_white")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        leftButton.setImage(UIImage(named: "cm_menu_white")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         leftButton.tintColor = UIColor.blackColor()
-        leftButton.addTarget(self, action: #selector(backButtonPressed), forControlEvents: .TouchUpInside)
+        leftButton.addTarget(self, action: #selector(hamburgerPressed), forControlEvents: .TouchUpInside)
         addSubview(leftButton)
         leftButton.hidden = true
         
@@ -89,9 +89,9 @@ class NavView: MaterialView {
     
     func setupRightButton(){
         rightButton.backgroundColor = MaterialColor.grey.darken3
-        rightButton.setImage(UIImage(named: "cm_search_white")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        rightButton.setImage(UIImage(named: "ic_add_white")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         rightButton.tintColor = UIColor.whiteColor()
-        rightButton.addTarget(self, action: #selector(searchButtonPressed), forControlEvents: .TouchUpInside)
+        rightButton.addTarget(self, action: #selector(addPressed), forControlEvents: .TouchUpInside)
         addSubview(rightButton)
         rightButton.hidden = false
     }
@@ -220,7 +220,12 @@ extension NavView: TextFieldDelegate {
 }
 
 extension NavView {
-    func backButtonPressed(){
+    func hamburgerPressed(){
+        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "PopDownMenu", object: nil, userInfo: nil))
         //nav delegate pop controller
+    }
+    
+    func addPressed() {
+        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "NewTopicPressed", object: nil, userInfo: nil))
     }
 }

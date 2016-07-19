@@ -32,9 +32,14 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         setupTabView()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getPages), name: "ReloadData", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(launchNewTopic), name: "NewTopicPressed", object: nil)
         
         // Do any additional setup after loading the view.
         
+    }
+    
+    func launchNewTopic() {
+        NewTopicPopupVC.presentPopupCV(self)
     }
     
     override func viewDidAppear(animated: Bool) {
