@@ -52,7 +52,7 @@ class AssignTopicPopupVC: UIViewController, UITableViewDataSource, UITableViewDe
         popup.page = page
         popup.isShared = shared
         popup.view.backgroundColor = MaterialColor.clear
-        sender.navigationController?.tabBarController!.presentViewController(popup, animated: true) {
+        sender.navigationController?.presentViewController(popup, animated: true) {
             //completion
         }
     }

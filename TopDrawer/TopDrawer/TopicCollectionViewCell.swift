@@ -9,7 +9,7 @@
 import UIKit
 import Material
 
-class TopicCollectionViewCell: UICollectionViewCell {
+class TopicCollectionViewCell: MaterialCollectionViewCell {
     
     let topicLabel: UILabel = UILabel()
     var topic: Topic?
@@ -28,7 +28,8 @@ class TopicCollectionViewCell: UICollectionViewCell {
     }
     
     func setupBackground() {
-        //backgroundColor = MaterialColor.grey.darken1
+        let color = MaterialColor.grey.darken2
+        backgroundColor = color.colorWithAlphaComponent(0.3)
     }
     
     func setupTitleLabel() {
@@ -43,7 +44,7 @@ class TopicCollectionViewCell: UICollectionViewCell {
     }
     
     func layoutTitleLabel() {
-        topicLabel.frame = CGRect(x: 20, y: 10, width: bounds.width - 40, height: bounds.height - 20)
+        topicLabel.frame = CGRect(x: 25, y: 10, width: bounds.width - 45, height: bounds.height - 20)
     }
     
     func configureCell(topic: Topic) {

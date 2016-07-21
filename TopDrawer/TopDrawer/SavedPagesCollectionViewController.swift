@@ -39,7 +39,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     }
     
     func launchNewTopic() {
-        NewTopicPopupVC.presentPopupCV(self)
+        NewPrivateTopicPopupVC.presentPopupCV(self)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -58,6 +58,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     func setupCollectionView() {
         collectionView?.contentInset = UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0)
         collectionView?.alwaysBounceVertical = true
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -74,7 +75,6 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -86,7 +86,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
             detailView.URLString = senderID.page.URLString
         }
     }
-
+    
     // MARK: UICollectionViewDataSource
 
 
@@ -106,7 +106,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let width = collectionView.bounds.width - 20
-        let height = CGFloat(190.0)
+        let height = CGFloat(130.0)
         return CGSizeMake(width, height)
     }
 
@@ -222,4 +222,11 @@ extension SavedPagesCollectionViewController {
     
 }
 
+extension SavedPagesCollectionViewController {
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        let nav = navigationController as! CustomNavController
+        nav.searchView.searchEntryField.resignFirstResponder()
+    }
+}
 

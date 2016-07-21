@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Material
 
 class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
     
@@ -38,12 +39,13 @@ class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
     }
     
     func titleForTabButton() -> String? {
-        return "Topics"
+        return "Catagories"
     }
     
     func imageForTabButton() -> UIImage? {
         return nil
     }
+    
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return topics.count
@@ -55,7 +57,7 @@ class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
         cell.configureCell(topic)
         return cell
     }
-    
+        
     func cellClassForCollectionView() -> (String, AnyClass?) {
         return ("PullTopicCell", TopicCollectionViewCell.self)
     }

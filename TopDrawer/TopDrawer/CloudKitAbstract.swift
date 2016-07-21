@@ -138,6 +138,7 @@ class CloudKitAbstract {
     //MARK: Error Message
     
     internal func provideErrorMessage(error: NSError) {
+        //put icould sign up page here
         print(error.localizedDescription)
     }
 

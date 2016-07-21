@@ -96,6 +96,7 @@ class TextEntryViewController: UIViewController, UITextViewDelegate {
         let notificationName = placeholder+"WasSet"
         NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: nil, userInfo: ["text":textView.text])
         navigationController?.popViewControllerAnimated(true)
+        textView.resignFirstResponder()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

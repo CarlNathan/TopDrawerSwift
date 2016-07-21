@@ -13,6 +13,7 @@
 
 import Foundation
 import UIKit
+import Material
 
 protocol PullDownViewDataSource: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func cellClassForCollectionView() -> (String,AnyClass?)
@@ -31,6 +32,8 @@ class PullTabView: UIVisualEffectView {
     var grav: UIGravityBehavior!
     
     var referenceView: UIView!
+    
+    let stripeView = UIView()
     
     
     /// The collection view that makes up the content of the pull down view.
@@ -60,6 +63,7 @@ class PullTabView: UIVisualEffectView {
         animator = UIDynamicAnimator(referenceView: referenceView)
         super.init(effect: UIBlurEffect(style: .Dark))
         setupBackground()
+        setupStripeView()
         setupCollectionView()
         setupTabButton()
         setupSnapBehavior()
@@ -82,14 +86,20 @@ class PullTabView: UIVisualEffectView {
     
     func setupNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleTabPush), name: "PopDownMenu", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuUp), name: "SearchPressed", object: nil)
     }
     
     override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
-        return getPath().containsPoint(point)
+        return getPath(self).containsPoint(point)
     }
     
     func setupBackground() {
         backgroundColor = UIColor.clearColor()
+    }
+    
+    func setupStripeView() {
+        stripeView.backgroundColor = MaterialColor.grey.darken3
+        addSubview(stripeView)
     }
     
     func setupCollectionView() {
@@ -97,8 +107,8 @@ class PullTabView: UIVisualEffectView {
         collectionView.delegate = tabViewDataSource
         let (identifier, aClass): (String, AnyClass?) = tabViewDataSource.cellClassForCollectionView()
         collectionView.registerClass(aClass, forCellWithReuseIdentifier: identifier)
-        
         collectionView.backgroundColor = UIColor.clearColor()
+        collectionView.alwaysBounceVertical = true
         
         addSubview(collectionView)
         
@@ -115,6 +125,24 @@ class PullTabView: UIVisualEffectView {
         }
         tabButton.addTarget(self, action: #selector(handleTabPush), forControlEvents: .TouchUpInside)
         addSubview(tabButton)
+    }
+    
+    func menuUp() {
+        animator.removeAllBehaviors()
+        if grav.gravityDirection.dy >= 1 {
+            userInteractionEnabled = false
+        } else {
+            userInteractionEnabled = true
+        }
+        grav.gravityDirection = CGVector(dx: 0, dy: -5)
+        let collide = UICollisionBehavior(items: [self])
+        //collide.translatesReferenceBoundsIntoBoundary = true
+        collide.addBoundaryWithIdentifier("top", fromPoint: CGPoint(x:0 , y: -(bounds.height - 69 - LayoutParameters.tabHeight - 1)), toPoint: CGPoint(x:referenceView.bounds.maxX , y: -(bounds.height - 69 - LayoutParameters.tabHeight)))
+        collide.addBoundaryWithIdentifier("bottom", fromPoint: CGPoint(x:0 , y: bounds.height + 69), toPoint: CGPoint(x:referenceView.bounds.maxX , y: bounds.height + 69))
+        collide.addBoundaryWithIdentifier("left", fromPoint: CGPoint(x:-1 , y: -1000), toPoint: CGPoint(x: -1 , y: referenceView.bounds.maxX))
+        collide.addBoundaryWithIdentifier("right", fromPoint: CGPoint(x:referenceView.bounds.width * (8/10) , y: 0), toPoint: CGPoint(x: referenceView.bounds.width * (8/10) , y: referenceView.bounds.maxX))
+        animator.addBehavior(collide)
+        animator.addBehavior(grav)
     }
     
     func handleTabPush() {
@@ -138,37 +166,48 @@ class PullTabView: UIVisualEffectView {
     override func layoutSubviews() {
         super.layoutSubviews()
         //frame = CGRect(x: 0, y: -50, width: 200, height: 400)
-        frame = CGRect(x: 0, y: -(bounds.height - 69 - LayoutParameters.tabHeight - 1), width: (referenceView.bounds.width * (8/10)), height: referenceView.bounds.height - 120)
+        frame = CGRect(x: 0, y: -(bounds.height - 71 - LayoutParameters.tabHeight - 1), width: (referenceView.bounds.width * (8/10)), height: referenceView.bounds.height - 150)
+        layoutStripeView()
         layoutCollectionView()
         layoutTabView()
         setMask()
     }
     
+    func layoutStripeView() {
+        stripeView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 34)
+        setStripeMask()
+    }
     
     func layoutCollectionView() {
-        collectionView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height - LayoutParameters.tabHeight)
+        collectionView.frame = CGRect(x: 0, y: stripeView.frame.maxY, width: bounds.width, height: bounds.height - LayoutParameters.tabHeight - stripeView.frame.maxY - 20)
     }
     
     func layoutTabView() {
         tabButton.frame = CGRect(x: 0, y: bounds.height - LayoutParameters.tabHeight, width: bounds.width/2, height: LayoutParameters.tabHeight)
     }
     
-    func getPath() -> UIBezierPath {
+    func getPath(view: UIView) -> UIBezierPath {
         let path = UIBezierPath()
         path.moveToPoint(CGPoint.zero)
-        path.addLineToPoint(CGPoint(x: 0, y: bounds.height))
-        path.addLineToPoint(CGPoint(x: bounds.width/2, y: bounds.height))
-        path.addLineToPoint(CGPoint(x: bounds.width/2 + 20, y: bounds.height - LayoutParameters.tabHeight))
-        path.addLineToPoint(CGPoint(x: bounds.width, y: bounds.height - LayoutParameters.tabHeight))
-        path.addLineToPoint(CGPoint(x: bounds.width, y: 0))
+        path.addLineToPoint(CGPoint(x: 0, y: view.bounds.height))
+        path.addLineToPoint(CGPoint(x: view.bounds.width/2, y: view.bounds.height))
+        path.addLineToPoint(CGPoint(x: view.bounds.width/2 + 20, y: view.bounds.height - LayoutParameters.tabHeight))
+        path.addLineToPoint(CGPoint(x: view.bounds.width, y: view.bounds.height - LayoutParameters.tabHeight))
+        path.addLineToPoint(CGPoint(x: view.bounds.width, y: 0))
         
         return path
     }
     
     func setMask() {
         let maskLayer = CAShapeLayer()
-        maskLayer.path = getPath().CGPath
+        maskLayer.path = getPath(self).CGPath
         layer.mask = maskLayer
+    }
+    
+    func setStripeMask() {
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = getPath(stripeView).CGPath
+        stripeView.layer.mask = maskLayer
     }
 }
 

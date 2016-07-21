@@ -1,8 +1,8 @@
 //
-//  TopicTableCardView.swift
+//  NewPrivateTopicPopUpVC.swift
 //  TopDrawer
 //
-//  Created by Carl Udren on 4/13/16.
+//  Created by Carl Udren on 7/20/16.
 //  Copyright © 2016 Carl Udren. All rights reserved.
 //
 
@@ -10,20 +10,16 @@ import Foundation
 import Material
 import UIKit
 
-class NewTopicPopupVC: UIViewController {
+class NewPrivateTopicPopupVC: UIViewController {
     //
-    var selectedFriends = [String]()
-    var subjectName: String?
-    var messageText: String?
-    var isShared: Bool?
-    var page: Page?
-    let tableView = UITableView()
+    var nameField = TextField()
     var cardView: CardView!
+    let saveButton: FlatButton = FlatButton()
     lazy var animator: UIDynamicAnimator = {
         return UIDynamicAnimator(referenceView: self.view)
     }()
     var attachment: UIAttachmentBehavior!
-
+    
     
     init() {
         super.init(nibName:nil, bundle:nil)
@@ -40,7 +36,7 @@ class NewTopicPopupVC: UIViewController {
     
     class func presentPopupCV(sender: UIViewController) {
         sender.navigationController?.definesPresentationContext = true
-        let popup = NewTopicPopupVC()
+        let popup = NewPrivateTopicPopupVC()
         popup.view.backgroundColor = MaterialColor.clear
         sender.navigationController?.presentViewController(popup, animated: true) {
             //completion
@@ -48,24 +44,30 @@ class NewTopicPopupVC: UIViewController {
     }
     
     override func viewDidLoad() {
+        prepareNameField()
         prepareCardView()
         setupCardViewSnapBehavior()
-
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        UIView.animateWithDuration(0.5, animations: {
+        self.cardView.frame = CGRect (x: 0, y: 400, width: 0, height: 0)
+        UIView.animateWithDuration(0.3, animations: {
             self.view.backgroundColor = MaterialColor.black.colorWithAlphaComponent(0.5)
-            
+            self.view.layoutSubviews()
         })
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        UIView.animateWithDuration(0.4) {
+        UIView.animateWithDuration(0.2) {
             self.cardView.frame = CGRectMake(0, 400, 0, 0)
         }
+    }
+    
+    func prepareNameField() {
+        nameField.placeholder = "Name"
     }
     
     func prepareCardView() {
@@ -81,7 +83,7 @@ class NewTopicPopupVC: UIViewController {
         
         let titleLabel: UILabel = UILabel()
         titleLabel.font = RobotoFont.lightWithSize(20)
-        titleLabel.text = "New Topic"
+        titleLabel.text = "New Catagory"
         titleLabel.textAlignment = .Center
         titleLabel.textColor = MaterialColor.blueGrey.darken4
         
@@ -89,53 +91,48 @@ class NewTopicPopupVC: UIViewController {
         closeButton.setTitle("Cancel", forState: .Normal)
         closeButton.addTarget(self, action: #selector(cancelWasPressed), forControlEvents: .TouchUpInside)
         
-        let settingButton: FlatButton = FlatButton()
-        settingButton.setTitle("Create", forState: .Normal)
-        settingButton.tintColor = MaterialColor.blue.accent3
-        settingButton.addTarget(self, action: #selector(saveButtonPressed), forControlEvents: .TouchUpInside)
+        saveButton.setTitle("Create", forState: .Normal)
+        saveButton.setTitleColor(MaterialColor.blue.accent3, forState: .Normal)
+        saveButton.setTitleColor(MaterialColor.grey.lighten1, forState: .Disabled)
+        saveButton.enabled = false
+        saveButton.addTarget(self, action: #selector(saveButtonPressed), forControlEvents: .TouchUpInside)
         
         // Use MaterialLayout to easily align the tableView.
         cardView.titleLabel = titleLabel
-        let entryController = NewTopicEntryTableViewController()
-        entryController.delegate = self
-        let nav = UINavigationController(rootViewController: entryController)
-        addChildViewController(nav)
-        nav.didMoveToParentViewController(self)
-        cardView.detailView = nav.view
+//        let entryController = TextEntryViewController(placeholder: "Name")
+//        addChildViewController(entryController)
+//        entryController.didMoveToParentViewController(self)
+//        cardView.detailView = entryController.view
+        let tev = TextEntryView()
+        tev.delegate = self
+        cardView.detailView = tev
         cardView.leftButtons = [closeButton]
-        cardView.rightButtons = [settingButton]
+        cardView.rightButtons = [saveButton]
         
         cardView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(cardView)
-        MaterialLayout.alignToParent(view, child: cardView, left: 15, right: 15, top: 100, bottom: 100)
+        MaterialLayout.alignToParent(view, child: cardView, left: 15, right: 15, top: 60, bottom: 270)
     }
     
-        
+    
     func saveButtonPressed(sender: AnyObject) {
-        if subjectName != nil {
-            if selectedFriends.count == 0 {
-                let topic = Topic(name: subjectName, users: nil, recordID: nil)
-                SavingInterface.sharedInstance.createNewPrivateTopic(topic)
-                self.dismissViewControllerAnimated(true, completion: nil)
-            } else {
-                let topic = Topic(name: subjectName, users: selectedFriends, recordID: nil)
-                SavingInterface.sharedInstance.createNewSharedTopic(topic, completion: { (savedTopic) in
-                    if self.messageText != nil {
-                        let message = Message(sender: DataCoordinatorInterface.sharedInstance.user!.ID, body: self.messageText, topic: savedTopic.recordID, date: NSDate())
-                        SavingInterface.sharedInstance.saveMessage(message)
-                    }
-                })
-            }
+        if nameField.text != nil {
+            nameField.resignFirstResponder()
+            let topic = Topic(name: nameField.text, users: nil, recordID: nil)
+            SavingInterface.sharedInstance.createNewPrivateTopic(topic)
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-        
+    
     func cancelWasPressed(sender: AnyObject) {
+        nameField.resignFirstResponder()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        //nameTextField.resignFirstResponder()
+        nameField.resignFirstResponder()
     }
     
     func setupCardViewSnapBehavior(){
@@ -161,23 +158,26 @@ class NewTopicPopupVC: UIViewController {
             
         case .Ended:
             animator.removeAllBehaviors()
-            let snap = UISnapBehavior(item: gesture.view!, snapToPoint: view.center)
+            let snap = UISnapBehavior(item: gesture.view!, snapToPoint: CGPoint(x: view.center.x, y: ((view.bounds.height - 330) / 2) + 60))
             animator.addBehavior(snap)
         default:
             return
         }
         
     }
-
-
+    
+    
 }
 
-extension NewTopicPopupVC: NewTopicEntryTableViewControllerDelegate {
-    func updateEntryFields(name: String, selectedFriends: [String], message: String) {
-        self.subjectName = name
-        self.selectedFriends = selectedFriends
-        self.messageText = message
+extension NewPrivateTopicPopupVC: TextEntryViewDelegate {
+    func textDidChange(text: String) {
+        if text == "" {
+            saveButton.enabled = false
+        } else {
+            saveButton.enabled = true
+        }
     }
-
 }
+
+
 
