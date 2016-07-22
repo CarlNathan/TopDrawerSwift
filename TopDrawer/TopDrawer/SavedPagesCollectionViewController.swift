@@ -48,6 +48,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     
     func setupTabView() {
         let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         let ds = PagesPullTabDataSource(collectionView: cv)
         tabView = PullTabView(dataSource: ds, referenceView: view, collectionView: cv)
@@ -94,18 +95,16 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         return pages.count
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> SavedPageCollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)as! SavedPageCollectionViewCell
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)as! PageCollectionViewCell
     
         // Configure the cell
-            cell.labelView.delegate = self
-            cell.page = pages[indexPath.row]
-            cell.layoutSubviews()
+            cell.configureCell(pages[indexPath.row])
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let width = collectionView.bounds.width - 20
+        let width = collectionView.bounds.width
         let height = CGFloat(130.0)
         return CGSizeMake(width, height)
     }

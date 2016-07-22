@@ -29,34 +29,37 @@ class DataCoordinatorInterface {
     }
     
     func startupSequence() {
-        signIn {
-            //once we have user
+        signIn({
+                //once we have user
             
-            //check onboarding seen
+                //check onboarding seen
                 //launch onboarding checkUser for seen onboarding
-                    //register for push
-                    //searchability
+                //register for push
+                //searchability
             
-            //1. GetFriends
-            //2. Get Pages
-            //3. Get Topics
+                //1. GetFriends - Not needed for private pages
+                //2. Get Pages - only private pages
+                //3. Get Topics - only private topics
             
-            self.fetch.findFriends({
-                DataSource.sharedInstance.updateFriends()
-            })
-            self.fetch.getPublicTopics({
-                // subscribe to these topics
-            })
-            self.fetch.getPrivateTopics({
-                //
-            })
-            self.fetch.fetchPrivatePages({ (updatedUser) in
-                self.userManager.persistUser(updatedUser)
-            })
+                //            self.fetch.findFriends({
+                //                DataSource.sharedInstance.updateFriends()
+                //            })
+                //            self.fetch.getPublicTopics({
+                //                // subscribe to these topics
+                //            })
+                self.fetch.getPrivateTopics({
+                    //
+                })
+                self.fetch.fetchPrivatePages({ (updatedUser) in
+                    self.userManager.persistUser(updatedUser)
+                })
+            }) { 
+                //fix me launch sign in page
         }
+        
     }
     
-    private func signIn(completion: ()->Void) {
+    func signIn(suceeded: ()-> Void, failed: ()->Void) {
         user = userManager.fetchLastUser()
         fetch.getCurrentUserID({ userID in
             if self.user == nil {
@@ -69,13 +72,11 @@ class DataCoordinatorInterface {
                     self.userManager.persistUser(self.user!)
                 })
             }
-            completion()
+            suceeded()
         }) {
-            //failed to get user: FIX ME: prompt sign in
+            failed()
         }
     }
-
-
     
     //MARK: Deleting
     

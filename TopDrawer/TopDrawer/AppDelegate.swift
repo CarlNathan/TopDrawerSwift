@@ -23,10 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PersistedUserManager().wipeUser()
         DataCoordinatorInterface.sharedInstance.startupSequence()
         
-        
+        /* Notifications -- not needed for private pages
         let notificationSettings = UIUserNotificationSettings.init(forTypes: UIUserNotificationType.Alert, categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
         application.registerForRemoteNotifications()
+         */
         
         return true
     }
