@@ -21,14 +21,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        
         GraphServices().wipePersistedData()
         PersistedUserManager().wipeUser()
-        DataCoordinatorInterface.sharedInstance.startupSequence()
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let nav = sb.instantiateInitialViewController()
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.rootViewController = nav
+        
+        DataCoordinatorInterface.sharedInstance.signIn({
+            DataCoordinatorInterface.sharedInstance.startupSequence()
+            dispatch_async(dispatch_get_main_queue(), {
+
+            })
+            }) {
+                dispatch_async(dispatch_get_main_queue(), {
+                    nav?.presentViewController(OnBoardingViewController(), animated: true, completion: nil)
+                    
+                })
+        }
         
         /* Notifications -- not needed for private pages
         let notificationSettings = UIUserNotificationSettings.init(forTypes: UIUserNotificationType.Alert, categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
         application.registerForRemoteNotifications()
          */
-        
+        self.window?.makeKeyAndVisible()
         return true
     }
 

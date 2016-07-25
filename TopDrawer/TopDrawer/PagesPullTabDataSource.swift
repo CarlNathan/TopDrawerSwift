@@ -38,24 +38,34 @@ class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getTopics), name: "ReloadData", object: nil)
     }
     
-    func titleForTabButton() -> String? {
-        return "Catagories"
-    }
-    
     func imageForTabButton() -> UIImage? {
         return nil
     }
     
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return topics.count
+        return topics.count + 3
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PullTopicCell", forIndexPath: indexPath) as! TopicCollectionViewCell
-        let topic = topics[indexPath.row]
-        cell.configureCell(topic)
-        return cell
+        if indexPath.row == 0 {
+            cell.topicLabel.text = "All Pages"
+            cell.backgroundColor = MaterialColor.amber.base.colorWithAlphaComponent(0.3)
+            return cell
+        } else if indexPath.row == 1 {
+            cell.topicLabel.text = "Recently Added"
+            cell.backgroundColor = MaterialColor.amber.base.colorWithAlphaComponent(0.3)
+            return cell
+        } else if indexPath.row == 2 {
+            cell.topicLabel.text = "Uncatagorized"
+            cell.backgroundColor = MaterialColor.amber.base.colorWithAlphaComponent(0.3)
+            return cell
+        } else {
+            let topic = topics[indexPath.row - 3]
+            cell.configureCell(topic)
+            return cell
+        }
     }
         
     func cellClassForCollectionView() -> (String, AnyClass?) {
@@ -67,7 +77,7 @@ class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 20
+        return 10
     }
-    
 }
+

@@ -87,6 +87,8 @@
 		EDDE2FF91D159D440067B44D /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE2FF81D159D440067B44D /* DataSource.swift */; };
 		EDDE301D1D189C5F0067B44D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE301C1D189C5F0067B44D /* UIImageExtension.swift */; };
 		EDDE301F1D19E8A40067B44D /* SavingInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE301E1D19E8A40067B44D /* SavingInterface.swift */; };
+		EDE6DE2C1D440FD7005C5B9D /* NSDate + BinaryOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DE2B1D440FD7005C5B9D /* NSDate + BinaryOperators.swift */; };
+		EDE6DE301D452447005C5B9D /* EmptyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE6DE2F1D452447005C5B9D /* EmptyPageView.swift */; };
 		EDED75C41CB32C350071A36F /* App downloads (2).png in Resources */ = {isa = PBXBuildFile; fileRef = EDED75C31CB32C350071A36F /* App downloads (2).png */; };
 		EDED75CE1CBEF37D0071A36F /* NewTopicPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */; };
 		EDED75D11CBEF3F30071A36F /* AssignTopicPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */; };
@@ -162,6 +164,7 @@
 		ED0A0B5E1D1C22C1000D7DCD /* CloudKitDeletingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitDeletingService.swift; sourceTree = "<group>"; };
 		ED0A0B601D1C2393000D7DCD /* GraphDeletService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphDeletService.swift; sourceTree = "<group>"; };
 		ED0A0B621D1C475C000D7DCD /* CloudKitPermissionsSubscriptionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitPermissionsSubscriptionsService.swift; sourceTree = "<group>"; };
+		ED2892691D428136008C8372 /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = "../../../../Library/Developer/Xcode/DerivedData/TopDrawer-ekcxvvlzbvaonygkwkisugvvtusc/Build/Products/Debug-iphoneos/MBProgressHUD.framework"; sourceTree = "<group>"; };
 		ED2931131D3EF61B00F268FB /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		ED2B08141C7F48E30007949E /* SharedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTableViewController.swift; sourceTree = "<group>"; };
 		ED2B08171C7F49780007949E /* MessageContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageContainerViewController.swift; sourceTree = "<group>"; };
@@ -236,6 +239,8 @@
 		EDDE2FF81D159D440067B44D /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		EDDE301C1D189C5F0067B44D /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		EDDE301E1D19E8A40067B44D /* SavingInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavingInterface.swift; sourceTree = "<group>"; };
+		EDE6DE2B1D440FD7005C5B9D /* NSDate + BinaryOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate + BinaryOperators.swift"; sourceTree = "<group>"; };
+		EDE6DE2F1D452447005C5B9D /* EmptyPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyPageView.swift; sourceTree = "<group>"; };
 		EDED75C31CB32C350071A36F /* App downloads (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App downloads (2).png"; sourceTree = "<group>"; };
 		EDED75CD1CBEF37D0071A36F /* NewTopicPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicPopupVC.swift; sourceTree = "<group>"; };
 		EDED75D01CBEF3F30071A36F /* AssignTopicPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignTopicPopupVC.swift; sourceTree = "<group>"; };
@@ -305,6 +310,7 @@
 		AC793B6FAB405FAB4BA72193 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ED2892691D428136008C8372 /* MBProgressHUD.framework */,
 				ED73EF081CA9A46600331CC2 /* Material.framework */,
 				F7CB34F0BF65C798C980B92D /* Pods_TopDrawer.framework */,
 			);
@@ -374,6 +380,7 @@
 		ED3A5DC41CC547F200559CFB /* SwiftExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				EDE6DE2B1D440FD7005C5B9D /* NSDate + BinaryOperators.swift */,
 				ED3A5DC21CC547E300559CFB /* StringExtensionIndexing.swift */,
 				ED3A5DC71CC575EF00559CFB /* NSDateExtension.swift */,
 				EDDE301C1D189C5F0067B44D /* UIImageExtension.swift */,
@@ -586,6 +593,7 @@
 				ED6A89D91D35357600224041 /* PullDownMenu */,
 				EDBDDBD51D0B58E900F11E17 /* TabBar */,
 				EDBDDBD21D0B45F600F11E17 /* NavBar */,
+				EDE6DE2F1D452447005C5B9D /* EmptyPageView.swift */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -963,6 +971,7 @@
 				ED3A5DC31CC547E300559CFB /* StringExtensionIndexing.swift in Sources */,
 				ED3A5E931CD15B9E00559CFB /* InsertTopicMarkerPopupVC.swift in Sources */,
 				EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */,
+				EDE6DE2C1D440FD7005C5B9D /* NSDate + BinaryOperators.swift in Sources */,
 				ED2B081A1C7F49D10007949E /* TrayCollectionViewController.swift in Sources */,
 				ED0A0B4E1D1AD8D4000D7DCD /* TopDrawerProtocols.swift in Sources */,
 				ED2B08241C80998B0007949E /* Friend.swift in Sources */,
@@ -978,6 +987,7 @@
 				ED2931141D3EF61B00F268FB /* SearchView.swift in Sources */,
 				ED4F38461D11E169006514C1 /* PersistedUserManager.swift in Sources */,
 				ED0A0B531D1ADB65000D7DCD /* GraphSaveServices.swift in Sources */,
+				EDE6DE301D452447005C5B9D /* EmptyPageView.swift in Sources */,
 				EDED75D51CC136680071A36F /* FriendsTableView.swift in Sources */,
 				EDFE6A6B1CD304B500D997F9 /* OnboardingPageViewController.swift in Sources */,
 				ED3284571D41397100FEA4B2 /* TextEntryView.swift in Sources */,
@@ -1083,6 +1093,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.TestShareExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1097,6 +1108,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.TestShareExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

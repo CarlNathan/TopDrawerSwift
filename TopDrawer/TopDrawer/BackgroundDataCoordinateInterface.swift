@@ -29,34 +29,12 @@ class DataCoordinatorInterface {
     }
     
     func startupSequence() {
-        signIn({
-                //once we have user
-            
-                //check onboarding seen
-                //launch onboarding checkUser for seen onboarding
-                //register for push
-                //searchability
-            
-                //1. GetFriends - Not needed for private pages
-                //2. Get Pages - only private pages
-                //3. Get Topics - only private topics
-            
-                //            self.fetch.findFriends({
-                //                DataSource.sharedInstance.updateFriends()
-                //            })
-                //            self.fetch.getPublicTopics({
-                //                // subscribe to these topics
-                //            })
-                self.fetch.getPrivateTopics({
-                    //
-                })
-                self.fetch.fetchPrivatePages({ (updatedUser) in
-                    self.userManager.persistUser(updatedUser)
-                })
-            }) { 
-                //fix me launch sign in page
-        }
-        
+        self.fetch.getPrivateTopics({
+        //
+        })
+        self.fetch.fetchPrivatePages({ (updatedUser) in
+            self.userManager.persistUser(updatedUser)
+        })
     }
     
     func signIn(suceeded: ()-> Void, failed: ()->Void) {

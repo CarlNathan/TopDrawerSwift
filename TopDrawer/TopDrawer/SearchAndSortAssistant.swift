@@ -58,6 +58,30 @@ class SearchAndSortAssistant {
         }
     }
     
+    func filterUncatagorizedPages(pages: [Page]) -> [Page] {
+        var filteredPages = [Page]()
+        for page in pages {
+            if let i = page.topic?.count {
+                if i == 0 {
+                    filteredPages.append(page)
+                }
+            }
+        }
+        return filteredPages
+    }
+    
+    func filterRecentPages(pages: [Page]) -> [Page] {
+        var filteredPages = [Page]()
+        for page in pages {
+            if let d = page.date {
+                if d > NSDate(timeIntervalSinceNow: -604800) {
+                    filteredPages.append(page)
+                }
+            }
+        }
+        return filteredPages
+    }
+    
     //MARK: Topics
     
     func searchTopics(term: String, topics: [Topic]) -> [Topic] {

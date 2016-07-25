@@ -18,7 +18,6 @@ import Material
 protocol PullDownViewDataSource: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func cellClassForCollectionView() -> (String,AnyClass?)
     func imageForTabButton() -> UIImage?
-    func titleForTabButton() -> String?
 }
 
 private struct LayoutParameters {
@@ -37,7 +36,7 @@ class PullTabView: UIVisualEffectView {
     
     
     /// The collection view that makes up the content of the pull down view.
-    private var collectionView: UICollectionView!
+    var collectionView: UICollectionView!
     
     private var tabButton: UIButton!
     
@@ -117,14 +116,25 @@ class PullTabView: UIVisualEffectView {
     func setupTabButton() {
         tabButton = UIButton()
         tabButton.backgroundColor = UIColor.clearColor()
-        if let title = tabViewDataSource.titleForTabButton() {
-            tabButton.setTitle(title, forState: .Normal)
-        }
+        tabButton.setTitle("Recently Added", forState: .Normal)
         if let image = tabViewDataSource.imageForTabButton() {
             tabButton.setImage(image, forState: .Normal)
         }
         tabButton.addTarget(self, action: #selector(handleTabPush), forControlEvents: .TouchUpInside)
         addSubview(tabButton)
+    }
+    
+    func menuCloseAfterSelection() {
+        animator.removeAllBehaviors()
+        grav.gravityDirection = CGVector(dx: 0, dy: -5)
+        let collide = UICollisionBehavior(items: [self])
+        //collide.translatesReferenceBoundsIntoBoundary = true
+        collide.addBoundaryWithIdentifier("top", fromPoint: CGPoint(x:0 , y: -(bounds.height - 69 - LayoutParameters.tabHeight - 1)), toPoint: CGPoint(x:referenceView.bounds.maxX , y: -(bounds.height - 69 - LayoutParameters.tabHeight)))
+        collide.addBoundaryWithIdentifier("bottom", fromPoint: CGPoint(x:0 , y: bounds.height + 69), toPoint: CGPoint(x:referenceView.bounds.maxX , y: bounds.height + 69))
+        collide.addBoundaryWithIdentifier("left", fromPoint: CGPoint(x:-1 , y: -1000), toPoint: CGPoint(x: -1 , y: referenceView.bounds.maxX))
+        collide.addBoundaryWithIdentifier("right", fromPoint: CGPoint(x:referenceView.bounds.width * (8/10) , y: 0), toPoint: CGPoint(x: referenceView.bounds.width * (8/10) , y: referenceView.bounds.maxX))
+        animator.addBehavior(collide)
+        animator.addBehavior(grav)
     }
     
     func menuUp() {
@@ -208,6 +218,10 @@ class PullTabView: UIVisualEffectView {
         let maskLayer = CAShapeLayer()
         maskLayer.path = getPath(stripeView).CGPath
         stripeView.layer.mask = maskLayer
+    }
+    
+    func setTitle(title: String) {
+        tabButton.setTitle(title, forState: .Normal)
     }
 }
 

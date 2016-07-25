@@ -34,6 +34,7 @@ class PageCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupImageView()
+        setupAlphaLayer()
         setupDateLabel()
         setupDateFormatter()
         setupTitleLabel()
@@ -46,6 +47,7 @@ class PageCollectionViewCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupImageView()
+        setupAlphaLayer()
         setupDateLabel()
         setupDateFormatter()
         setupTitleLabel()
@@ -57,6 +59,7 @@ class PageCollectionViewCell: UICollectionViewCell {
     
     func configureCell(page: Page) {
         backgroundColor = MaterialColor.grey.lighten3
+        self.page = page
         imageView.image = page.image
         dateLabel.text = dateFormatter.stringFromDate(page.date!)
         titleLabel.text = page.name
@@ -100,7 +103,7 @@ class PageCollectionViewCell: UICollectionViewCell {
     }
     
     func setupAlphaLayer() {
-        alphaLayer.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8).CGColor
+        alphaLayer.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3).CGColor
         imageView.layer.addSublayer(alphaLayer)
     }
     

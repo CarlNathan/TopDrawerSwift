@@ -28,8 +28,7 @@ class TopicCollectionViewCell: MaterialCollectionViewCell {
     }
     
     func setupBackground() {
-        let color = MaterialColor.grey.darken2
-        backgroundColor = color.colorWithAlphaComponent(0.3)
+        backgroundColor = MaterialColor.grey.darken2.colorWithAlphaComponent(0.3)
     }
     
     func setupTitleLabel() {
@@ -50,6 +49,7 @@ class TopicCollectionViewCell: MaterialCollectionViewCell {
     func configureCell(topic: Topic) {
         self.topic = topic
         topicLabel.text = topic.name
+        backgroundColor = MaterialColor.grey.darken2.colorWithAlphaComponent(0.3)
     }
     
     

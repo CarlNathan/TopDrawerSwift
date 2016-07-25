@@ -8,6 +8,8 @@ target 'TopDrawer' do
 pod 'JSQMessagesViewController'
 pod 'Material'
 pod 'Graph'
+pod 'MBProgressHUD', '~> 1.0.0'
+
 end
 
 target 'TopDrawerTests' do
