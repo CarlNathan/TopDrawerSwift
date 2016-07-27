@@ -10,7 +10,14 @@ import UIKit
 import Social
 
 class ShareViewController: SLComposeServiceViewController {
-
+    
+    let url: String = ""
+    
+    override func viewDidLoad() {
+        let ec = extensionContext!.inputItems[0] as! NSExtensionItem
+    }
+    
+    
     override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
         return true

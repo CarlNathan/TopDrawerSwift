@@ -49,9 +49,6 @@
 		ED5EBEAE1C823626009951BB /* SharedTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */; };
 		ED5EBEB01C823F56009951BB /* TopicTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */; };
 		ED5EBEB21C82B0B6009951BB /* SharedPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */; };
-		ED5EBEC01C84ED52009951BB /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EBEBF1C84ED52009951BB /* ShareViewController.swift */; };
-		ED5EBEC31C84ED52009951BB /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED5EBEC11C84ED52009951BB /* MainInterface.storyboard */; };
-		ED5EBEC71C84ED52009951BB /* TestShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = ED5EBEBD1C84ED52009951BB /* TestShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		ED9144241CA9DB3500AC3122 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9144231CA9DB3500AC3122 /* CustomTextView.swift */; };
 		EDAC5D7C1C7B83A900C0C306 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC5D7B1C7B83A900C0C306 /* AppDelegate.swift */; };
 		EDAC5D811C7B83A900C0C306 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */; };
@@ -103,13 +100,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		ED5EBEC51C84ED52009951BB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EDAC5D701C7B83A900C0C306 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ED5EBEBC1C84ED52009951BB;
-			remoteInfo = TestShareExtension;
-		};
 		EDAC5D8D1C7B83AA00C0C306 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EDAC5D701C7B83A900C0C306 /* Project object */;
@@ -140,7 +130,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				ED5EBEC71C84ED52009951BB /* TestShareExtension.appex in Embed App Extensions */,
 				EDAC5DC01C7BC7CC00C0C306 /* TopDrawerActionExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -191,7 +180,6 @@
 		ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTopicTableViewCell.swift; sourceTree = "<group>"; };
 		ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicTabBarController.swift; sourceTree = "<group>"; };
 		ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedPageCollectionViewCell.swift; sourceTree = "<group>"; };
-		ED5EBEBD1C84ED52009951BB /* TestShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TestShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED5EBEBF1C84ED52009951BB /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		ED5EBEC21C84ED52009951BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		ED5EBEC41C84ED52009951BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -256,13 +244,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		ED5EBEBA1C84ED52009951BB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EDAC5D751C7B83A900C0C306 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -478,7 +459,6 @@
 				EDAC5D8C1C7B83AA00C0C306 /* TopDrawerTests.xctest */,
 				EDAC5D971C7B83AA00C0C306 /* TopDrawerUITests.xctest */,
 				EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */,
-				ED5EBEBD1C84ED52009951BB /* TestShareExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -643,23 +623,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ED5EBEBC1C84ED52009951BB /* TestShareExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = ED5EBEC81C84ED52009951BB /* Build configuration list for PBXNativeTarget "TestShareExtension" */;
-			buildPhases = (
-				ED5EBEB91C84ED52009951BB /* Sources */,
-				ED5EBEBA1C84ED52009951BB /* Frameworks */,
-				ED5EBEBB1C84ED52009951BB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TestShareExtension;
-			productName = TestShareExtension;
-			productReference = ED5EBEBD1C84ED52009951BB /* TestShareExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		EDAC5D771C7B83A900C0C306 /* TopDrawer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EDAC5DA01C7B83AA00C0C306 /* Build configuration list for PBXNativeTarget "TopDrawer" */;
@@ -676,7 +639,6 @@
 			);
 			dependencies = (
 				EDAC5DBF1C7BC7CC00C0C306 /* PBXTargetDependency */,
-				ED5EBEC61C84ED52009951BB /* PBXTargetDependency */,
 			);
 			name = TopDrawer;
 			productName = TopDrawer;
@@ -746,10 +708,6 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Carl Udren";
 				TargetAttributes = {
-					ED5EBEBC1C84ED52009951BB = {
-						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 95ZRVL9PPJ;
-					};
 					EDAC5D771C7B83A900C0C306 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 95ZRVL9PPJ;
@@ -807,20 +765,11 @@
 				EDAC5D8B1C7B83AA00C0C306 /* TopDrawerTests */,
 				EDAC5D961C7B83AA00C0C306 /* TopDrawerUITests */,
 				EDAC5DB51C7BC7CC00C0C306 /* TopDrawerActionExtension */,
-				ED5EBEBC1C84ED52009951BB /* TestShareExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		ED5EBEBB1C84ED52009951BB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ED5EBEC31C84ED52009951BB /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EDAC5D761C7B83A900C0C306 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -908,14 +857,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		ED5EBEB91C84ED52009951BB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ED5EBEC01C84ED52009951BB /* ShareViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EDAC5D741C7B83A900C0C306 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1024,11 +965,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		ED5EBEC61C84ED52009951BB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ED5EBEBC1C84ED52009951BB /* TestShareExtension */;
-			targetProxy = ED5EBEC51C84ED52009951BB /* PBXContainerItemProxy */;
-		};
 		EDAC5D8E1C7B83AA00C0C306 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EDAC5D771C7B83A900C0C306 /* TopDrawer */;
@@ -1082,36 +1018,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		ED5EBEC91C84ED52009951BB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
-				INFOPLIST_FILE = TestShareExtension/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.TestShareExtension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		ED5EBECA1C84ED52009951BB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
-				INFOPLIST_FILE = TestShareExtension/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.TestShareExtension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
 		EDAC5D9E1C7B83AA00C0C306 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1331,15 +1237,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ED5EBEC81C84ED52009951BB /* Build configuration list for PBXNativeTarget "TestShareExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ED5EBEC91C84ED52009951BB /* Debug */,
-				ED5EBECA1C84ED52009951BB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		EDAC5D731C7B83A900C0C306 /* Build configuration list for PBXProject "TopDrawer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -117,6 +117,7 @@ class PullTabView: UIVisualEffectView {
         tabButton = UIButton()
         tabButton.backgroundColor = UIColor.clearColor()
         tabButton.setTitle("Recently Added", forState: .Normal)
+        tabButton.titleLabel?.font = RobotoFont.lightWithSize(14)
         if let image = tabViewDataSource.imageForTabButton() {
             tabButton.setImage(image, forState: .Normal)
         }

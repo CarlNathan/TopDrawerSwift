@@ -60,7 +60,7 @@ class PageCollectionViewCell: UICollectionViewCell {
     func configureCell(page: Page) {
         backgroundColor = MaterialColor.grey.lighten3
         self.page = page
-        imageView.image = page.image
+        imageView.image = page.image ?? UIImage(named: "cm_image_white")
         dateLabel.text = dateFormatter.stringFromDate(page.date!)
         titleLabel.text = page.name
         layoutSubviews()
@@ -72,7 +72,7 @@ class PageCollectionViewCell: UICollectionViewCell {
     
     func setupImageView() {
         imageView.contentMode = .ScaleAspectFill
-        imageView.backgroundColor = MaterialColor.grey.darken1
+        imageView.backgroundColor = MaterialColor.grey.base
         imageView.layer.masksToBounds = true
         addSubview(imageView)
     }

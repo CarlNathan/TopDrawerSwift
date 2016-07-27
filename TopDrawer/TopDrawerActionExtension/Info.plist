@@ -42,8 +42,6 @@
 				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
 				<string>1</string>
 			</dict>
-			<key>NSExtensionJavaScriptPreprocessingFile</key>
-			<string>getURLinfo</string>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>

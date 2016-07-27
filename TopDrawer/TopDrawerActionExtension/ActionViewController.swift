@@ -18,6 +18,7 @@ class ActionViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     var imageString: String!
     let imageCardView: ImageCardView = ImageCardView()
     let detailView = DetailView(frame: CGRectMake(0,0,500,500))
+    let webView = UIWebView()
     lazy var animator: UIDynamicAnimator = {
         return UIDynamicAnimator(referenceView: self.view)
     }()
@@ -44,13 +45,14 @@ class ActionViewController: UIViewController, UITextFieldDelegate, UITextViewDel
             for provider: AnyObject in inputItem.attachments! {
                 let itemProvider = provider as! NSItemProvider
                 
+                
                 if itemProvider.hasItemConformingToTypeIdentifier(kUTTypePropertyList as String) {
                     itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil, completionHandler: { (result: NSSecureCoding?, error: NSError!) -> Void in
                         if let resultDict = result as? NSDictionary {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 self.detailView.titleField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["title"] as? String ?? ""
 //                                self.nameTextField.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["host"] as! String
-                                self.detailView.descriptionView.text = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["description"] as! String
+                                self.detailView.descriptionView.text = (resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["url"] as! String + (resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["image"] as! String))
                             self.imageString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["image"] as? String
                                 self.URLString = resultDict[NSExtensionJavaScriptPreprocessingResultsKey]!["url"] as! String
                                 
@@ -75,6 +77,25 @@ class ActionViewController: UIViewController, UITextFieldDelegate, UITextViewDel
                                 }
                             })
                         }
+                    })
+                }
+                
+                
+                if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
+                    itemProvider.loadItemForTypeIdentifier(kUTTypeURL as String, options: nil, completionHandler: { (result: NSSecureCoding?, error: NSError!) in
+                        let url = result as? NSURL
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.detailView.titleField.text = url?.absoluteString
+                            
+                            self.webView.delegate = self
+                            self.webView.loadRequest(NSURLRequest(URL: url!))
+                        })
+                    })
+                }
+                
+                if itemProvider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
+                    itemProvider.loadItemForTypeIdentifier(kUTTypeImage as String, options: nil, completionHandler: { (result: NSSecureCoding?, error: NSError!) in
+                        self.imageCardView.image = result as? UIImage
                     })
                 }
             }
@@ -261,6 +282,21 @@ class ActionViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         animator.removeAllBehaviors()
         let snap = UISnapBehavior(item: imageCardView, snapToPoint: CGPoint(x: view.center.x, y: view.center.y))
         animator.addBehavior(snap)
+    }
+}
+
+extension ActionViewController: UIWebViewDelegate {
+    func webViewDidFinishLoad(webView: UIWebView) {
+        let title = webView.stringByEvaluatingJavaScriptFromString("document.title")
+        self.detailView.descriptionView.text = title
+        
+        webView.frame = view.bounds
+        UIGraphicsBeginImageContext(webView.bounds.size)
+        webView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+        
+        self.imageCardView.image = image
     }
 }
 

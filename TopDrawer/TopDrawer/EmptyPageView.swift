@@ -32,14 +32,14 @@ class EmptyPageView: UIView {
     func setupImageView() {
         imageView.contentMode = .ScaleToFill
         imageView.image = UIImage(named: "cm_photo_library_white")?.imageWithRenderingMode(.AlwaysTemplate)
-        imageView.tintColor = MaterialColor.grey.base
+        imageView.tintColor = MaterialColor.grey.darken3
         addSubview(imageView)
     }
     
     func setupLabel() {
         label.text = "There are no pages to display."
         label.font = RobotoFont.boldWithSize(16)
-        label.textColor = MaterialColor.grey.base
+        label.textColor = MaterialColor.grey.darken3
         label.numberOfLines = 2
         label.textAlignment = .Center
         addSubview(label)

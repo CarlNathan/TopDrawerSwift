@@ -67,6 +67,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     }
     
     func setupCollectionView() {
+        collectionView?.backgroundColor = MaterialColor.grey.lighten1
         collectionView?.contentInset = UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0)
         collectionView?.alwaysBounceVertical = true
         
@@ -74,6 +75,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
     
     func setupEmptyView() {
         emptyView.frame = view.bounds
+        emptyView.backgroundColor = MaterialColor.grey.lighten1
         view.addSubview(emptyView)
     }
     
