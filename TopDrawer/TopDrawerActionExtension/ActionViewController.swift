@@ -287,16 +287,18 @@ class ActionViewController: UIViewController, UITextFieldDelegate, UITextViewDel
 
 extension ActionViewController: UIWebViewDelegate {
     func webViewDidFinishLoad(webView: UIWebView) {
-        let title = webView.stringByEvaluatingJavaScriptFromString("document.title")
-        self.detailView.descriptionView.text = title
+        if !webView.loading {
+            let title = webView.stringByEvaluatingJavaScriptFromString("document.title")
+            self.detailView.descriptionView.text = title
         
-        webView.frame = view.bounds
-        UIGraphicsBeginImageContext(webView.bounds.size)
-        webView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext();
+            webView.frame = view.bounds
+            UIGraphicsBeginImageContext(webView.bounds.size)
+            webView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+            let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext();
         
-        self.imageCardView.image = image
+            self.imageCardView.image = image
+        }
     }
 }
 

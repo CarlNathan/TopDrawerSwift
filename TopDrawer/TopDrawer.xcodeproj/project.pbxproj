@@ -92,6 +92,9 @@
 		EDED75D51CC136680071A36F /* FriendsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D41CC136680071A36F /* FriendsTableView.swift */; };
 		EDED75D71CC15ED10071A36F /* NewTopicEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */; };
 		EDED75DE1CC2AB240071A36F /* TextEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */; };
+		EDF90A251D4A652F00005A31 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF90A241D4A652F00005A31 /* ShareViewController.swift */; };
+		EDF90A281D4A652F00005A31 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDF90A261D4A652F00005A31 /* MainInterface.storyboard */; };
+		EDF90A2C1D4A652F00005A31 /* SendToTopDrawer.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EDF90A221D4A652F00005A31 /* SendToTopDrawer.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EDFE6A6B1CD304B500D997F9 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6A6A1CD304B500D997F9 /* OnboardingPageViewController.swift */; };
 		EDFE6A6D1CD3050F00D997F9 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6A6C1CD3050F00D997F9 /* OnBoardingViewController.swift */; };
 		EDFE6AAC1CE0F9A700D997F9 /* CloudKitServices + Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6AAB1CE0F9A600D997F9 /* CloudKitServices + Graph.swift */; };
@@ -121,6 +124,13 @@
 			remoteGlobalIDString = EDAC5DB51C7BC7CC00C0C306;
 			remoteInfo = TopDrawerActionExtension;
 		};
+		EDF90A2A1D4A652F00005A31 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDAC5D701C7B83A900C0C306 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDF90A211D4A652F00005A31;
+			remoteInfo = SendToTopDrawer;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -130,6 +140,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				EDF90A2C1D4A652F00005A31 /* SendToTopDrawer.appex in Embed App Extensions */,
 				EDAC5DC01C7BC7CC00C0C306 /* TopDrawerActionExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -235,6 +246,10 @@
 		EDED75D41CC136680071A36F /* FriendsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableView.swift; sourceTree = "<group>"; };
 		EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicEntryTableViewController.swift; sourceTree = "<group>"; };
 		EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEntryViewController.swift; sourceTree = "<group>"; };
+		EDF90A221D4A652F00005A31 /* SendToTopDrawer.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SendToTopDrawer.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDF90A241D4A652F00005A31 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		EDF90A271D4A652F00005A31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		EDF90A291D4A652F00005A31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EDFE6A6A1CD304B500D997F9 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		EDFE6A6C1CD3050F00D997F9 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		EDFE6AAB1CE0F9A600D997F9 /* CloudKitServices + Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CloudKitServices + Graph.swift"; sourceTree = "<group>"; };
@@ -273,6 +288,13 @@
 			files = (
 				EDAC5DC81C7CC56700C0C306 /* CloudKit.framework in Frameworks */,
 				ED01CAE61CAA0FDA0086F669 /* Material.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDF90A1F1D4A652F00005A31 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +468,7 @@
 				EDAC5D9A1C7B83AA00C0C306 /* TopDrawerUITests */,
 				EDAC5DB71C7BC7CC00C0C306 /* TopDrawerActionExtension */,
 				ED5EBEBE1C84ED52009951BB /* TestShareExtension */,
+				EDF90A231D4A652F00005A31 /* SendToTopDrawer */,
 				EDAC5D791C7B83A900C0C306 /* Products */,
 				413A104654B610A6A25FACCC /* Pods */,
 				AC793B6FAB405FAB4BA72193 /* Frameworks */,
@@ -459,6 +482,7 @@
 				EDAC5D8C1C7B83AA00C0C306 /* TopDrawerTests.xctest */,
 				EDAC5D971C7B83AA00C0C306 /* TopDrawerUITests.xctest */,
 				EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */,
+				EDF90A221D4A652F00005A31 /* SendToTopDrawer.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -611,6 +635,16 @@
 			name = PopupTableViews;
 			sourceTree = "<group>";
 		};
+		EDF90A231D4A652F00005A31 /* SendToTopDrawer */ = {
+			isa = PBXGroup;
+			children = (
+				EDF90A241D4A652F00005A31 /* ShareViewController.swift */,
+				EDF90A261D4A652F00005A31 /* MainInterface.storyboard */,
+				EDF90A291D4A652F00005A31 /* Info.plist */,
+			);
+			path = SendToTopDrawer;
+			sourceTree = "<group>";
+		};
 		EDFE6A691CD3045A00D997F9 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -639,6 +673,7 @@
 			);
 			dependencies = (
 				EDAC5DBF1C7BC7CC00C0C306 /* PBXTargetDependency */,
+				EDF90A2B1D4A652F00005A31 /* PBXTargetDependency */,
 			);
 			name = TopDrawer;
 			productName = TopDrawer;
@@ -698,6 +733,23 @@
 			productReference = EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		EDF90A211D4A652F00005A31 /* SendToTopDrawer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDF90A2D1D4A652F00005A31 /* Build configuration list for PBXNativeTarget "SendToTopDrawer" */;
+			buildPhases = (
+				EDF90A1E1D4A652F00005A31 /* Sources */,
+				EDF90A1F1D4A652F00005A31 /* Frameworks */,
+				EDF90A201D4A652F00005A31 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SendToTopDrawer;
+			productName = SendToTopDrawer;
+			productReference = EDF90A221D4A652F00005A31 /* SendToTopDrawer.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -746,6 +798,10 @@
 							};
 						};
 					};
+					EDF90A211D4A652F00005A31 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 95ZRVL9PPJ;
+					};
 				};
 			};
 			buildConfigurationList = EDAC5D731C7B83A900C0C306 /* Build configuration list for PBXProject "TopDrawer" */;
@@ -765,6 +821,7 @@
 				EDAC5D8B1C7B83AA00C0C306 /* TopDrawerTests */,
 				EDAC5D961C7B83AA00C0C306 /* TopDrawerUITests */,
 				EDAC5DB51C7BC7CC00C0C306 /* TopDrawerActionExtension */,
+				EDF90A211D4A652F00005A31 /* SendToTopDrawer */,
 			);
 		};
 /* End PBXProject section */
@@ -803,6 +860,14 @@
 				ED01502B1C8B4BB100CF0978 /* Assets.xcassets in Resources */,
 				EDAC5DC71C7BDC3900C0C306 /* getURLinfo.js in Resources */,
 				EDED75C41CB32C350071A36F /* App downloads (2).png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDF90A201D4A652F00005A31 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDF90A281D4A652F00005A31 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,6 +1027,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EDF90A1E1D4A652F00005A31 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDF90A251D4A652F00005A31 /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -979,6 +1052,11 @@
 			isa = PBXTargetDependency;
 			target = EDAC5DB51C7BC7CC00C0C306 /* TopDrawerActionExtension */;
 			targetProxy = EDAC5DBE1C7BC7CC00C0C306 /* PBXContainerItemProxy */;
+		};
+		EDF90A2B1D4A652F00005A31 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDF90A211D4A652F00005A31 /* SendToTopDrawer */;
+			targetProxy = EDF90A2A1D4A652F00005A31 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1011,6 +1089,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				EDAC5DBB1C7BC7CC00C0C306 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		EDF90A261D4A652F00005A31 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDF90A271D4A652F00005A31 /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -1108,7 +1194,7 @@
 				CODE_SIGN_ENTITLEMENTS = TopDrawer/TopDrawer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Release-iphoneos",
@@ -1131,7 +1217,7 @@
 				CODE_SIGN_ENTITLEMENTS = TopDrawer/TopDrawer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Release-iphoneos",
@@ -1234,6 +1320,36 @@
 			};
 			name = Release;
 		};
+		EDF90A2E1D4A652F00005A31 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = SendToTopDrawer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.SendToTopDrawer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		EDF90A2F1D4A652F00005A31 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = SendToTopDrawer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.SendToTopDrawer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1281,6 +1397,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		EDF90A2D1D4A652F00005A31 /* Build configuration list for PBXNativeTarget "SendToTopDrawer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDF90A2E1D4A652F00005A31 /* Debug */,
+				EDF90A2F1D4A652F00005A31 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
