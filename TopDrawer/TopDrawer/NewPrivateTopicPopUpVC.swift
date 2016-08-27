@@ -12,7 +12,7 @@ import UIKit
 
 class NewPrivateTopicPopupVC: UIViewController {
     //
-    var nameField = TextField()
+    var text: String = ""
     var cardView: CardView!
     let saveButton: FlatButton = FlatButton()
     lazy var animator: UIDynamicAnimator = {
@@ -44,7 +44,6 @@ class NewPrivateTopicPopupVC: UIViewController {
     }
     
     override func viewDidLoad() {
-        prepareNameField()
         prepareCardView()
         setupCardViewSnapBehavior()
         
@@ -64,10 +63,6 @@ class NewPrivateTopicPopupVC: UIViewController {
         UIView.animateWithDuration(0.2) {
             self.cardView.frame = CGRectMake(0, 400, 0, 0)
         }
-    }
-    
-    func prepareNameField() {
-        nameField.placeholder = "Name"
     }
     
     func prepareCardView() {
@@ -116,9 +111,8 @@ class NewPrivateTopicPopupVC: UIViewController {
     
     
     func saveButtonPressed(sender: AnyObject) {
-        if nameField.text != nil {
-            nameField.resignFirstResponder()
-            let topic = Topic(name: nameField.text, users: nil, recordID: nil)
+        if text != "" {
+            let topic = Topic(name: text, users: nil, recordID: nil)
             SavingInterface.sharedInstance.createNewPrivateTopic(topic)
             self.dismissViewControllerAnimated(true, completion: nil)
             
@@ -127,12 +121,10 @@ class NewPrivateTopicPopupVC: UIViewController {
     }
     
     func cancelWasPressed(sender: AnyObject) {
-        nameField.resignFirstResponder()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        nameField.resignFirstResponder()
     }
     
     func setupCardViewSnapBehavior(){
@@ -171,7 +163,8 @@ class NewPrivateTopicPopupVC: UIViewController {
 
 extension NewPrivateTopicPopupVC: TextEntryViewDelegate {
     func textDidChange(text: String) {
-        if text == "" {
+        self.text = text
+        if self.text == "" {
             saveButton.enabled = false
         } else {
             saveButton.enabled = true

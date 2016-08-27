@@ -10,21 +10,11 @@ import Foundation
 import UIKit
 import Material
 
-protocol CustomNavSearchDelegate{
-    
-}
-
-protocol CustomNavigationDelegate{
-    
-}
-
 class NavView: MaterialView {
     
     let leftButton = FlatButton()
     let rightButton = FabButton()
     let logo = UIImageView()
-    var searchDelegate: CustomNavSearchDelegate?
-    var navDelegate: CustomNavigationDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

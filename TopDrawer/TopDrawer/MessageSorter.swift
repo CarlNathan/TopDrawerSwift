@@ -55,7 +55,7 @@ class MessageSorter: NSObject {
     }
     
     class func getNilTopicMarker() -> TopicMarker {
-        let nilPage = Page(name: nil, description: nil, URLString: nil, image: nil, date: nil, recordID: "nil", modifiedDate: NSDate(timeIntervalSince1970: NSTimeInterval(0)), isPublic: true, topics: nil)
+        let nilPage = Page(name: nil, description: nil, URLString: nil, image: nil, date: nil, recordID: "nil", modifiedDate: NSDate(timeIntervalSince1970: NSTimeInterval(0)), isPublic: true, topics: nil, hostName: nil)
         let marker = TopicMarker(page: nilPage.pageID, date: NSDate(), topic: "nil")
         return marker
     }

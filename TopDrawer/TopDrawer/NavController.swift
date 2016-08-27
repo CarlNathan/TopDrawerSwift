@@ -10,12 +10,27 @@ import Foundation
 import UIKit
 import Material
 
+protocol CustomNavControllerSearchDelegate {
+    func searchInputDidChange(text: String)
+    func searchDidBecomeActive()
+    func searchDidBecomeInactive()
+}
+
 class CustomNavController: UINavigationController {
     
     let navView = NavView(frame: CGRect.zero)
     var searchView: SearchView!
     let newButton = FabButton()
-    var searchEnabled: Bool = false
+    var searchEnabled: Bool = false {
+        didSet {
+            if searchEnabled {
+                searchDelegate?.searchDidBecomeActive()
+            } else {
+                searchDelegate?.searchDidBecomeInactive()
+            }
+        }
+    }
+    var searchDelegate: CustomNavControllerSearchDelegate?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -87,7 +102,7 @@ class CustomNavController: UINavigationController {
 
 extension CustomNavController: SearchViewDelegate {
     func searchInputDidChange(text: String) {
-        //perform search
+        searchDelegate?.searchInputDidChange(text)
     }
     
     func searchButtonPressed() {

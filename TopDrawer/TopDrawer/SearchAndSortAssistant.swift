@@ -24,10 +24,16 @@ class SearchAndSortAssistant {
     func searchPage(term: String, pages: [Page]) -> [Page] {
         var matches = [Page]()
         for page in pages {
-            if page.name!.containsString(term) {
+            if page.name!.lowercaseString.containsString(term.lowercaseString) {
                 matches.append(page)
-            } else if  page.description!.containsString(term) {
-                matches.append(page)
+            } else if let desc = page.description?.lowercaseString {
+                if desc.containsString(term.lowercaseString) {
+                    matches.append(page)
+                }
+            } else if let host = page.hostName?.lowercaseString {
+                if host.containsString(term.lowercaseString) {
+                    matches.append(page)
+                }
             }
         }
         return matches
@@ -87,7 +93,7 @@ class SearchAndSortAssistant {
     func searchTopics(term: String, topics: [Topic]) -> [Topic] {
         var matches = [Topic]()
         for topic in topics {
-            if topic.name!.containsString(term) {
+            if topic.name!.lowercaseString.containsString(term.lowercaseString) {
                 matches.append(topic)
             }
         }

@@ -17,11 +17,7 @@ class DataCoordinatorInterface {
     private let remoteDelete: TopDrawerRemoteDeletingService = CloudKitDeletingService()
     private let permissionSubscription: TopDrawerPermissionSubscriptionService = CloudKitPermissionsSubscriptionsService()
     
-    var user: PersistedUser? {
-        didSet {
-            fetch.setUser(self.user)
-        }
-    }
+    var user: PersistedUser?
     private let userManager: PersistedUserManagerProtocol = PersistedUserManager()
 
     func updateUser(user: PersistedUser) {

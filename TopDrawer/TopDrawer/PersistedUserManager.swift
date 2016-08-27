@@ -32,6 +32,7 @@ class PersistedUserManager: PersistedUserManagerProtocol {
         userDictionary[privateTopicsUpdated] = userObject.privateTopicsUpdated
         userDictionary[messagesUpdated] = userObject.messageUpdated
         userDictionary[topicMarkersUpdated] = userObject.topicMarkersUpdated
+        userDictionary[PermissionsGranted] = userObject.permissionsGranted
         
         userDefaults.setObject(userDictionary, forKey: lastUser)
         

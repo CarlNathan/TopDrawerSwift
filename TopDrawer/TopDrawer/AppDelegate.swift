@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataCoordinatorInterface.sharedInstance.signIn({
             DataCoordinatorInterface.sharedInstance.startupSequence()
             dispatch_async(dispatch_get_main_queue(), {
-
+                PushInterface.sharedInstance.createPrivateSubscriptions()
             })
             }) {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -40,11 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 })
         }
         
-        /* Notifications -- not needed for private pages
+        //Notifications -- For syncing on multiple devices
         let notificationSettings = UIUserNotificationSettings.init(forTypes: UIUserNotificationType.Alert, categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
         application.registerForRemoteNotifications()
-         */
+    
         self.window?.makeKeyAndVisible()
         return true
     }
@@ -74,9 +74,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         
+        PushInterface.sharedInstance.recievePrivatePush(userInfo as! [String: NSObject])
         
     }
-    
     
 }
 

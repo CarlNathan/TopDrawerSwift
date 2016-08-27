@@ -74,6 +74,11 @@
 		EDADFF211C8674AB0055867E /* TopicMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDADFF201C8674AB0055867E /* TopicMarker.swift */; };
 		EDADFF251C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDADFF241C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift */; };
 		EDADFF271C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDADFF261C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift */; };
+		EDB102801D6FA68F00B4BE92 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1027F1D6FA68F00B4BE92 /* ShareViewController.swift */; };
+		EDB102831D6FA68F00B4BE92 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDB102811D6FA68F00B4BE92 /* MainInterface.storyboard */; };
+		EDB102871D6FA68F00B4BE92 /* Send To TopDrawer.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EDB1027D1D6FA68F00B4BE92 /* Send To TopDrawer.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EDB1028C1D6FA7FB00B4BE92 /* SendToTopDrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1028B1D6FA7FB00B4BE92 /* SendToTopDrawerViewController.swift */; };
+		EDB1028E1D6FD74400B4BE92 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDAC5DAA1C7B96B200C0C306 /* CloudKit.framework */; };
 		EDB14BF01D41C24200375098 /* PageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB14BEF1D41C24200375098 /* PageCollectionViewCell.swift */; };
 		EDBDDBCE1D0B19CC00F11E17 /* PageLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBCD1D0B19CC00F11E17 /* PageLabelView.swift */; };
 		EDBDDBD11D0B3CAE00F11E17 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBD01D0B3CAE00F11E17 /* NavController.swift */; };
@@ -92,9 +97,6 @@
 		EDED75D51CC136680071A36F /* FriendsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D41CC136680071A36F /* FriendsTableView.swift */; };
 		EDED75D71CC15ED10071A36F /* NewTopicEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */; };
 		EDED75DE1CC2AB240071A36F /* TextEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */; };
-		EDF90A251D4A652F00005A31 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF90A241D4A652F00005A31 /* ShareViewController.swift */; };
-		EDF90A281D4A652F00005A31 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDF90A261D4A652F00005A31 /* MainInterface.storyboard */; };
-		EDF90A2C1D4A652F00005A31 /* SendToTopDrawer.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EDF90A221D4A652F00005A31 /* SendToTopDrawer.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EDFE6A6B1CD304B500D997F9 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6A6A1CD304B500D997F9 /* OnboardingPageViewController.swift */; };
 		EDFE6A6D1CD3050F00D997F9 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6A6C1CD3050F00D997F9 /* OnBoardingViewController.swift */; };
 		EDFE6AAC1CE0F9A700D997F9 /* CloudKitServices + Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6AAB1CE0F9A600D997F9 /* CloudKitServices + Graph.swift */; };
@@ -124,12 +126,12 @@
 			remoteGlobalIDString = EDAC5DB51C7BC7CC00C0C306;
 			remoteInfo = TopDrawerActionExtension;
 		};
-		EDF90A2A1D4A652F00005A31 /* PBXContainerItemProxy */ = {
+		EDB102851D6FA68F00B4BE92 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EDAC5D701C7B83A900C0C306 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = EDF90A211D4A652F00005A31;
-			remoteInfo = SendToTopDrawer;
+			remoteGlobalIDString = EDB1027C1D6FA68F00B4BE92;
+			remoteInfo = "Send To Top Drawer";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -140,7 +142,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				EDF90A2C1D4A652F00005A31 /* SendToTopDrawer.appex in Embed App Extensions */,
+				EDB102871D6FA68F00B4BE92 /* Send To TopDrawer.appex in Embed App Extensions */,
 				EDAC5DC01C7BC7CC00C0C306 /* TopDrawerActionExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -191,9 +193,6 @@
 		ED5EBEAD1C823626009951BB /* SharedTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTopicTableViewCell.swift; sourceTree = "<group>"; };
 		ED5EBEAF1C823F56009951BB /* TopicTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicTabBarController.swift; sourceTree = "<group>"; };
 		ED5EBEB11C82B0B6009951BB /* SharedPageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedPageCollectionViewCell.swift; sourceTree = "<group>"; };
-		ED5EBEBF1C84ED52009951BB /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		ED5EBEC21C84ED52009951BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		ED5EBEC41C84ED52009951BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED73EF081CA9A46600331CC2 /* Material.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Material.framework; path = "Pods/../build/Release-iphoneos/Material.framework"; sourceTree = "<group>"; };
 		ED9144231CA9DB3500AC3122 /* CustomTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		EDAC5D781C7B83A900C0C306 /* TopDrawer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopDrawer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -228,6 +227,12 @@
 		EDADFF201C8674AB0055867E /* TopicMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarker.swift; sourceTree = "<group>"; };
 		EDADFF241C867D6A0055867E /* TopicMarkerSelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarkerSelectionTableViewController.swift; sourceTree = "<group>"; };
 		EDADFF261C8680C00055867E /* TopicMarkerSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicMarkerSelectionTableViewCell.swift; sourceTree = "<group>"; };
+		EDB1027D1D6FA68F00B4BE92 /* Send To TopDrawer.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Send To TopDrawer.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDB1027F1D6FA68F00B4BE92 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		EDB102821D6FA68F00B4BE92 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		EDB102841D6FA68F00B4BE92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDB1028B1D6FA7FB00B4BE92 /* SendToTopDrawerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendToTopDrawerViewController.swift; sourceTree = "<group>"; };
+		EDB1028D1D6FD72700B4BE92 /* Send To TopDrawer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Send To TopDrawer.entitlements"; path = "Send To TopDrawer/Send To TopDrawer.entitlements"; sourceTree = "<group>"; };
 		EDB14BEF1D41C24200375098 /* PageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageCollectionViewCell.swift; sourceTree = "<group>"; };
 		EDBDDBCD1D0B19CC00F11E17 /* PageLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageLabelView.swift; sourceTree = "<group>"; };
 		EDBDDBD01D0B3CAE00F11E17 /* NavController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
@@ -246,10 +251,6 @@
 		EDED75D41CC136680071A36F /* FriendsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableView.swift; sourceTree = "<group>"; };
 		EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTopicEntryTableViewController.swift; sourceTree = "<group>"; };
 		EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEntryViewController.swift; sourceTree = "<group>"; };
-		EDF90A221D4A652F00005A31 /* SendToTopDrawer.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SendToTopDrawer.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		EDF90A241D4A652F00005A31 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		EDF90A271D4A652F00005A31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		EDF90A291D4A652F00005A31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EDFE6A6A1CD304B500D997F9 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		EDFE6A6C1CD3050F00D997F9 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		EDFE6AAB1CE0F9A600D997F9 /* CloudKitServices + Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CloudKitServices + Graph.swift"; sourceTree = "<group>"; };
@@ -291,10 +292,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EDF90A1F1D4A652F00005A31 /* Frameworks */ = {
+		EDB1027A1D6FA68F00B4BE92 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDB1028E1D6FD74400B4BE92 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,16 +441,6 @@
 			name = SearchAndSort;
 			sourceTree = "<group>";
 		};
-		ED5EBEBE1C84ED52009951BB /* TestShareExtension */ = {
-			isa = PBXGroup;
-			children = (
-				ED5EBEBF1C84ED52009951BB /* ShareViewController.swift */,
-				ED5EBEC11C84ED52009951BB /* MainInterface.storyboard */,
-				ED5EBEC41C84ED52009951BB /* Info.plist */,
-			);
-			path = TestShareExtension;
-			sourceTree = "<group>";
-		};
 		ED6A89D91D35357600224041 /* PullDownMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,13 +454,13 @@
 		EDAC5D6F1C7B83A900C0C306 = {
 			isa = PBXGroup;
 			children = (
+				EDB1028D1D6FD72700B4BE92 /* Send To TopDrawer.entitlements */,
 				EDAC5DAA1C7B96B200C0C306 /* CloudKit.framework */,
 				EDAC5D7A1C7B83A900C0C306 /* TopDrawer */,
 				EDAC5D8F1C7B83AA00C0C306 /* TopDrawerTests */,
 				EDAC5D9A1C7B83AA00C0C306 /* TopDrawerUITests */,
 				EDAC5DB71C7BC7CC00C0C306 /* TopDrawerActionExtension */,
-				ED5EBEBE1C84ED52009951BB /* TestShareExtension */,
-				EDF90A231D4A652F00005A31 /* SendToTopDrawer */,
+				EDB1027E1D6FA68F00B4BE92 /* Send To Top Drawer */,
 				EDAC5D791C7B83A900C0C306 /* Products */,
 				413A104654B610A6A25FACCC /* Pods */,
 				AC793B6FAB405FAB4BA72193 /* Frameworks */,
@@ -482,7 +474,7 @@
 				EDAC5D8C1C7B83AA00C0C306 /* TopDrawerTests.xctest */,
 				EDAC5D971C7B83AA00C0C306 /* TopDrawerUITests.xctest */,
 				EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */,
-				EDF90A221D4A652F00005A31 /* SendToTopDrawer.appex */,
+				EDB1027D1D6FA68F00B4BE92 /* Send To TopDrawer.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -590,6 +582,17 @@
 			name = Data;
 			sourceTree = "<group>";
 		};
+		EDB1027E1D6FA68F00B4BE92 /* Send To Top Drawer */ = {
+			isa = PBXGroup;
+			children = (
+				EDB1027F1D6FA68F00B4BE92 /* ShareViewController.swift */,
+				EDB1028B1D6FA7FB00B4BE92 /* SendToTopDrawerViewController.swift */,
+				EDB102811D6FA68F00B4BE92 /* MainInterface.storyboard */,
+				EDB102841D6FA68F00B4BE92 /* Info.plist */,
+			);
+			path = "Send To Top Drawer";
+			sourceTree = "<group>";
+		};
 		EDBDDBCF1D0B3C4F00F11E17 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,16 +638,6 @@
 			name = PopupTableViews;
 			sourceTree = "<group>";
 		};
-		EDF90A231D4A652F00005A31 /* SendToTopDrawer */ = {
-			isa = PBXGroup;
-			children = (
-				EDF90A241D4A652F00005A31 /* ShareViewController.swift */,
-				EDF90A261D4A652F00005A31 /* MainInterface.storyboard */,
-				EDF90A291D4A652F00005A31 /* Info.plist */,
-			);
-			path = SendToTopDrawer;
-			sourceTree = "<group>";
-		};
 		EDFE6A691CD3045A00D997F9 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -673,7 +666,7 @@
 			);
 			dependencies = (
 				EDAC5DBF1C7BC7CC00C0C306 /* PBXTargetDependency */,
-				EDF90A2B1D4A652F00005A31 /* PBXTargetDependency */,
+				EDB102861D6FA68F00B4BE92 /* PBXTargetDependency */,
 			);
 			name = TopDrawer;
 			productName = TopDrawer;
@@ -733,21 +726,21 @@
 			productReference = EDAC5DB61C7BC7CC00C0C306 /* TopDrawerActionExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		EDF90A211D4A652F00005A31 /* SendToTopDrawer */ = {
+		EDB1027C1D6FA68F00B4BE92 /* Send To TopDrawer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EDF90A2D1D4A652F00005A31 /* Build configuration list for PBXNativeTarget "SendToTopDrawer" */;
+			buildConfigurationList = EDB102881D6FA68F00B4BE92 /* Build configuration list for PBXNativeTarget "Send To TopDrawer" */;
 			buildPhases = (
-				EDF90A1E1D4A652F00005A31 /* Sources */,
-				EDF90A1F1D4A652F00005A31 /* Frameworks */,
-				EDF90A201D4A652F00005A31 /* Resources */,
+				EDB102791D6FA68F00B4BE92 /* Sources */,
+				EDB1027A1D6FA68F00B4BE92 /* Frameworks */,
+				EDB1027B1D6FA68F00B4BE92 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = SendToTopDrawer;
-			productName = SendToTopDrawer;
-			productReference = EDF90A221D4A652F00005A31 /* SendToTopDrawer.appex */;
+			name = "Send To TopDrawer";
+			productName = "Send To Top Drawer";
+			productReference = EDB1027D1D6FA68F00B4BE92 /* Send To TopDrawer.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -768,7 +761,7 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.iCloud = {
 								enabled = 1;
@@ -791,16 +784,27 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
 					};
-					EDF90A211D4A652F00005A31 = {
+					EDB1027C1D6FA68F00B4BE92 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 95ZRVL9PPJ;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -821,7 +825,7 @@
 				EDAC5D8B1C7B83AA00C0C306 /* TopDrawerTests */,
 				EDAC5D961C7B83AA00C0C306 /* TopDrawerUITests */,
 				EDAC5DB51C7BC7CC00C0C306 /* TopDrawerActionExtension */,
-				EDF90A211D4A652F00005A31 /* SendToTopDrawer */,
+				EDB1027C1D6FA68F00B4BE92 /* Send To TopDrawer */,
 			);
 		};
 /* End PBXProject section */
@@ -863,11 +867,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EDF90A201D4A652F00005A31 /* Resources */ = {
+		EDB1027B1D6FA68F00B4BE92 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDF90A281D4A652F00005A31 /* MainInterface.storyboard in Resources */,
+				EDB102831D6FA68F00B4BE92 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,11 +1031,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EDF90A1E1D4A652F00005A31 /* Sources */ = {
+		EDB102791D6FA68F00B4BE92 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDF90A251D4A652F00005A31 /* ShareViewController.swift in Sources */,
+				EDB1028C1D6FA7FB00B4BE92 /* SendToTopDrawerViewController.swift in Sources */,
+				EDB102801D6FA68F00B4BE92 /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1053,22 +1058,14 @@
 			target = EDAC5DB51C7BC7CC00C0C306 /* TopDrawerActionExtension */;
 			targetProxy = EDAC5DBE1C7BC7CC00C0C306 /* PBXContainerItemProxy */;
 		};
-		EDF90A2B1D4A652F00005A31 /* PBXTargetDependency */ = {
+		EDB102861D6FA68F00B4BE92 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EDF90A211D4A652F00005A31 /* SendToTopDrawer */;
-			targetProxy = EDF90A2A1D4A652F00005A31 /* PBXContainerItemProxy */;
+			target = EDB1027C1D6FA68F00B4BE92 /* Send To TopDrawer */;
+			targetProxy = EDB102851D6FA68F00B4BE92 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		ED5EBEC11C84ED52009951BB /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ED5EBEC21C84ED52009951BB /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
 		EDAC5D7F1C7B83A900C0C306 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1093,10 +1090,10 @@
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
-		EDF90A261D4A652F00005A31 /* MainInterface.storyboard */ = {
+		EDB102811D6FA68F00B4BE92 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EDF90A271D4A652F00005A31 /* Base */,
+				EDB102821D6FA68F00B4BE92 /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -1320,31 +1317,33 @@
 			};
 			name = Release;
 		};
-		EDF90A2E1D4A652F00005A31 /* Debug */ = {
+		EDB102891D6FA68F00B4BE92 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_ENTITLEMENTS = "Send To TopDrawer/Send To TopDrawer.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = SendToTopDrawer/Info.plist;
+				INFOPLIST_FILE = "Send To Top Drawer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.SendToTopDrawer";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.Send-To-Top-Drawer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
-		EDF90A2F1D4A652F00005A31 /* Release */ = {
+		EDB1028A1D6FA68F00B4BE92 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_ENTITLEMENTS = "Send To TopDrawer/Send To TopDrawer.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = SendToTopDrawer/Info.plist;
+				INFOPLIST_FILE = "Send To Top Drawer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.SendToTopDrawer";
+				PRODUCT_BUNDLE_IDENTIFIER = "Carl-Udren.TopDrawer.Send-To-Top-Drawer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1398,11 +1397,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EDF90A2D1D4A652F00005A31 /* Build configuration list for PBXNativeTarget "SendToTopDrawer" */ = {
+		EDB102881D6FA68F00B4BE92 /* Build configuration list for PBXNativeTarget "Send To TopDrawer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EDF90A2E1D4A652F00005A31 /* Debug */,
-				EDF90A2F1D4A652F00005A31 /* Release */,
+				EDB102891D6FA68F00B4BE92 /* Debug */,
+				EDB1028A1D6FA68F00B4BE92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

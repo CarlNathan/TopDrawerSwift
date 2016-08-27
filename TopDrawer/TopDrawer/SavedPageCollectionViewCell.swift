@@ -20,6 +20,7 @@ class SavedPageCollectionViewCell: MaterialCollectionViewCell {
             imageView.image = page.image
             labelView.dateLabel.text = dateFormatter.stringFromDate(page.date!)
             labelView.page = page
+            
         }
     }
     

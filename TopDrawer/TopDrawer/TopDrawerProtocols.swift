@@ -70,7 +70,6 @@ protocol TopDrawerPersistedDeleteService {
 }
 
 protocol TopDrawerDataCoordinator {
-    func setUser(user: PersistedUser?)
     func getCurrentUserID (completion: (String)->Void, failed: ()->Void)
     func updateUserDisplayData(image: UIImage, displayName: String)
     func findFriends(completionHandler: () -> Void)
@@ -86,4 +85,6 @@ protocol TopDrawerPermissionSubscriptionService {
     func createRemoteTopicSubscription(user: PersistedUser)
     func createSubscriptionsForTopicItems(topicID: String)
     func recievePushNotification(pushInfo: [String:NSObject], completion: ()->Void)
+    func createPrivateSubscriptions()
+    func recievePrivatePush(pushInfo: [String:NSObject], completion: ()->Void)
 }

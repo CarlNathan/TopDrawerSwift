@@ -36,6 +36,7 @@ class GraphSaveServices: TopDrawerPersistedSavingAssistant {
             newTopic["name"] = topic.name
             newTopic["recordID"] = topic.recordID
             graph.save()
+            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "ReloadData", object: nil))
         }
     }
     

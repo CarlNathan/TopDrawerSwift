@@ -30,6 +30,10 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
             }
         }
     }
+    var previousTopicPages: [Page] = [Page]()
+    var topic: String = "Recently Added"
+    var searchEnabled: Bool = false
+    var searchTerm: String = ""
     var tabView: PullTabView?
     let emptyView = EmptyPageView()
     
@@ -39,8 +43,9 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         //setupLongPressRecognizer()
         setupEmptyView()
         setupTabView()
+        findCustomNav()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(getPages), name: "ReloadData", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadData), name: "ReloadData", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(launchNewTopic), name: "NewTopicPressed", object: nil)
         
         // Do any additional setup after loading the view.
@@ -51,8 +56,54 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         NewPrivateTopicPopupVC.presentPopupCV(self)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        //
+    override func viewWillAppear(animated: Bool) {
+        DataSource.sharedInstance.getPrivatePages { (_) in
+            self.reloadData()
+        }
+    }
+    
+    func reloadData() {
+        if topic == "Recently Added" {
+            DataSource.sharedInstance.getPrivatePages({ (fetchedPages) in
+                let sort = SearchAndSortAssistant()
+                if self.searchEnabled {
+                    self.previousTopicPages = sort.sortPages(SortType.DateNewToOld, pages: sort.filterRecentPages(fetchedPages))
+                    self.pages = sort.sortPages(SortType.DateNewToOld, pages: sort.searchPage(self.searchTerm, pages: self.previousTopicPages))
+                } else {
+                    self.pages = sort.sortPages(SortType.DateNewToOld, pages: sort.filterRecentPages(fetchedPages))
+                }
+            })
+        } else if topic == "All Pages" {
+            DataSource.sharedInstance.getPrivatePages({ (fetchedPages) in
+                if self.searchEnabled {
+                    let sort = SearchAndSortAssistant()
+                    self.previousTopicPages = sort.sortPages(SortType.DateNewToOld, pages: fetchedPages)
+                    self.pages = sort.sortPages(SortType.DateNewToOld, pages: sort.searchPage(self.searchTerm, pages: self.previousTopicPages))
+                } else {
+                    self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
+                }
+            })
+        } else if topic == "Uncatagorized" {
+            DataSource.sharedInstance.getPrivatePages({ (fetchedPages) in
+                let sort = SearchAndSortAssistant()
+                if self.searchEnabled {
+                    self.previousTopicPages = sort.sortPages(SortType.DateNewToOld, pages: sort.filterUncatagorizedPages(fetchedPages))
+                    self.pages = sort.sortPages(SortType.DateNewToOld, pages: sort.searchPage(self.searchTerm, pages: self.previousTopicPages))
+                } else {
+                    self.pages = sort.sortPages(SortType.DateNewToOld, pages: sort.filterUncatagorizedPages(fetchedPages))
+                }
+            })
+        } else {
+            DataSource.sharedInstance.getPagesForTopic(topic, completion: { (fetchedPages) in
+                if self.searchEnabled {
+                    let sort = SearchAndSortAssistant()
+                    self.previousTopicPages = sort.sortPages(SortType.DateNewToOld, pages: fetchedPages)
+                    self.pages = sort.sortPages(SortType.DateNewToOld, pages: sort.searchPage(self.searchTerm, pages: self.previousTopicPages))
+                } else {
+                    self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
+                }
+            })
+        }
     }
     
     func setupTabView() {
@@ -79,8 +130,11 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         view.addSubview(emptyView)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        getPages()
+    func findCustomNav() {
+        let nav = navigationController as? CustomNavController
+        if let n = nav {
+            n.searchDelegate = self
+        }
     }
     
     func getPages() {
@@ -129,7 +183,7 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         
         if collectionView == self.collectionView {
             let width = collectionView.bounds.width
-            let height = CGFloat(130.0)
+            let height = CGFloat(120.0)
             return CGSizeMake(width, height)
         } else {
             return CGSize(width: collectionView.bounds.width, height: 40)
@@ -147,27 +201,19 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
             presentViewController(sfc, animated: true, completion: nil)
         } else {
             if indexPath.row == 0 {
-                DataSource.sharedInstance.getPrivatePages({ (fetchedPages) in
-                    self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
-                    self.didSelectTopic("All Pages")
-                })
+                topic = "All Pages"
+                reloadData()
             } else if indexPath.row == 1 {
-                DataSource.sharedInstance.getPrivatePages({ (fetchedPages) in
-                    self.pages = SearchAndSortAssistant().filterRecentPages(fetchedPages)
-                    self.didSelectTopic("Recently Added")
-                })
+                topic = "Recently Added"
+                reloadData()
             } else if indexPath.row == 2 {
-                DataSource.sharedInstance.getPrivatePages({ (fetchedPages) in
-                    self.pages = SearchAndSortAssistant().filterUncatagorizedPages(fetchedPages)
-                        self.didSelectTopic("Uncatagorized")
-                })
+                topic = "Uncatagorized"
+                reloadData()
             } else {
                 let data = collectionView.dataSource as! PagesPullTabDataSource
                 let topic = data.topics[indexPath.row - 3]
-                DataSource.sharedInstance.getPagesForTopic(topic.recordID!, completion: { (fetchedPages) in
-                    self.pages = SearchAndSortAssistant().sortPages(SortType.DateNewToOld, pages: fetchedPages)
-                    self.didSelectTopic(topic.name ?? "")
-                })
+                self.topic = topic.recordID!
+                reloadData()
             }
         }
     }
@@ -279,3 +325,23 @@ extension SavedPagesCollectionViewController: PageCollectionViewCellDelegate {
     }
 }
 
+extension SavedPagesCollectionViewController: CustomNavControllerSearchDelegate {
+    func searchInputDidChange(text: String) {
+        searchTerm = text
+        if text == "" {
+            pages = previousTopicPages
+        } else {
+            let sort = SearchAndSortAssistant()
+            self.pages = sort.sortPages(SortType.DateNewToOld, pages: sort.searchPage(text, pages: previousTopicPages))
+        }
+    }
+    func searchDidBecomeActive() {
+        previousTopicPages = pages
+        searchEnabled = true
+    }
+    func searchDidBecomeInactive() {
+        pages = previousTopicPages
+        searchEnabled = false
+        searchTerm = ""
+    }
+}

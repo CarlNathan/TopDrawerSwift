@@ -13,11 +13,10 @@ import Graph
 
 class CloudKitGraphCoordinator: CloudKitAbstract, TopDrawerDataCoordinator {
     
-    private var user: PersistedUser?
-    
-    func setUser(user: PersistedUser?) {
-        self.user = user
+    private var user: PersistedUser? {
+        return PersistedUserManager().fetchLastUser()
     }
+    
     
     // MARK: Properties
     
@@ -217,7 +216,7 @@ extension CloudKitGraphCoordinator {
                     }
                 }
                 self.graph.save()
-                completion()
+                self.newDataNotification()                
             }
         }
 
@@ -269,7 +268,7 @@ extension CloudKitGraphCoordinator {
     
     func fetchPrivatePages(completion: (PersistedUser) -> Void) {
         
-        let lastUpdate = user!.privatePagesUpdated
+        let lastUpdate = user?.privatePagesUpdated ?? NSDate.init(timeIntervalSinceReferenceDate: 0)
         let predicate = NSPredicate(format:"(modificationDate > %@)", lastUpdate)
         performPrivateQuerry(RecordType.Page, predicate: predicate, sortDescriptors: nil) { (records) in
             if let pages = records {
@@ -282,13 +281,13 @@ extension CloudKitGraphCoordinator {
                     
                     let newPage = Entity(type: EntityType.PrivatePage.rawValue)
                     newPage["name"] = page["name"] as? String
-                    newPage["description"] = page["description"] as? String
                     newPage["date"] = page["date"] as? NSDate
                     newPage ["URLString"] = page["URLString"] as? String
                     newPage["image"] = image
                     newPage["recordID"] = page.recordID.recordName
                     newPage["modificationDate"] = page.modificationDate
                     newPage["isPublic"] = false
+                    newPage["hostName"] = page["hostName"] as? String
                     let refs = page["topic"] as? [CKReference]
                     var topicStrings = [String]()
                     if let topics = refs {

@@ -60,9 +60,10 @@ class PageCollectionViewCell: UICollectionViewCell {
     func configureCell(page: Page) {
         backgroundColor = MaterialColor.grey.lighten3
         self.page = page
-        imageView.image = page.image ?? UIImage(named: "cm_image_white")
+        imageView.image = page.image ?? UIImage(named: "Placeholder")
         dateLabel.text = dateFormatter.stringFromDate(page.date!)
         titleLabel.text = page.name
+        hostLabel.text = page.hostName ?? ""
         layoutSubviews()
     }
     
@@ -108,19 +109,22 @@ class PageCollectionViewCell: UICollectionViewCell {
     }
     
     func setupDeleteButton() {
-        deleteButton.backgroundColor = MaterialColor.red.base
+        deleteButton.tintColor = MaterialColor.red.base
+        deleteButton.setImage(UIImage(named: "Delete Filled-100")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         deleteButton.addTarget(self, action: #selector(deleteButtonPressed), forControlEvents: .TouchUpInside)
         addSubview(deleteButton)
     }
     
     func setupShareButton() {
-        shareButton.backgroundColor = MaterialColor.blue.base
+        shareButton.tintColor = MaterialColor.blue.base
+        shareButton.setImage(UIImage(named: "Share Filled-100")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         shareButton.addTarget(self, action: #selector(shareButtonPressed), forControlEvents: .TouchUpInside)
         addSubview(shareButton)
     }
     
     func setupTopicButton() {
-        topicButton.backgroundColor = MaterialColor.orange.base
+        topicButton.tintColor = MaterialColor.amber.base
+         topicButton.setImage(UIImage(named: "Filing Cabinet Filled-100")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         topicButton.addTarget(self, action: #selector(topicButtonPressed), forControlEvents: .TouchUpInside)
         addSubview(topicButton)
     }
@@ -141,20 +145,20 @@ class PageCollectionViewCell: UICollectionViewCell {
     }
     
     func layoutDateLabel() {
-        dateLabel.frame = CGRect(x: imageView.frame.maxX + 20, y: 10, width: bounds.width - imageView.frame.maxX, height: 10)
+        dateLabel.frame = CGRect(x: imageView.frame.maxX + 10, y: 10, width: bounds.width - imageView.frame.maxX, height: 10)
     }
     
     func layoutTitleLabel() {
-        titleLabel.frame = CGRect(x: imageView.frame.maxX + 20, y: dateLabel.frame.maxY + 5, width: bounds.width - imageView.frame.maxX - 40, height: 35)
+        titleLabel.frame = CGRect(x: imageView.frame.maxX + 10, y: dateLabel.frame.maxY + 5, width: bounds.width - imageView.frame.maxX - 40, height: 35)
         //titleLabel.sizeToFit()
     }
     
     func layoutHostLabel() {
-        hostLabel.frame = CGRect(x: imageView.frame.maxX + 20, y: titleLabel.frame.maxY + 5, width: bounds.width - imageView.frame.maxX, height: 10)
+        hostLabel.frame = CGRect(x: imageView.frame.maxX + 10, y: titleLabel.frame.maxY + 5, width: bounds.width - imageView.frame.maxX, height: 10)
     }
     
     func layoutDeleteButton() {
-        deleteButton.frame = CGRect(x: imageView.frame.maxX + 20, y: hostLabel.frame.maxY + 10, width: ((bounds.width - imageView.frame.maxX - 60) / 3), height: 30)
+        deleteButton.frame = CGRect(x: imageView.frame.maxX + 10, y: hostLabel.frame.maxY + 10, width: ((bounds.width - imageView.frame.maxX - 60) / 3), height: 30)
     }
     
     func layoutShareButton() {

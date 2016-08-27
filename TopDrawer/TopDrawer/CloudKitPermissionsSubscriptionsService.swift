@@ -96,6 +96,20 @@ class CloudKitPermissionsSubscriptionsService: CloudKitAbstract, TopDrawerPermis
         }
     }
     
+    private func createPrivatePushSubscription(recordType: RecordType, predicate: NSPredicate, notificationInfo: CKNotificationInfo, completion: (CKSubscription?)->Void){
+        let DB = CKContainer.defaultContainer().privateCloudDatabase
+        let subscription = CKSubscription(recordType: recordType.rawValue, predicate: predicate, options: .FiresOnRecordCreation)
+        subscription.notificationInfo = notificationInfo
+        DB.saveSubscription(subscription) { (savedSubscription, error) in
+            if let e = error {
+                self.provideErrorMessage(e)
+            } else {
+                completion(savedSubscription)
+            }
+        }
+    }
+
+    
     //MARK: recievePush 
     
     func recievePushNotification(pushInfo: [String:NSObject], completion: ()->Void) {
@@ -138,6 +152,60 @@ class CloudKitPermissionsSubscriptionsService: CloudKitAbstract, TopDrawerPermis
                 }
             }
         }
+    }
+    
+    func createPrivateSubscriptions() {
+        let pageNotificationInfo = CKNotificationInfo()
+        pageNotificationInfo.shouldBadge = false
+        pageNotificationInfo.shouldSendContentAvailable = true
+        pageNotificationInfo.alertBody = "New Private Page"
+        let pagePred = NSPredicate(value: true)
+        
+        let topicNotificationInfo = CKNotificationInfo()
+        topicNotificationInfo.shouldBadge = false
+        topicNotificationInfo.shouldSendContentAvailable = true
+        topicNotificationInfo.alertBody = "New Private Topic"
+        let topicPred = NSPredicate(value: true)
+        
+        createPrivatePushSubscription(RecordType.Page, predicate: pagePred, notificationInfo: pageNotificationInfo) { (sub) in
+            //do something to confirm
+        }
+        createPrivatePushSubscription(RecordType.PrivateTopic, predicate: topicPred, notificationInfo: topicNotificationInfo) { (sub) in
+            //do something to confirm
+        }
+
+        
+    }
+    func recievePrivatePush(pushInfo: [String:NSObject], completion: ()->Void) {
+        let notification = CKNotification(fromRemoteNotificationDictionary: pushInfo)
+        let alertBody = notification.alertBody
+        
+        print(alertBody)
+        if let queryNotification = notification as? CKQueryNotification {
+            let recordID = queryNotification.recordID
+            guard let body = queryNotification.alertBody else {
+                return
+            }
+            
+            if let ID = recordID {
+                switch body {
+                case "New Private Topic":
+                    DataCoordinatorInterface.sharedInstance.getPrivateTopics({
+                        completion()
+                    })
+                    break
+                case "New Private Page":
+                    DataCoordinatorInterface.sharedInstance.fetchPrivatePages({ (user) in
+                        DataCoordinatorInterface.sharedInstance.updateUser(user)
+                        completion()
+                    })
+                    break
+                default:
+                    return
+                }
+            }
+        }
+
     }
     
 }

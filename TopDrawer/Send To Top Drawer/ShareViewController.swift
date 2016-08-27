@@ -1,8 +1,8 @@
 //
 //  ShareViewController.swift
-//  SendToTopDrawer
+//  Send To Top Drawer
 //
-//  Created by Carl Udren on 7/28/16.
+//  Created by Carl Udren on 8/25/16.
 //  Copyright © 2016 Carl Udren. All rights reserved.
 //
 
@@ -10,18 +10,7 @@ import UIKit
 import Social
 
 class ShareViewController: SLComposeServiceViewController {
-    
-    var urlString: String?
-    var titleString: String?
-    var descriptionString: String?
-    var image: UIImage?
-    var hostName: String?
-    
-    override func viewDidLoad() {
-        
-    }
-    
-    
+
     override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
         return true

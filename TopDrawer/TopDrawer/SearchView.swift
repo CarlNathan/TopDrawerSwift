@@ -124,7 +124,10 @@ class SearchView: UIView {
 
 extension SearchView: UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        delegate.searchInputDidChange(string)
+        if let swRange = textField.text?.rangeFromNSRange(range) {
+            let newString = textField.text!.stringByReplacingCharactersInRange(swRange, withString: string)
+            delegate.searchInputDidChange(newString)
+        }
         return true
     }
 }

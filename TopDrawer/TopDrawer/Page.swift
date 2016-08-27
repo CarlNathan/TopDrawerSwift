@@ -19,10 +19,11 @@ class Page: TopDrawerRemoteModifiableObejct {
     var pageID: String!
     let modificationDate: NSDate!
     var isPublic: Bool = false
+    let hostName: String?
     
     
     
-    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: String, modifiedDate: NSDate, isPublic: Bool, topics: [String]?) {
+    init(name: String?, description: String?, URLString: String?, image: UIImage?, date: NSDate?, recordID: String, modifiedDate: NSDate, isPublic: Bool, topics: [String]?, hostName: String?) {
         self.name = name
         self.description = description
         self.URLString = URLString
@@ -32,7 +33,7 @@ class Page: TopDrawerRemoteModifiableObejct {
         self.modificationDate = modifiedDate
         self.isPublic = isPublic
         self.topic = topics
-        
+        self.hostName = hostName
     }
     
     func getID()->String {

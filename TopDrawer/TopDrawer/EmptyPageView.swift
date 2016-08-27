@@ -31,7 +31,7 @@ class EmptyPageView: UIView {
     
     func setupImageView() {
         imageView.contentMode = .ScaleToFill
-        imageView.image = UIImage(named: "cm_photo_library_white")?.imageWithRenderingMode(.AlwaysTemplate)
+        imageView.image = UIImage(named: "Stack of Photos-96")?.imageWithRenderingMode(.AlwaysTemplate)
         imageView.tintColor = MaterialColor.grey.darken3
         addSubview(imageView)
     }
@@ -51,7 +51,7 @@ class EmptyPageView: UIView {
     }
     
     func layoutImageView() {
-        imageView.frame = CGRect(x: bounds.width/4, y: bounds.height/3, width: bounds.width/2, height: bounds.width/2)
+        imageView.frame = CGRect(x: 3*bounds.width/8, y: 3*bounds.height/8, width: bounds.width/4, height: bounds.width/4)
     }
     
     func layoutLabel() {

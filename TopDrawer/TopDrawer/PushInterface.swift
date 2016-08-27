@@ -43,5 +43,14 @@ class PushInterface {
             })
         }
     }
+    
+    func createPrivateSubscriptions() {
+        permissionSubscription.createPrivateSubscriptions()
+    }
+    func recievePrivatePush(pushInfo: [String : NSObject]) {
+        permissionSubscription.recievePrivatePush(pushInfo) { 
+            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "ReloadData", object: self, userInfo: [:]))
+        }
+    }
 
 }

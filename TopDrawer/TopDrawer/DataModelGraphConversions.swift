@@ -22,7 +22,8 @@ extension Page {
         let modifiedDate = entity["modificationDate"] as? NSDate
         let isPublic = entity["isPublic"] as? Bool
         let topics = entity["topic"] as? [String]
-        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date: date, recordID: id, modifiedDate: modifiedDate!, isPublic: isPublic!, topics: topics)
+        let hostName = entity["hostName"] as? String
+        let newPage = Page(name: name, description: description, URLString: URLString, image: image, date: date, recordID: id, modifiedDate: modifiedDate!, isPublic: isPublic!, topics: topics, hostName: hostName)
         
         return newPage
         
