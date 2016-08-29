@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Topic {
+class Topic : TopDrawerRemoteModifiableObejct{
     var name: String?
     var users: [String]?
     var recordID: String?
@@ -22,6 +22,10 @@ class Topic {
         self.users = users
         self.recordID = recordID
         
+    }
+    
+    func getID() -> String {
+        return recordID!
     }
 
 }

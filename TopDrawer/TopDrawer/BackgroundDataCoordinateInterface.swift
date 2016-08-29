@@ -60,6 +60,14 @@ class DataCoordinatorInterface {
         }
     }
     
+    func deletePrivateTopic(topic: Topic, completion: () -> Void) {
+        remoteDelete.deletePrivateTopic(topic) { (topicID) in
+            self.localDelete.deletePrivateTopic(topic)
+            self.localDelete.removeTopicReferencesFromPages(topic)
+            completion()
+        }
+    }
+    
     //MARK: Background Fetching
     
     func updateUserDisplayData(image: UIImage, displayName: String) {

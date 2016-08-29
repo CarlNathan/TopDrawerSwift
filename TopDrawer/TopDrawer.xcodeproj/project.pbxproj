@@ -31,6 +31,7 @@
 		ED2B08221C7FB0BC0007949E /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08211C7FB0BC0007949E /* Topic.swift */; };
 		ED2B08241C80998B0007949E /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08231C80998B0007949E /* Friend.swift */; };
 		ED2B08271C80B7C40007949E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B08261C80B7C40007949E /* Message.swift */; };
+		ED2C3EE51D74DBA700C1E473 /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED73EF081CA9A46600331CC2 /* Material.framework */; };
 		ED3284571D41397100FEA4B2 /* TextEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3284561D41397100FEA4B2 /* TextEntryView.swift */; };
 		ED32845B1D415F7C00FEA4B2 /* PullTabCollectionViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED32845A1D415F7C00FEA4B2 /* PullTabCollectionViewHeaderView.swift */; };
 		ED3A5DC31CC547E300559CFB /* StringExtensionIndexing.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A5DC21CC547E300559CFB /* StringExtensionIndexing.swift */; };
@@ -79,6 +80,7 @@
 		EDB102871D6FA68F00B4BE92 /* Send To TopDrawer.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EDB1027D1D6FA68F00B4BE92 /* Send To TopDrawer.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EDB1028C1D6FA7FB00B4BE92 /* SendToTopDrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB1028B1D6FA7FB00B4BE92 /* SendToTopDrawerViewController.swift */; };
 		EDB1028E1D6FD74400B4BE92 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDAC5DAA1C7B96B200C0C306 /* CloudKit.framework */; };
+		EDB1028F1D74C74300B4BE92 /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED73EF081CA9A46600331CC2 /* Material.framework */; };
 		EDB14BF01D41C24200375098 /* PageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB14BEF1D41C24200375098 /* PageCollectionViewCell.swift */; };
 		EDBDDBCE1D0B19CC00F11E17 /* PageLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBCD1D0B19CC00F11E17 /* PageLabelView.swift */; };
 		EDBDDBD11D0B3CAE00F11E17 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBDDBD01D0B3CAE00F11E17 /* NavController.swift */; };
@@ -97,6 +99,8 @@
 		EDED75D51CC136680071A36F /* FriendsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D41CC136680071A36F /* FriendsTableView.swift */; };
 		EDED75D71CC15ED10071A36F /* NewTopicEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75D61CC15ED10071A36F /* NewTopicEntryTableViewController.swift */; };
 		EDED75DE1CC2AB240071A36F /* TextEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED75DD1CC2AB240071A36F /* TextEntryViewController.swift */; };
+		EDEED9A81D74D8B0007D1433 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2892691D428136008C8372 /* MBProgressHUD.framework */; };
+		EDEED9A91D74D8B5007D1433 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2892691D428136008C8372 /* MBProgressHUD.framework */; };
 		EDFE6A6B1CD304B500D997F9 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6A6A1CD304B500D997F9 /* OnboardingPageViewController.swift */; };
 		EDFE6A6D1CD3050F00D997F9 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6A6C1CD3050F00D997F9 /* OnBoardingViewController.swift */; };
 		EDFE6AAC1CE0F9A700D997F9 /* CloudKitServices + Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFE6AAB1CE0F9A600D997F9 /* CloudKitServices + Graph.swift */; };
@@ -264,8 +268,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDEED9A81D74D8B0007D1433 /* MBProgressHUD.framework in Frameworks */,
 				EDAC5DAB1C7B96B200C0C306 /* CloudKit.framework in Frameworks */,
 				9C5E79F91B505887123C88F3 /* Pods_TopDrawer.framework in Frameworks */,
+				EDB1028F1D74C74300B4BE92 /* Material.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,7 +302,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDEED9A91D74D8B5007D1433 /* MBProgressHUD.framework in Frameworks */,
 				EDB1028E1D6FD74400B4BE92 /* CloudKit.framework in Frameworks */,
+				ED2C3EE51D74DBA700C1E473 /* Material.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1324,6 +1332,10 @@
 				CODE_SIGN_ENTITLEMENTS = "Send To TopDrawer/Send To TopDrawer.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
+				);
 				INFOPLIST_FILE = "Send To Top Drawer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1340,6 +1352,10 @@
 				CODE_SIGN_ENTITLEMENTS = "Send To TopDrawer/Send To TopDrawer.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
+				);
 				INFOPLIST_FILE = "Send To Top Drawer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1404,6 +1420,7 @@
 				EDB1028A1D6FA68F00B4BE92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

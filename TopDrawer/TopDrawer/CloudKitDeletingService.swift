@@ -11,9 +11,15 @@ import CloudKit
 
 class CloudKitDeletingService: CloudKitAbstract, TopDrawerRemoteDeletingService {
     
-    func deletePage(page: Page, completion: (String?)->Void) {
-        deletePrivateRecord(page, completion: { (pageID) in
+    func deletePage(page: Page, completion: (String?) -> Void) {
+        deletePrivateRecord(page) { (pageID) in
             completion(pageID)
-        })
+        }
+    }
+        
+    func deletePrivateTopic(topic: Topic, completion: (String?) -> Void) {
+        deletePrivateRecord(topic) { (topicID) in
+            completion(topicID)
+        }
     }
 }

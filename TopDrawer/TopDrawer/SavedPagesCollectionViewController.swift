@@ -202,17 +202,21 @@ class SavedPagesCollectionViewController: UICollectionViewController, UIGestureR
         } else {
             if indexPath.row == 0 {
                 topic = "All Pages"
+                didSelectTopic("All Pages")
                 reloadData()
             } else if indexPath.row == 1 {
                 topic = "Recently Added"
+                didSelectTopic("Recently Added")
                 reloadData()
             } else if indexPath.row == 2 {
                 topic = "Uncatagorized"
+                didSelectTopic("Uncatagorized")
                 reloadData()
             } else {
                 let data = collectionView.dataSource as! PagesPullTabDataSource
                 let topic = data.topics[indexPath.row - 3]
                 self.topic = topic.recordID!
+                didSelectTopic(topic.name ?? "")
                 reloadData()
             }
         }

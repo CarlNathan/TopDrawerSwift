@@ -63,10 +63,13 @@ protocol TopDrawerRemoteSavingAssistant {
 
 protocol TopDrawerRemoteDeletingService {
     func deletePage(page: Page, completion: (String?)->Void)
+    func deletePrivateTopic(topic: Topic, completion: (String?)-> Void)
 }
 
 protocol TopDrawerPersistedDeleteService {
     func deletePage(page: Page)
+    func deletePrivateTopic(topic: Topic)
+    func removeTopicReferencesFromPages(topic: Topic)
 }
 
 protocol TopDrawerDataCoordinator {

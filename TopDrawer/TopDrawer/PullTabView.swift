@@ -18,6 +18,7 @@ import Material
 protocol PullDownViewDataSource: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func cellClassForCollectionView() -> (String,AnyClass?)
     func imageForTabButton() -> UIImage?
+    func editButtonPressed(enabled: Bool)
 }
 
 private struct LayoutParameters {
@@ -32,7 +33,9 @@ class PullTabView: UIVisualEffectView {
     
     var referenceView: UIView!
     
-    let stripeView = UIView()
+    let stripeView = UIButton()
+    
+    var editEnabled = false
     
     
     /// The collection view that makes up the content of the pull down view.
@@ -98,7 +101,24 @@ class PullTabView: UIVisualEffectView {
     
     func setupStripeView() {
         stripeView.backgroundColor = MaterialColor.grey.darken3
+        stripeView.setTitle("Edit", forState: .Normal)
+        stripeView.titleLabel!.font = RobotoFont.lightWithSize(14)
+        stripeView.addTarget(self, action: #selector(editButtonPressed), forControlEvents: .TouchUpInside)
+        stripeView.contentHorizontalAlignment = .Left
+        stripeView.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0)
         addSubview(stripeView)
+    }
+    
+    func editButtonPressed() {
+        if editEnabled {
+            stripeView.setTitle("Edit", forState: .Normal)
+            editEnabled = false
+            tabViewDataSource.editButtonPressed(false)
+        } else {
+            stripeView.setTitle("Cancel", forState: .Normal)
+            editEnabled = true
+            tabViewDataSource.editButtonPressed(true)
+        }
     }
     
     func setupCollectionView() {

@@ -20,6 +20,13 @@ class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
             }
         }
     }
+    var editEnabled: Bool = false {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.collectionView.reloadData()
+            }
+        }
+    }
     
     init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -42,6 +49,9 @@ class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
         return nil
     }
     
+    func editButtonPressed(enabled: Bool) {
+        editEnabled = enabled
+    }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return topics.count + 3
@@ -49,17 +59,26 @@ class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PullTopicCell", forIndexPath: indexPath) as! TopicCollectionViewCell
+        cell.cellDelegate = self
+        if editEnabled {
+            cell.editEnabled = true
+        } else {
+            cell.editEnabled = false
+        }
         if indexPath.row == 0 {
             cell.topicLabel.text = "All Pages"
-            cell.backgroundColor = MaterialColor.amber.base.colorWithAlphaComponent(0.3)
+            cell.backgroundColor = MaterialColor.grey.base.colorWithAlphaComponent(0.3)
+            cell.editEnabled = false
             return cell
         } else if indexPath.row == 1 {
             cell.topicLabel.text = "Recently Added"
-            cell.backgroundColor = MaterialColor.amber.base.colorWithAlphaComponent(0.3)
+            cell.backgroundColor = MaterialColor.grey.base.colorWithAlphaComponent(0.3)
+            cell.editEnabled = false
             return cell
         } else if indexPath.row == 2 {
             cell.topicLabel.text = "Uncatagorized"
-            cell.backgroundColor = MaterialColor.amber.base.colorWithAlphaComponent(0.3)
+            cell.backgroundColor = MaterialColor.grey.base.colorWithAlphaComponent(0.3)
+            cell.editEnabled = false
             return cell
         } else {
             let topic = topics[indexPath.row - 3]
@@ -78,6 +97,15 @@ class PagesPullTabDataSource: NSObject, PullDownViewDataSource {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 10
+    }
+}
+
+extension PagesPullTabDataSource: TopicCollectionViewCellDelegate {
+    func deleteButtonPressed(topic: Topic) {
+        //delete topic
+        DataCoordinatorInterface.sharedInstance.deletePrivateTopic(topic) { 
+            self.getTopics()
+        }
     }
 }
 
